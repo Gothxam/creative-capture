@@ -31,6 +31,42 @@ npm run dev
 npm run build && npx next start -p 3100
 ```
 
+## Deploying
+
+### Shared hosting (cPanel, FTP — no Node)
+
+```bash
+npm run build:static
+```
+
+That emits `out/` — 225 files, **18.3 MB**, plain HTML/CSS/JS. Upload the *contents* of
+`out/` to your web root (usually `public_html`). Nothing else is needed: no Node, no
+`npm install` on the server, no process to keep alive.
+
+It works because every route prerenders — there are no route handlers, no cookies and no
+dynamic params, and the enquiry form posts from the browser to an external endpoint. Static
+export does not support `redirects()` or `headers()` from `next.config.ts`, so those rules
+live in `public/.htaccess`, which Next copies verbatim into `out/`. It carries the old
+WordPress redirects, cache headers, HTTPS forcing and gzip. **If your host is nginx rather
+than Apache, `.htaccess` is ignored** and those rules need translating into the server block.
+
+### A Node host (Vercel, Netlify, a VPS)
+
+```bash
+npm run build && npm run start
+```
+
+Preferred if it's an option: `next start` honours `redirects()` and `headers()` directly, so
+`.htaccess` is irrelevant, and you get on-demand image optimisation.
+
+### What is NOT in the repository
+
+`assets/` — 1.3 GB of camera originals scraped from the old site, two of them over GitHub's
+hard 100 MB per-file limit. They are gitignored and live only on the machine that scraped
+them, so **keep a separate backup**. The site ships the optimised derivatives in
+`web/public` (17 MB), which *are* committed; `scripts/curate.mjs` and `scripts/video.mjs`
+regenerate them from the originals.
+
 ## Design system
 
 Concept: **the archive** — warm archival paper, ink-black editorial type set enormous,

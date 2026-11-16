@@ -1,0 +1,55 @@
+# Classy Captures — Apache config for the static export (shared hosting).
+#
+# Static export cannot use next.config.ts `redirects()` or `headers()`, so the
+# same rules live here. This file is in public/, which Next copies verbatim
+# into out/ — upload the whole contents of out/ to your web root.
+
+# ---------------------------------------------------------------- redirects
+# The old WordPress URLs, so existing links and indexed pages still land.
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+
+  RewriteRule ^potraits/?$              /portraits/           [R=301,L]
+  RewriteRule ^contact-us/?$            /contact/             [R=301,L]
+  RewriteRule ^hello-world/?$           /                     [R=301,L]
+  RewriteRule ^category/uncategorized/?$ /                    [R=301,L]
+
+  # Force HTTPS.
+  RewriteCond %{HTTPS} !=on
+  RewriteCond %{HTTP:X-Forwarded-Proto} !https
+  RewriteRule ^(.*)$ https://%{HTTP_HOST}/$1 [R=301,L]
+</IfModule>
+
+# ------------------------------------------------------------------ caching
+<IfModule mod_headers.c>
+  # Optimised media is content-addressed by filename; nothing rewrites it.
+  <FilesMatch "\.(webp|avif|jpg|jpeg|png|svg|mp4|webm|woff2)$">
+    Header set Cache-Control "public, max-age=31536000, immutable"
+  </FilesMatch>
+
+  # Next's hashed build output.
+  <FilesMatch "^.*\.(js|css)$">
+    Header set Cache-Control "public, max-age=31536000, immutable"
+  </FilesMatch>
+
+  # HTML must revalidate so a redeploy is picked up straight away.
+  <FilesMatch "\.html$">
+    Header set Cache-Control "public, max-age=0, must-revalidate"
+  </FilesMatch>
+
+  Header set X-Content-Type-Options "nosniff"
+  Header set Referrer-Policy "strict-origin-when-cross-origin"
+</IfModule>
+
+# --------------------------------------------------------------- compression
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/css text/plain
+  AddOutputFilterByType DEFLATE application/javascript application/json
+  AddOutputFilterByType DEFLATE image/svg+xml
+</IfModule>
+
+# ------------------------------------------------------------------- errors
+ErrorDocument 404 /404.html
+
+# Don't list directory contents.
+Options -Indexes
