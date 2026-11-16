@@ -1,0 +1,26 @@
+# Scraped source material from the old WordPress site — 1.3 GB of camera
+# originals, including two video files over GitHub's hard 100 MB per-file
+# limit. These stay on disk as the master copies; the site ships the
+# optimised derivatives in web/public (17 MB), which ARE committed.
+# Regenerate those with web/scripts/curate.mjs and web/scripts/video.mjs.
+assets/
+
+# Scrape working directory: raw HTML, contact sheets, QA screenshots, logs.
+scrape/
+
+# Dependencies and build output
+**/node_modules/
+.next/
+out/
+*.tsbuildinfo
+
+# Environment
+.env
+.env.local
+.env*.local
+
+# Tooling / OS
+.claude/
+.DS_Store
+Thumbs.db
+*.log
