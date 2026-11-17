@@ -169,7 +169,11 @@ export default function GalleryWall({
   return (
     <div ref={root} className="flex gap-1.5 will-change-transform">
       {cols.map((col, c) => (
-        <div key={c} data-col className="flex min-w-0 flex-1 flex-col gap-1.5 will-change-transform">
+        // No `will-change` here on purpose: a column is narrow but thousands
+        // of pixels tall, and permanently promoting five of those holds five
+        // enormous textures for a transform that only moves a few dozen px.
+        // Measured marginally faster without it.
+        <div key={c} data-col className="flex min-w-0 flex-1 flex-col gap-1.5">
           {col.map((item) => (
             <figure key={item.slug} className="group relative">
               <Figure

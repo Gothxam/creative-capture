@@ -8,12 +8,11 @@ const ROUTE = process.argv[2] ?? "/";
 
 const VARIANTS = {
   baseline: "",
-  "no-grid-tilt": `[data-frame]{transform:none!important}`,
-  "no-print-shadow": `[data-frame]{box-shadow:none!important}`,
-  "promote-frames": `[data-frame]{will-change:transform}`,
-  "no-blur-bg": `[data-frame] > div,figure > div{background-image:none!important}`,
-  "no-overflow-clip": `section{overflow:visible!important}`,
-  "tilt+shadow-off": `[data-frame]{transform:none!important;box-shadow:none!important}`,
+  "no-col-willchange": `[data-col]{will-change:auto!important}`,
+  "no-wall-willchange": `[data-col],[data-col]:first-child{will-change:auto!important}`,
+  "no-col-transform": `[data-col]{transform:none!important}`,
+  "no-blur-bg": `figure > div{background-image:none!important}`,
+  "no-captions": `figcaption{display:none!important}`,
 };
 
 const browser = await chromium.launch();

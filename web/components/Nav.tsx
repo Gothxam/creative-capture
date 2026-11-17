@@ -24,6 +24,12 @@ export default function Nav() {
       if (!el) return;
       let hidden = false;
 
+      // While the menu is open the bar must stay put: it carries the only
+      // control that closes it, so letting it slide away traps the visitor.
+      if (open) {
+        gsap.to(el, { yPercent: 0, duration: 0.4, ease: EASE_IO });
+      }
+
       const st = ScrollTrigger.create({
         start: 0,
         end: "max",
@@ -57,6 +63,12 @@ export default function Nav() {
       const links = Array.from(el.querySelectorAll<HTMLElement>("[data-link] > span"));
       const aside = Array.from(el.querySelectorAll<HTMLElement>("[data-aside]"));
 
+      // `y: 0` is pinned at both ends on purpose. The sheet carries an inline
+      // `translateY(-100%)` so it is off-screen on first paint, before any
+      // script runs. GSAP reads that transform on init and banks it as a base
+      // `y` in pixels, so animating `yPercent` alone stacks on top of it: the
+      // sheet sat at -200% and "opening" only brought it to -100%, still
+      // entirely above the viewport. Pinning `y` makes the tween authoritative.
       if (open) {
         stop();
         gsap.set(el, { pointerEvents: "auto" });
@@ -64,12 +76,13 @@ export default function Nav() {
           .timeline()
           .set(links, { yPercent: 115 })
           .set(aside, { opacity: 0, y: 16 })
-          .to(sheet, { yPercent: 0, duration: 0.85, ease: EASE_IO })
+          .to(sheet, { yPercent: 0, y: 0, duration: 0.85, ease: EASE_IO })
           .to(links, { yPercent: 0, duration: 0.95, ease: EASE, stagger: 0.055 }, 0.3)
           .to(aside, { opacity: 1, y: 0, duration: 0.7, ease: EASE, stagger: 0.07 }, 0.55);
       } else {
         gsap.to(sheet, {
           yPercent: -100,
+          y: 0,
           duration: 0.7,
           ease: EASE_IO,
           onComplete: () => {
@@ -81,6 +94,22 @@ export default function Nav() {
     },
     { scope: overlay, dependencies: [open] },
   );
+
+  // Lock the page behind the sheet.
+  //
+  // Lenis's `stop()` is not enough on touch: `syncTouch` is off so native
+  // momentum scrolling is never intercepted, and with prefers-reduced-motion
+  // there is no Lenis instance at all. Hiding overflow on the root element
+  // covers every case.
+  useEffect(() => {
+    if (!open) return;
+    const root = document.documentElement;
+    const previous = root.style.overflow;
+    root.style.overflow = "hidden";
+    return () => {
+      root.style.overflow = previous;
+    };
+  }, [open]);
 
   // Close on route change and on Escape.
   useEffect(() => setOpen(false), [pathname]);
@@ -98,10 +127,19 @@ export default function Nav() {
         // No backdrop-filter: it repaints the strip behind the bar on every
         // scrolled frame. A near-opaque paper fill reads the same and costs
         // nothing.
-        className="group fixed inset-x-0 top-0 z-50 transition-colors duration-500 data-[solid=true]:bg-paper/95"
+        // Above the overlay (z-60), not below it: the close button lives in
+        // here, and at z-50 the open sheet covered it so the menu could not
+        // be dismissed. `data-open` recolours the bar for the dark sheet.
+        data-open={open}
+        className="group fixed inset-x-0 top-0 z-[80] transition-colors duration-500 data-[open=false]:data-[solid=true]:bg-paper/95"
       >
         <div className="flex h-[var(--nav-h)] items-center justify-between px-[var(--gutter)]">
-          <Link href="/" className="u-display text-[1.05rem] leading-none tracking-[-0.02em]">
+          <Link
+            href="/"
+            className={`u-display text-[1.05rem] leading-none tracking-[-0.02em] transition-colors duration-300 ${
+              open ? "text-paper" : ""
+            }`}
+          >
             Classy
             <span className="text-ember">.</span>
             Captures
@@ -130,25 +168,34 @@ export default function Nav() {
           <div className="flex items-center gap-5">
             <Link
               href="/contact"
-              className="u-mono hidden border border-ink/25 px-4 py-2 transition-colors hover:border-ink hover:bg-ink hover:text-paper sm:inline-block"
+              className={`u-mono hidden border px-4 py-2 transition-colors sm:inline-block ${
+                open
+                  ? "border-paper/30 text-paper hover:border-paper hover:bg-paper hover:text-ink"
+                  : "border-ink/25 hover:border-ink hover:bg-ink hover:text-paper"
+              }`}
             >
               Enquire
             </Link>
+
+            {/* Only below `lg`. Above it the full nav is already on the bar,
+                so a second way in was redundant. A 44px hit area, which is
+                the minimum comfortable tap target. */}
             <button
               type="button"
               onClick={() => setOpen((v) => !v)}
               aria-expanded={open}
+              aria-controls="site-menu"
               aria-label={open ? "Close menu" : "Open menu"}
-              className="relative z-[70] flex h-9 w-9 flex-col items-center justify-center gap-[5px]"
+              className="-mr-2 flex h-11 w-11 flex-col items-center justify-center gap-[5px] lg:hidden"
             >
               <span
-                className={`block h-px w-6 bg-ink transition-transform duration-500 ${
-                  open ? "translate-y-[3px] rotate-45" : ""
+                className={`block h-px w-6 transition-all duration-500 ${
+                  open ? "translate-y-[3px] rotate-45 bg-paper" : "bg-ink"
                 }`}
               />
               <span
-                className={`block h-px w-6 bg-ink transition-transform duration-500 ${
-                  open ? "-translate-y-[3px] -rotate-45" : ""
+                className={`block h-px w-6 transition-all duration-500 ${
+                  open ? "-translate-y-[3px] -rotate-45 bg-paper" : "bg-ink"
                 }`}
               />
             </button>
@@ -156,10 +203,18 @@ export default function Nav() {
         </div>
       </header>
 
-      <div ref={overlay} className="pointer-events-none fixed inset-0 z-[60]">
+      <div
+        ref={overlay}
+        id="site-menu"
+        className="pointer-events-none fixed inset-0 z-[60]"
+        aria-hidden={!open}
+      >
         <div
           data-sheet
-          className="absolute inset-0 flex flex-col justify-between bg-ink px-[var(--gutter)] pb-[var(--gutter)] pt-[calc(var(--nav-h)+2rem)] text-paper"
+          // Scrollable, and the scroll does not chain to the page behind it,
+          // for short screens where nine items plus the contact block run
+          // past the viewport.
+          className="absolute inset-0 flex flex-col justify-between gap-10 overflow-y-auto overscroll-contain bg-ink px-[var(--gutter)] pb-[var(--gutter)] pt-[calc(var(--nav-h)+2rem)] text-paper"
           style={{ transform: "translateY(-100%)" }}
         >
           <nav aria-label="Menu">
