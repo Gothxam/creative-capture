@@ -87,7 +87,7 @@ export default function Legacy() {
           </Reveal>
           {/* Reading size. The same sentence used to run at 40px. */}
           <Reveal>
-            <p className="text-[clamp(1.05rem,1.35vw,1.3rem)] leading-[1.35] tracking-[-0.01em]">
+            <p className="u-display text-[clamp(1.2rem,1.9vw,1.6rem)] leading-[1.25]">
               {HOME.legacy.lines.join(" ")}
             </p>
           </Reveal>

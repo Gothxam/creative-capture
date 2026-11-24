@@ -3,6 +3,7 @@ import { Geist_Mono, Geist_Pixel, Instrument_Serif } from "next/font/google";
 import { STUDIO } from "@/lib/content";
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
+import Loader from "@/components/Loader";
 import SmoothScroll from "@/components/providers/SmoothScroll";
 import "./globals.css";
 
@@ -90,6 +91,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       </head>
       <body>
         <SmoothScroll>
+          <Loader />
           <Nav />
           <main id="main">{children}</main>
           <Footer />

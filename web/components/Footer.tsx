@@ -35,7 +35,7 @@ export default function Footer() {
             them top-right. */}
         <div className="grid gap-x-10 gap-y-8 md:grid-cols-12">
           <Link href="/contact" className="group block md:col-span-8">
-            <span className="u-display flex flex-wrap items-baseline gap-x-[0.18em] text-[clamp(2rem,5.6vw,4.6rem)] leading-[0.88]">
+            <span className="u-display flex flex-wrap items-baseline gap-x-[0.18em] text-[clamp(1.6rem,3.4vw,2.5rem)] leading-[0.88]">
               <MaskLines lines={[FOOTER.cta[0]]} className="basis-full" />
               <MaskLines lines={[FOOTER.cta[1]]} />
               <span className="inline-block transition-transform duration-500 ease-[cubic-bezier(.16,1,.3,1)] group-hover:-translate-y-2 group-hover:translate-x-2">

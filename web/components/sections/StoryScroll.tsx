@@ -116,7 +116,7 @@ export default function StoryScroll() {
                   className="absolute inset-0 flex flex-col justify-center"
                 >
                   <span className="u-mono text-paper/40">{beat.index}</span>
-                  <h3 className="u-display mt-4 text-[clamp(1.5rem,2.8vw,2.4rem)] leading-[1.02]">
+                  <h3 className="u-display mt-4 text-[clamp(1.3rem,2.2vw,1.9rem)] leading-[1.02]">
                     {beat.title}
                   </h3>
                   <p className="mt-6 max-w-[38ch] text-[1.05rem] leading-relaxed text-paper/65">

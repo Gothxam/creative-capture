@@ -95,7 +95,7 @@ export default function ServicesPage() {
                 <span className="u-mono text-ember">{service.subtitle}</span>
               </Reveal>
               <Reveal>
-                <h2 className="u-display text-[clamp(1.5rem,2.6vw,2.2rem)] leading-[1.02]">
+                <h2 className="u-display text-[clamp(1.25rem,2vw,1.8rem)] leading-[1.02]">
                   {service.title}
                 </h2>
               </Reveal>

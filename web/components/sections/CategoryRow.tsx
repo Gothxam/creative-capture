@@ -21,7 +21,7 @@ export default function CategoryRow() {
   return (
     <section className="px-[var(--gutter)] py-[clamp(3rem,7vw,6rem)]">
       <Reveal className="pb-[clamp(1.75rem,3.5vw,3rem)] text-center">
-        <h2 className="u-display mx-auto max-w-[18ch] text-[clamp(1.7rem,3.2vw,3rem)] leading-[1.02]">
+        <h2 className="u-display mx-auto max-w-[18ch] text-[clamp(1.4rem,2.3vw,2rem)] leading-[1.02]">
           Find your collection
         </h2>
       </Reveal>

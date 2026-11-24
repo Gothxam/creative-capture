@@ -69,7 +69,7 @@ export default function PageHero({
             <h1>
               <MaskLines
                 lines={title}
-                className="u-display text-[clamp(2.2rem,4.6vw,3.8rem)]"
+                className="u-display text-[clamp(1.8rem,3.4vw,3rem)]"
                 lineClassName="leading-[0.98]"
               />
             </h1>
@@ -122,7 +122,7 @@ export default function PageHero({
           <h1>
             <MaskLines
               lines={title}
-              className="u-display text-[clamp(1.9rem,4vw,3.2rem)]"
+              className="u-display text-[clamp(1.7rem,3vw,2.6rem)]"
               lineClassName="leading-[1]"
             />
           </h1>

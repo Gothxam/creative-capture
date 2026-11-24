@@ -79,7 +79,7 @@ export default function Stats() {
       <dl className="relative grid grid-cols-2 gap-x-6 gap-y-10 lg:grid-cols-4">
         {HOME.stats.map((stat) => (
           <div key={stat.label} data-stat={stat.value}>
-            <dd className="u-display text-[clamp(2rem,4.4vw,3.4rem)] leading-none">
+            <dd className="u-display text-[clamp(1.6rem,3.2vw,2.5rem)] leading-none">
               <span data-value>0</span>
               <span className="text-ember">{stat.suffix}</span>
             </dd>

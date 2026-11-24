@@ -50,7 +50,7 @@ export const HOME = {
      * This line sits in that register and says something about how they
      * work rather than how they feel about it.
      */
-    eyebrow: "Bengaluru · Est. 1995",
+    eyebrow: "A Bengaluru Wedding Studio",
     /**
      * Split from one `lead` sentence into a headline and a line under it,
      * because the hero is now a centred stack — label, headline, action —
@@ -58,16 +58,8 @@ export const HOME = {
      * sentence set at headline size ran four lines and stopped being a
      * headline.
      */
-    /**
-     * The order is inverted from how this started. "Thirty years of South
-     * Indian weddings" was the headline and the disappearing line sat under
-     * it — but the fact is the ordinary half and the line about how they
-     * work is the half worth reading first. Set as a headline the long
-     * sentence also ran two lines at every width, which is what made the
-     * centred stack feel crowded.
-     */
-    headline: "We know when to disappear.",
-    lead: "Thirty years of South Indian weddings.",
+    headline: "Thirty years of South Indian weddings.",
+    lead: "We've learned when to step closer, and when to disappear.",
     cta: "See the work",
     meta: ["Est. 1995", "Weddings", "Films", "Portraits"],
     /**
@@ -189,7 +181,11 @@ export const SERVICES = [
     href: "/portraits",
     index: "03",
     title: "Portrait Sessions",
-    subtitle: "Timeless imagery for individuals, couples and families",
+    // Shortened from "Timeless imagery for individuals, couples and
+    // families". These four subtitles sit in one row of cards, and at
+    // fifty-three characters this was the only one that wrapped — which
+    // pushed its card taller and broke the line the other three sat on.
+    subtitle: "Individuals, couples, families",
     summary:
       "Bridal portraits, family sittings and personal work, made with the same patience we bring to a wedding day.",
     detail:

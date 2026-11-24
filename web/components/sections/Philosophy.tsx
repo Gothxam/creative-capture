@@ -86,7 +86,7 @@ export default function Philosophy() {
           <span className="u-mono text-paper/45">{STUDIO.tagline}</span>
         </div>
 
-        <p className="max-w-[26ch] text-[clamp(1.7rem,4.6vw,3.9rem)] font-medium leading-[1.04] tracking-[-0.03em]">
+        <p className="u-display max-w-[30ch] text-[clamp(1.4rem,2.6vw,2.2rem)] leading-[1.1]">
           {words.map((word, i) => (
             <span key={i} data-fill className="inline-block">
               {word}

@@ -30,14 +30,13 @@ export default function Loader() {
         return;
       }
 
-      const counter = el.querySelector<HTMLElement>("[data-count]");
       const rule = el.querySelector<HTMLElement>("[data-rule]");
       const panels = Array.from(el.querySelectorAll<HTMLElement>("[data-panel]"));
       const meta = Array.from(el.querySelectorAll<HTMLElement>("[data-meta]"));
 
       // If the markup ever changes out from under this, let the page through
       // rather than trapping the visitor behind a curtain that can't lift.
-      if (!counter || !rule || !panels.length) {
+      if (!rule || !panels.length) {
         markAppReady();
         setGone(true);
         return;
@@ -63,7 +62,7 @@ export default function Loader() {
         // The count drops away, then the sheet falls open from the right —
         // columns sliding down rather than lifting, so the paper underneath
         // is revealed from the top edge first.
-        tl.to([counter, ...meta], { yPercent: 40, opacity: 0, duration: 0.45, ease: EASE_IO })
+        tl.to(meta, { yPercent: 40, opacity: 0, duration: 0.45, ease: EASE_IO })
           .to(rule, { scaleX: 0, transformOrigin: "right center", duration: 0.5, ease: EASE_IO }, 0.1)
           .to(
             panels,
@@ -77,16 +76,13 @@ export default function Loader() {
           );
       };
 
-      // The count itself: eased so it hesitates near the end like a real load.
+      // The rule along the foot is the only progress shown now, eased so
+      // it hesitates near the end like a real load.
       gsap.to(value, {
         n: 100,
         duration: 2.1,
         ease: "power2.inOut",
-        onUpdate: () => {
-          const n = Math.round(value.n);
-          counter.textContent = n === 100 ? "100" : String(n).padStart(2, "0");
-          gsap.set(rule, { scaleX: value.n / 100 });
-        },
+        onUpdate: () => gsap.set(rule, { scaleX: value.n / 100 }),
       });
 
       gsap.from(meta, { opacity: 0, y: 12, duration: 0.8, stagger: 0.08, ease: "power2.out" });
@@ -139,27 +135,17 @@ export default function Loader() {
           </span>
         </div>
 
+        {/* The curtain, with no percentage on it.
+            A counter racing 00 to 100 on every visit is a progress report
+            on work the visitor did not ask about, and at 17rem it was the
+            largest thing anyone saw of this studio. The wordmark and the
+            rule along the foot carry the wait instead. */}
         <div className="flex items-end justify-between gap-6">
-          <span className="flex items-baseline">
-            <span
-              data-count
-              className="u-dot block text-paper"
-              style={{ fontSize: "clamp(5rem, 19vw, 17rem)", lineHeight: 0.76 }}
-            >
-              00
-            </span>
-            <span
-              data-meta
-              className="u-dot ml-[0.08em] text-flame"
-              style={{ fontSize: "clamp(1.4rem, 4vw, 3.2rem)", lineHeight: 1 }}
-            >
-              %
-            </span>
+          <span data-meta className="u-dot text-[clamp(1.2rem,3.4vw,2.2rem)] leading-none">
+            {STUDIO.name}
           </span>
-          <span data-meta className="u-mono mb-2 hidden text-right text-paper/55 sm:block">
+          <span data-meta className="u-mono mb-1 hidden text-right text-paper/50 sm:block">
             Est. {STUDIO.founded}
-            <br />
-            Loading the archive
           </span>
         </div>
       </div>

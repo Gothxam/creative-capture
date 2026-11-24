@@ -34,15 +34,13 @@ import { EASE, ScrollTrigger, gsap, prefersReducedMotion, useGSAP } from "@/lib/
  */
 
 /**
- * Where each frame sits, how big it is, what it is called, and how far it
- * drifts.
+ * Where each frame sits, how big it is, and how far it drifts.
  *
- * Square crops with the caption centred underneath, which is how the
- * reference's product pages scatter their detail shots around a subject:
- * small cards, 8px corners, a short label below rather than over the
- * picture. Two sizes only — a pair of larger frames and a pair of small
- * ones — because a field where every card is a different size stops reading
- * as a set.
+ * Square crops at two sizes only, scattered the way the reference's
+ * product pages place their detail shots around a subject: small cards,
+ * 8px corners, no label on any of them. Two sizes — a pair of larger
+ * frames and a pair of small ones — because a field where every card is a
+ * different size stops reading as a set.
  *
  * Size is what carries depth. A bigger frame reads as nearer, and `drift` —
  * how far it travels over a screen's worth of scroll — follows it, so the
@@ -60,14 +58,14 @@ import { EASE, ScrollTrigger, gsap, prefersReducedMotion, useGSAP } from "@/lib/
  * worth keeping.
  */
 const PLANES = [
-  { slug: "mandap-garland", cap: "The Mandap", x: 13, y: 26, w: 13, drift: -170, hide: false },
-  { slug: "sindoor-moment", cap: "Sindoor", x: 22, y: 73, w: 8, drift: -95, hide: false },
-  { slug: "bride-jewels", cap: "The Garlands", x: 86, y: 23, w: 8, drift: -90, hide: false },
-  { slug: "garland-knot", cap: "First Look", x: 80, y: 70, w: 13, drift: -180, hide: false },
+  { slug: "mandap-garland", x: 13, y: 26, w: 13, drift: -170, hide: false },
+  { slug: "sindoor-moment", x: 22, y: 73, w: 8, drift: -95, hide: false },
+  { slug: "bride-jewels", x: 86, y: 23, w: 8, drift: -90, hide: false },
+  { slug: "garland-knot", x: 80, y: 70, w: 13, drift: -180, hide: false },
   // Only where there is width for it. There is deliberately nothing along
   // the top: a frame up there sits behind the nav, and a lit photograph
   // under the nav links costs more legibility than the depth is worth.
-  { slug: "temple-groom", cap: "The Vows", x: 37, y: 89, w: 7, drift: -120, hide: true },
+  { slug: "temple-groom", x: 37, y: 89, w: 7, drift: -120, hide: true },
 ] as const;
 
 export default function Hero() {
@@ -216,11 +214,6 @@ export default function Hero() {
                       className="h-full w-full object-cover"
                     />
                   </span>
-                  {/* Centred under the card, the way the reference labels
-                      its detail shots — never laid over the picture. */}
-                  <figcaption className="u-mono mt-2.5 text-center text-paper/55">
-                    {p.cap}
-                  </figcaption>
                 </figure>
               );
             })}
