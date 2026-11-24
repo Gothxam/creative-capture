@@ -3,6 +3,7 @@
 import { useRef } from "react";
 import { HOME } from "@/lib/content";
 import Figure from "@/components/primitives/Figure";
+import DotField from "@/components/primitives/DotField";
 import { bySlug } from "@/lib/media.generated";
 import { EASE, gsap, useGSAP } from "@/lib/gsap";
 
@@ -97,6 +98,7 @@ export default function StoryScroll() {
 
   return (
     <section ref={root} className="relative bg-ink text-paper">
+      <DotField />
       <div data-pin className="md:flex md:h-screen md:flex-col md:justify-center">
         <div className="px-[var(--gutter)] py-[clamp(3rem,8vw,0rem)] md:py-0">
           <div className="flex items-baseline justify-between pb-[clamp(1.5rem,3vw,2.5rem)]">
@@ -134,7 +136,7 @@ export default function StoryScroll() {
             <div className="relative col-span-9 col-start-4 h-[74vh]">
               {BEATS.map((beat) => (
                 <div key={beat.index} data-beat-image className="absolute inset-0 flex gap-4">
-                  <span className="block h-full flex-[7] overflow-hidden bg-ink-soft/20">
+                  <span className="block h-full flex-[7] overflow-hidden rounded-panel bg-ink-soft/20">
                     <img
                       className="h-full w-full object-cover"
                       src={`/img/${beat.media}-1400.webp`}
@@ -151,7 +153,7 @@ export default function StoryScroll() {
                   {/* Shorter and bottom-aligned, so the pair has a step in it
                       rather than reading as two equal panels. */}
                   <span className="flex h-full flex-[4] items-end">
-                    <span className="block h-[72%] w-full overflow-hidden bg-ink-soft/20">
+                    <span className="block h-[72%] w-full overflow-hidden rounded-panel bg-ink-soft/20">
                       <img
                         className="h-full w-full object-cover"
                         src={`/img/${beat.detail}-800.webp`}

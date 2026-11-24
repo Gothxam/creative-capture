@@ -144,21 +144,34 @@ export default function Nav() {
         // here, and at z-50 the open sheet covered it so the menu could not
         // be dismissed. `data-open` recolours the bar for the dark sheet.
         data-open={open}
-        className="group fixed inset-x-0 top-0 z-[80] transition-colors duration-500 data-[open=false]:data-[solid=true]:bg-paper/95"
+        className="group fixed inset-x-0 top-0 z-[80]"
       >
-        <div className="flex h-[var(--nav-h)] items-center justify-between px-[var(--gutter)]">
-          <Link
-            href="/"
-            className={`u-display text-[1.05rem] leading-none tracking-[-0.02em] transition-colors duration-300 ${
-              open ? "text-paper" : tone
-            }`}
-          >
-            Classy
-            <span className="text-ember">.</span>
-            Captures
-          </Link>
+        {/* A floating pill rather than a full-width strip. The bar used to
+            span the whole viewport and take a paper fill once scrolled,
+            which reads as a browser chrome; the reference floats a rounded
+            bar inside the page and lets the work run under it. The outer row
+            still measures exactly --nav-h, because anchor offsets and the
+            page mastheads are laid out against it. */}
+        <div className="flex h-[var(--nav-h)] items-center px-[var(--gutter)]">
+          <div className="flex h-11 w-full items-center justify-between gap-6 rounded-full pl-4 pr-2 transition-colors duration-500 group-data-[open=false]:group-data-[solid=true]:bg-paper/92">
+            <Link
+              href="/"
+              // `whitespace-nowrap`: the pixel face is wide, and at 375px
+              // the wordmark broke across two lines inside a bar that is one
+              // line tall, so it sat over the page behind it.
+              className={`u-dot whitespace-nowrap text-[0.78rem] leading-none transition-colors duration-300 sm:text-[0.95rem] ${
+                open ? "text-paper" : tone
+              }`}
+            >
+              {/* A drawn dot rather than a full stop: at this size the
+                  pixel font renders a period as a single faint cell, so
+                  the one piece of colour in the wordmark disappeared. */}
+              Classy
+              <span className="mx-[0.42em] inline-block size-[0.3em] -translate-y-[0.08em] rounded-full bg-ember align-middle" />
+              Captures
+            </Link>
 
-          <nav className="hidden items-center gap-7 lg:flex" aria-label="Primary">
+            <nav className="hidden items-center gap-7 lg:flex" aria-label="Primary">
             {NAV.slice(1, 8).map((item) => {
               const active = pathname === item.href;
               return (
@@ -178,19 +191,17 @@ export default function Nav() {
                 </Link>
               );
             })}
-          </nav>
+            </nav>
 
-          <div className="flex items-center gap-5">
-            <Link
-              href="/contact"
-              className={`u-mono hidden border px-4 py-2 transition-colors sm:inline-block ${
-                open
-                  ? "border-paper/30 text-paper hover:border-paper hover:bg-paper hover:text-ink"
-                  : `${toneEdge} ${tone} ${onMedia ? "hover:border-paper hover:bg-paper hover:text-ink" : "hover:border-ink hover:bg-ink hover:text-paper"}`
-              }`}
-            >
-              Enquire
-            </Link>
+            <div className="flex items-center gap-3">
+              <Link
+                href="/contact"
+                className={`u-pill hidden !py-2 sm:inline-flex ${
+                  open || onMedia ? "u-pill-invert" : "u-pill-solid"
+                }`}
+              >
+                Enquire
+              </Link>
 
             {/* Only below `lg`. Above it the full nav is already on the bar,
                 so a second way in was redundant. A 44px hit area, which is
@@ -201,7 +212,7 @@ export default function Nav() {
               aria-expanded={open}
               aria-controls="site-menu"
               aria-label={open ? "Close menu" : "Open menu"}
-              className="-mr-2 flex h-11 w-11 flex-col items-center justify-center gap-[5px] lg:hidden"
+              className="flex h-11 w-11 flex-col items-center justify-center gap-[5px] lg:hidden"
             >
               <span
                 className={`block h-px w-6 transition-all duration-500 ${
@@ -214,6 +225,7 @@ export default function Nav() {
                 }`}
               />
             </button>
+            </div>
           </div>
         </div>
       </header>

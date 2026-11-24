@@ -25,9 +25,13 @@ type Props = {
 export default function Reveal({
   children,
   className,
-  y = 28,
+  // Shorter and smaller than the old 28/1.1s. The reference moves things a
+  // little and quickly; a long lift over a big distance reads as a reveal,
+  // and the point of this system is that nothing is being revealed — it is
+  // simply already there by the time you look at it.
+  y = 16,
   delay = 0,
-  duration = 1.1,
+  duration = 0.8,
   stagger,
   start = "top 85%",
   as: Tag = "div",

@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" role="img" aria-label="Classy Captures">
+  <g fill="currentColor">
+    <path d="M0,46 L0,22 A22,22 0 0 1 22,0 L46,0 L46,22 L22,22 L22,46 Z"/>
+    <path d="M120,46 L120,22 A22,22 0 0 0 98,0 L74,0 L74,22 L98,22 L98,46 Z"/>
+    <path d="M0,74 L0,98 A22,22 0 0 0 22,120 L46,120 L46,98 L22,98 L22,74 Z"/>
+    <path d="M120,74 L120,98 A22,22 0 0 1 98,120 L74,120 L74,98 L98,98 L98,74 Z"/>
+  </g>
+  <circle cx="60" cy="60" r="17" fill="var(--color-ember, currentColor)"/>
+</svg>

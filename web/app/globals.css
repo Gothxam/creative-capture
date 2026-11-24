@@ -1,33 +1,60 @@
 @import "tailwindcss";
 
 /* ──────────────────────────────────────────────────────────────
-   Classy Captures — "The Archive"
-   Warm archival paper, ink-black editorial type, photographs that
-   arrive like prints being laid down on a light table.
+   Classy Captures — "The Instrument"
+
+   A near-monochrome chrome with exactly one saturated colour, a
+   dot-matrix grid behind everything, serif headlines set roman and
+   quiet, and monospace doing all the talking.
+
+   The photographs are the only place colour lives. That is the whole
+   idea: the page is an instrument panel, and the work is what it is
+   pointed at. The previous system ("The Archive") put warm linen and
+   stretched uppercase sans around warm photographs, so the chrome and
+   the work competed for the same register.
    ────────────────────────────────────────────────────────────── */
 
 @theme {
-  /* The ground is a cool linen rather than the warm cream it started as.
-     The photography is almost entirely warm — marigold, sindoor, gold, skin
-     — so a cooler, slightly deeper ground pushes those colours forward
-     instead of blending with them, and lets the accent run hotter. */
-  --color-paper: #e7e4dd;
-  --color-paper-dim: #dad6cd;
-  --color-paper-deep: #c9c4b9;
-  --color-ink: #111010;
-  --color-ink-soft: #4a4740;
-  --color-ink-faint: #8c877e;
-  --color-blush: #ffefe4;
-  --color-ember: #c0351a;
-  /* A hotter sibling of ember, for the footer and the loader. Ember stays
-     deeper because it carries small mono labels on paper, where contrast
-     matters more than punch; these are flat fields where it doesn't. */
-  --color-flame: #dd4318;
-  --color-gold: #b4873f;
+  /* ─ ground ─ */
+  --color-paper: #f4f4f4;
+  --color-paper-dim: #e9e9e9;
+  --color-paper-deep: #d8d9d9;
 
-  --font-display: var(--font-archivo), "Helvetica Neue", Arial, sans-serif;
-  --font-serif: var(--font-instrument), Georgia, serif;
-  --font-mono: var(--font-jetbrains), ui-monospace, monospace;
+  /* ─ ink ─ */
+  --color-ink: #040404;
+  /* Secondary text. 6.4:1 on paper. */
+  --color-ink-soft: #595a5a;
+  /* Tertiary — small uppercase labels, so it still has to clear 4.5:1.
+     It does, at 4.84:1. A lighter grey looked right and failed. */
+  --color-ink-faint: #686a6a;
+
+  /* Text on the black ground, where the ink scale inverts. */
+  --color-paper-soft: #d8d9d9;
+  --color-paper-faint: #b1b3b3;
+
+  /* ─ the one accent ─
+     Used on section kickers, counters and the single primary action.
+     Nowhere else: the moment it appears twice in a screen it stops
+     meaning anything. */
+  --color-ember: #d71921; /* 4.71:1 on paper */
+  --color-flame: #ff3b2e; /* 5.79:1 on ink — the sibling for dark grounds */
+
+  /* Held as aliases so older markup keeps rendering while it is
+     migrated; neither belongs in the new palette. */
+  --color-gold: #d71921;
+  --color-blush: #e9e9e9;
+
+  /* ─ type ─ */
+  --font-display: var(--font-instrument), Georgia, "Times New Roman", serif;
+  --font-serif: var(--font-instrument), Georgia, "Times New Roman", serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, "SF Mono", monospace;
+  --font-dot: var(--font-geist-pixel), var(--font-geist-mono), monospace;
+
+  /* ─ shape ─
+     The old system was razor-sharp everywhere. The reference is not:
+     it runs small radii on panels and full pills on every control. */
+  --radius-panel: 8px;
+  --radius-tight: 4px;
 
   --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
   --ease-in-out-quart: cubic-bezier(0.76, 0, 0.24, 1);
@@ -36,6 +63,8 @@
 :root {
   --gutter: clamp(1rem, 4vw, 4.5rem);
   --nav-h: 4.5rem;
+  /* One cell of the dot field, matching the reference's own spacing. */
+  --dot-cell: 113px;
 }
 
 * {
@@ -61,50 +90,163 @@ html.lenis body {
 }
 
 body {
-  background: var(--color-paper);
+  background-color: var(--color-paper);
+  /* The dot field, painted by the body itself rather than by a layer over
+     it. Same reasoning as the grain it replaces: a blend mode or a fixed
+     full-viewport overlay re-composites every scrolled frame, and both were
+     measured as the largest source of dropped frames on the home page. This
+     costs one paint. Sections with their own ground paint over it, and the
+     dark ones re-state it in white through `.u-dots`. */
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='113' height='113'%3E%3Ccircle cx='56.5' cy='56.5' r='1.1' fill='%23040404' fill-opacity='0.2'/%3E%3C/svg%3E");
+  background-size: var(--dot-cell) var(--dot-cell);
+  background-position: center center;
   color: var(--color-ink);
-  font-family: var(--font-display);
+  /* Monospace is the running voice of this design, not a label style.
+     Everything that is not a headline is set in it. */
+  font-family: var(--font-mono);
+  font-size: clamp(0.84rem, 0.95vw, 0.95rem);
+  line-height: 1.62;
+  letter-spacing: -0.005em;
   overflow-x: clip;
 }
 
 ::selection {
-  background: var(--color-ink);
-  color: var(--color-paper);
+  background: var(--color-ember);
+  color: #fff;
+}
+
+/* ─── the dot field ───────────────────────────────────────────────
+   The texture the whole reference sits on. It replaces the grain the
+   old system used — and costs less, because it is a plain background
+   image on an in-flow element: no blend mode, no fixed overlay, no
+   per-frame compositing. Both of those were measured, earlier, as the
+   single largest source of dropped frames on the home page.
+
+   `currentColor` means one class works on either ground: set the text
+   colour of the layer and the dots follow. */
+.u-dots {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='113' height='113'%3E%3Ccircle cx='56.5' cy='56.5' r='1.1' fill='%23ffffff' fill-opacity='0.17'/%3E%3C/svg%3E");
+  background-size: var(--dot-cell) var(--dot-cell);
+  background-position: center center;
 }
 
 /* ─── type primitives ─────────────────────────────────────────── */
 
+/* Headlines. Roman, sentence case, never uppercase and never italic.
+   The old rule stretched a heavy sans to 118% width, uppercased it and
+   crushed the leading to 0.84 — a poster voice. This one is meant to be
+   read rather than announced. */
 .u-display {
   font-family: var(--font-display);
-  font-weight: 800;
-  font-stretch: 118%;
-  text-transform: uppercase;
-  letter-spacing: -0.035em;
-  line-height: 0.84;
+  font-weight: 400;
+  letter-spacing: -0.018em;
+  line-height: 1.02;
 }
 
+/* The small uppercase readout: section kickers, captions, figures,
+   button labels. Tracking is tighter than the old 0.22em — at that
+   width it read as decoration rather than as an instrument label. */
 .u-mono {
   font-family: var(--font-mono);
-  font-size: clamp(0.6rem, 0.72vw, 0.72rem);
-  font-weight: 500;
-  letter-spacing: 0.22em;
+  font-size: clamp(0.64rem, 0.74vw, 0.73rem);
+  font-weight: 450;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
 }
 
+/* Running copy, where it needs to be a step up from body default —
+   lead paragraphs under a headline, mostly. Sentence case. */
+.u-body {
+  font-family: var(--font-mono);
+  font-size: clamp(0.88rem, 1.05vw, 1.02rem);
+  font-weight: 400;
+  line-height: 1.68;
+  letter-spacing: -0.008em;
+}
+
+/* The serif in its secondary role: pull-quotes and the occasional
+   emphatic line. Roman now, not italic — the italic was doing the
+   "tasteful wedding website" thing this redesign is moving away from. */
 .u-serif {
   font-family: var(--font-serif);
   font-weight: 400;
-  font-style: italic;
-  letter-spacing: -0.01em;
+  font-style: normal;
+  letter-spacing: -0.012em;
+  line-height: 1.24;
 }
 
-/* Edge-to-edge headline: scales with the viewport, never wraps. */
+/* The dot-matrix readout: the wordmark, the loader counter, figures
+   that want to look machine-rendered rather than typeset. */
+.u-dot {
+  font-family: var(--font-dot);
+  font-weight: 400;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+/* Edge-to-edge headline. The old rule ran to 15.2vw — a 219px line on
+   a laptop. The reference never goes past roughly a tenth of that
+   impulse, because the photograph is supposed to be the loud thing. */
 .u-bleed {
-  font-size: clamp(3.5rem, 15.2vw, 19rem);
+  font-size: clamp(2.4rem, 7vw, 7.5rem);
 }
 
 .u-rule {
-  border-top: 1px solid color-mix(in oklab, var(--color-ink) 18%, transparent);
+  border-top: 1px solid var(--color-paper-deep);
+}
+.u-rule-dark {
+  border-top: 1px solid color-mix(in oklab, #fff 14%, transparent);
+}
+
+/* ─── controls ────────────────────────────────────────────────────
+   Every control in the reference is a pill carrying a small uppercase
+   mono label, and nothing else. */
+.u-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  border-radius: 9999px;
+  padding: 0.6rem 1.15rem;
+  font-family: var(--font-mono);
+  font-size: clamp(0.64rem, 0.74vw, 0.73rem);
+  font-weight: 450;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  transition:
+    background-color 0.4s var(--ease-out-expo),
+    color 0.4s var(--ease-out-expo),
+    border-color 0.4s var(--ease-out-expo);
+}
+
+/* Solid, on the light ground. */
+.u-pill-solid {
+  background: var(--color-ink);
+  color: #fff;
+}
+.u-pill-solid:hover {
+  background: var(--color-ember);
+}
+
+/* Solid, on the black ground. */
+.u-pill-invert {
+  background: #fff;
+  color: var(--color-ink);
+}
+.u-pill-invert:hover {
+  background: var(--color-flame);
+  color: #fff;
+}
+
+/* Outlined — the secondary action. */
+.u-pill-line {
+  border: 1px solid color-mix(in oklab, var(--color-ink) 22%, transparent);
+  color: var(--color-ink);
+}
+.u-pill-line:hover {
+  border-color: var(--color-ink);
+  background: var(--color-ink);
+  color: #fff;
 }
 
 /* ─── reveal primitives ───────────────────────────────────────── */
@@ -137,21 +279,6 @@ body {
   object-fit: cover;
 }
 
-/* Grain: a single tiny tile, cheap and non-animated. */
-/* Grain.
-   Two earlier attempts were measurably expensive: a per-section ::after with
-   `mix-blend-mode: multiply` (a blend mode re-composites its whole stacking
-   context every scrolled frame), then a fixed full-viewport overlay (a
-   viewport-sized layer above scrolling content, re-composited every frame).
-   Each was the single largest source of dropped frames on the home page.
-
-   It now rides along in the body's own paint: no extra layer, no blend, no
-   compositing work. Dark sections paint over it, which is fine — the texture
-   is there to keep the paper from reading as flat. */
-body {
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='2'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E");
-}
-
 .cut-top {
   clip-path: polygon(0 3.2vw, 100% 0, 100% 100%, 0 100%);
 }
@@ -182,8 +309,8 @@ body {
   background: var(--color-paper-dim);
 }
 ::-webkit-scrollbar-thumb {
-  background: color-mix(in oklab, var(--color-ink) 30%, transparent);
+  background: var(--color-paper-deep);
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--color-ink);
+  background: var(--color-ink-soft);
 }

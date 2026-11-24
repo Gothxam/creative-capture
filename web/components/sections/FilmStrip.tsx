@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useRef } from "react";
 import { FILMS } from "@/lib/content";
+import DotField from "@/components/primitives/DotField";
 import Reveal from "@/components/primitives/Reveal";
 import Tilt from "@/components/primitives/Tilt";
 import { MaskWords } from "@/components/primitives/MaskText";
@@ -42,7 +43,8 @@ export default function FilmStrip({ limit = 3 }: { limit?: number }) {
   );
 
   return (
-    <section ref={root} className="bg-ink px-[var(--gutter)] py-[clamp(4rem,10vw,9rem)] text-paper">
+    <section ref={root} className="relative bg-ink px-[var(--gutter)] py-[clamp(4rem,10vw,9rem)] text-paper">
+      <DotField />
       <div className="flex flex-wrap items-end justify-between gap-6 pb-[clamp(1.5rem,3vw,3rem)]">
         <div>
           <span className="u-mono text-ember">[ Films ]</span>
@@ -81,7 +83,7 @@ export default function FilmStrip({ limit = 3 }: { limit?: number }) {
                 <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-ink/60 to-transparent opacity-60" />
                 {/* Pushed forward in Z so it floats above the frame as it tilts. */}
                 <span
-                  className="u-mono absolute left-4 top-4 border border-paper/30 px-2.5 py-1 text-paper"
+                  className="u-mono absolute left-4 top-4 rounded-full border border-paper/35 px-3 py-1 text-paper"
                   style={{ transform: "translateZ(42px)" }}
                 >
                   {reel.kind}

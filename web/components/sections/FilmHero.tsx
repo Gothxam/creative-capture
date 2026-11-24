@@ -82,7 +82,7 @@ export default function FilmHero() {
           <span className="u-mono">{playing ? "❚❚" : "▶"}</span>
         </button>
 
-        <span className="u-mono absolute left-5 top-5 border border-paper/30 px-2.5 py-1 text-paper">
+        <span className="u-mono absolute left-5 top-5 rounded-full border border-paper/35 px-3 py-1 text-paper">
           Showreel
         </span>
       </div>

@@ -143,14 +143,14 @@ export default function Loader() {
           <span className="flex items-baseline">
             <span
               data-count
-              className="u-display block text-paper"
+              className="u-dot block text-paper"
               style={{ fontSize: "clamp(5rem, 19vw, 17rem)", lineHeight: 0.76 }}
             >
               00
             </span>
             <span
               data-meta
-              className="u-display ml-[0.08em] text-flame"
+              className="u-dot ml-[0.08em] text-flame"
               style={{ fontSize: "clamp(1.4rem, 4vw, 3.2rem)", lineHeight: 1 }}
             >
               %

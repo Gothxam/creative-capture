@@ -1,0 +1,4 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" fill="none" role="img" aria-label="Classy Captures">
+  <path fill="currentColor" fill-rule="evenodd" d="M60,0 A60,60 0 1 0 60,120 L60,93 A33,33 0 1 1 60,27 Z"/>
+  <rect x="76" y="46" width="28" height="28" fill="var(--color-ember, currentColor)"/>
+</svg>

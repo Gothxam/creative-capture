@@ -18,6 +18,13 @@ type Props = {
   reveal?: boolean;
   priority?: boolean;
   objectPosition?: string;
+  /**
+   * Panel corners. On by default — the reference rounds every image card it
+   * sets on a ground, and sharp corners everywhere was the single loudest
+   * holdover from the old system. Pass `false` for frames that bleed off an
+   * edge, where a radius would cut a notch out of the page.
+   */
+  rounded?: boolean;
 };
 
 export default function Figure({
@@ -30,6 +37,7 @@ export default function Figure({
   reveal = true,
   priority = false,
   objectPosition,
+  rounded = true,
 }: Props) {
   const wrapRef = useRef<HTMLDivElement>(null);
   const item = bySlug(slug);
@@ -49,12 +57,19 @@ export default function Figure({
         });
         // Figures aren't pre-hidden by CSS, so these render their from-state
         // immediately (the default) — deferring it would make an off-screen
-        // image flash full-size before the wipe.
+        // image flash into place before the entrance runs.
+        //
+        // This used to be a clip-path wipe from full height plus a scale
+        // down from 1.18 — a photographic print being laid onto a light
+        // table, which was the old system's whole idea. The reference does
+        // not perform: images arrive, settle a fraction, and stop. The
+        // motion here is deliberately shorter and smaller than what it
+        // replaced, because at this scale restraint is the premium signal.
         tl.fromTo(
           wrap,
-          { clipPath: "inset(0% 0% 100% 0%)" },
-          { clipPath: "inset(0% 0% 0% 0%)", duration: 1.35, ease: EASE },
-        ).fromTo(img, { scale: 1.18 }, { scale: 1, duration: 1.7, ease: EASE }, 0);
+          { opacity: 0, y: 20 },
+          { opacity: 1, y: 0, duration: 0.85, ease: EASE },
+        ).fromTo(img, { scale: 1.055 }, { scale: 1, duration: 1.3, ease: EASE }, 0);
       }
 
       if (parallax > 0) {
@@ -80,7 +95,7 @@ export default function Figure({
   return (
     <div
       ref={wrapRef}
-      className={`relative overflow-hidden bg-paper-deep ${className}`}
+      className={`relative overflow-hidden bg-paper-deep ${rounded ? "rounded-panel" : ""} ${className}`}
       style={{
         aspectRatio: ratio ?? String(item.ratio),
         // The placeholder is a CSS background rather than a blurred <img>.

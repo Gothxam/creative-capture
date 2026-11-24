@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { ABOUT, HOME, STUDIO } from "@/lib/content";
+import DotField from "@/components/primitives/DotField";
 import PageHero from "@/components/sections/PageHero";
 import { bySlug } from "@/lib/media.generated";
 import Figure from "@/components/primitives/Figure";
@@ -103,7 +104,8 @@ export default function AboutPage() {
 
       <Stats />
 
-      <section className="bg-ink px-[var(--gutter)] py-[clamp(2.5rem,6vw,5rem)] text-paper">
+      <section className="relative bg-ink px-[var(--gutter)] py-[clamp(2.5rem,6vw,5rem)] text-paper">
+        <DotField />
         <div className="grid gap-x-10 gap-y-6 md:grid-cols-12">
           <div className="flex flex-col gap-6 md:col-span-4">
             <SectionHead label={ABOUT.beyond.label} title={ABOUT.beyond.title} tone="paper" />

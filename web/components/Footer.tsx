@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { FOOTER, STUDIO } from "@/lib/content";
+import DotField from "@/components/primitives/DotField";
 import FooterTicker from "@/components/FooterTicker";
 import BleedText from "@/components/primitives/BleedText";
 import Reveal from "@/components/primitives/Reveal";
@@ -54,6 +55,7 @@ export default function Footer() {
     // ties the footer to the other dark sections and lets the wordmark do
     // the shouting instead.
     <footer ref={root} className="relative overflow-hidden bg-ink text-paper">
+      <DotField />
       <FooterTicker />
 
       <div className="px-[var(--gutter)] pt-[clamp(2.5rem,5vw,4.5rem)]">

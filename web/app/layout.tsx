@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Archivo, Instrument_Serif, JetBrains_Mono } from "next/font/google";
+import { Geist_Mono, Geist_Pixel, Instrument_Serif } from "next/font/google";
 import { STUDIO } from "@/lib/content";
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
@@ -7,13 +7,16 @@ import Loader from "@/components/Loader";
 import SmoothScroll from "@/components/providers/SmoothScroll";
 import "./globals.css";
 
-const archivo = Archivo({
-  subsets: ["latin"],
-  axes: ["wdth"],
-  variable: "--font-archivo",
-  display: "swap",
-});
+/**
+ * Three faces, each with one job — the split the reference runs on.
+ *
+ * The site used to lead with a heavy sans set in stretched uppercase, with
+ * the serif demoted to italic pull-quotes. That reads as a brutalist
+ * editorial poster, which is a different thing from the quiet, precise,
+ * instrument-panel register we're after.
+ */
 
+/** Headlines. Set roman and in sentence case, never uppercase. */
 const instrument = Instrument_Serif({
   subsets: ["latin"],
   weight: "400",
@@ -22,9 +25,22 @@ const instrument = Instrument_Serif({
   display: "swap",
 });
 
-const jetbrains = JetBrains_Mono({
+/** Everything else: body copy, labels, captions, buttons, figures. */
+const geistMono = Geist_Mono({
   subsets: ["latin"],
-  variable: "--font-jetbrains",
+  variable: "--font-geist-mono",
+  display: "swap",
+});
+
+/**
+ * The dot-matrix voice: wordmark, counters, the loader. Stands in for the
+ * reference's proprietary dot font — same pixel-grid construction, and the
+ * only free face that reads as a readout rather than as a typeface.
+ */
+const geistPixel = Geist_Pixel({
+  subsets: ["latin"],
+  weight: "400",
+  variable: "--font-geist-pixel",
   display: "swap",
 });
 
@@ -56,7 +72,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#efebe4",
+  themeColor: "#f4f4f4",
   colorScheme: "light",
 };
 
@@ -64,7 +80,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html
       lang="en-IN"
-      className={`${archivo.variable} ${instrument.variable} ${jetbrains.variable}`}
+      className={`${instrument.variable} ${geistMono.variable} ${geistPixel.variable}`}
     >
       <head>
         {/* Reveal targets start hidden for the animation. With scripting off
