@@ -64,16 +64,20 @@ export default function Loader() {
           duration: 1,
           ease: EASE_IO,
           stagger: { each: 0.07, from: "end" },
-          // The page is told it is live as the curtain starts moving, not
-          // when it finishes. Announcing it at the end meant the hero's
-          // entrance began a full second after the reveal was over: the
-          // photographs sat there, then snapped to nothing and faded back
-          // in, which is the pop that made this feel like two separate
-          // animations instead of one. Starting here, they arrive behind
-          // the moving panels and are already settling as the last column
-          // clears.
-          onStart: markAppReady,
+          // The hero is told to begin when the curtain has finished, so its
+          // entrance is something you watch rather than something that has
+          // already happened.
+          //
+          // This was briefly moved to `onStart`, on the theory that
+          // overlapping the two would read as one movement. It did the
+          // opposite: the whole entrance played behind the panels, so by
+          // the time they cleared everything had settled and there was no
+          // animation left to see. The jump that made overlapping look
+          // necessary was a separate bug — the hero's elements painted
+          // before they animated — and that is fixed where it belongs, in
+          // the markup.
           onComplete: () => {
+            markAppReady();
             start();
             setGone(true);
           },

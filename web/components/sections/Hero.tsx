@@ -82,10 +82,12 @@ export default function Hero() {
       const tilt = el.querySelector<HTMLElement>("[data-tilt]");
       const planes = gsap.utils.toArray<HTMLElement>("[data-plane]", el);
 
+      // The words follow the photographs in, so the screen fills from the
+      // edges toward the middle rather than everything arriving at once.
       gsap.fromTo(
         rise,
         { opacity: 0, y: 16 },
-        { opacity: 1, y: 0, duration: 1, ease: EASE, stagger: 0.08, delay: 0.25 },
+        { opacity: 1, y: 0, duration: 1, ease: EASE, stagger: 0.09, delay: 0.62 },
       );
 
       // The frames settle into place rather than arriving from depth.
@@ -103,10 +105,17 @@ export default function Hero() {
         {
           opacity: 1,
           scale: 1,
-          duration: 1.6,
+          duration: 1.5,
           ease: EASE,
-          stagger: { each: 0.09, from: "random" },
-          delay: 0.1,
+          // Slower than it was, and ordered rather than random: five frames
+          // arriving 90ms apart in no particular order read as a flicker.
+          // Starting from the centre of the field and working outward gives
+          // the eye something to follow.
+          stagger: { each: 0.14, from: "center" },
+          // A beat after the curtain has gone. Without it the first frame
+          // is already moving as the last column clears, and the entrance
+          // reads as part of the reveal rather than as the page arriving.
+          delay: 0.26,
         },
       );
 
