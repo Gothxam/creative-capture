@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" role="img" aria-label="Classy Captures">
+  <g fill="none" stroke="currentColor" stroke-linecap="round">
+    <path d="M90.6,91.4 A44,44 0 1 1 90.6,28.6" stroke-width="11"/>
+    <path d="M75.6,75.6 A22,22 0 1 1 75.6,44.4" stroke-width="9"/>
+  </g>
+  <circle cx="60" cy="60" r="5" fill="var(--accent, currentColor)"/>
+</svg>

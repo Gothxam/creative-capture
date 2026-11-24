@@ -1,38 +1,71 @@
 "use client";
 
 import Link from "next/link";
-import { useRef, useState } from "react";
+import { useRef } from "react";
 import { HOME } from "@/lib/content";
 import { bySlug } from "@/lib/media.generated";
 import { useAppReady } from "@/lib/appReady";
+import DotField from "@/components/primitives/DotField";
 import { EASE, ScrollTrigger, gsap, prefersReducedMotion, useGSAP } from "@/lib/gsap";
 
 /**
- * The opening screen is the work, not the name.
+ * The opening screen: photographs held in a dark space, with the words in
+ * the clearing at its centre.
  *
- * It was a viewport of display type with a video strip beneath it, which is
- * the wrong order of business for a photography studio — the studio's name is
- * already in the bar above and set enormous in the footer, so saying it a
- * third time cost the whole first screen. Now the frame fills the viewport
- * and the type sits in the margins around it.
+ * This replaces a full-bleed cross-fading reel. That reel put type over a lit
+ * photograph, which needed a scrim heavy enough to spoil the picture it was
+ * laid on — and on a phone it cut 47% off every frame to fill a portrait
+ * viewport. Here nothing is cropped to the screen: each frame keeps its own
+ * shape and sits in the black with air around it.
  *
- * Frames cross-fade on a timer with a slow push in. Only one is at full
- * opacity at a time, and a film only plays while it is the frame on screen.
+ * A note on the reference this is drawn from. Its hero reads as an object
+ * floating in a void, but that is art direction, not code: every image on
+ * that page reports `transform: none` at every scroll position, and nothing
+ * on it moves on scroll at all. The floating quality comes from a product
+ * shot on black with the dot grid behind it. Wedding photographs cannot be
+ * cut out of their backgrounds that way, so the equivalent here is to treat
+ * whole frames as planes and give the space real depth.
  *
- * Every source is asked for at the largest size it actually has. An earlier
- * version hardcoded `-2200.webp`, which exists for three photographs in the
- * whole library; for everything else that URL was a 404 and the browser fell
- * back to whatever the srcset offered.
+ * The depth is one transform, not sixteen. Every plane sits in a single
+ * perspective container, and the scroll moves that container — so the planes
+ * separate by parallax for free, because perspective does the arithmetic,
+ * and the page animates one element instead of one per photograph. This
+ * matters here: the frame budget on this site has been fought for, and the
+ * reel this replaces was the most expensive thing on the page.
  */
 
-const REEL = HOME.hero.reel;
-const HOLD = 5.4; // seconds each frame is held
-const FADE = 1.3;
+/**
+ * Where each frame sits, how big it is, and how far it drifts.
+ *
+ * Size is what carries depth. A bigger frame reads as nearer, and `drift` —
+ * how far it travels over a screen's worth of scroll — follows it, so the
+ * near ones sweep past and the far ones barely move. That difference in rate
+ * is the whole illusion.
+ *
+ * It is a translation, not a change of depth, and that is a measured
+ * decision twice over. Flying the field forward on `z` makes perspective
+ * rescale every plane continuously, so each re-rasterizes every frame: over
+ * three runs it took frames above 20ms from ~4.8% to ~15%. And the
+ * perspective was not even drawing: every plane rendered at exactly its
+ * authored CSS size, because the entrance tween animated `z` to 0 and GSAP
+ * owns the whole transform once it touches one part of it. A 3D context that
+ * costs a layer per photograph and renders identically to a flat one is not
+ * worth keeping.
+ */
+const PLANES = [
+  { slug: "mandap-garland", x: 12, y: 30, w: 21, drift: -120, hide: false },
+  { slug: "sindoor-moment", x: 22, y: 80, w: 18, drift: -300, hide: false },
+  { slug: "bride-jewels", x: 87, y: 26, w: 19, drift: -210, hide: false },
+  { slug: "garland-knot", x: 77, y: 82, w: 12, drift: -95, hide: false },
+  // Only where there is width for it. There is deliberately nothing along
+  // the top: a frame up there sits behind the nav, and a lit photograph
+  // under the nav links costs more legibility than the depth is worth.
+  { slug: "temple-groom", x: 38, y: 97, w: 12, drift: -80, hide: true },
+] as const;
 
 export default function Hero() {
   const root = useRef<HTMLElement>(null);
   const ready = useAppReady();
-  const [active, setActive] = useState(0);
 
   useGSAP(
     () => {
@@ -41,274 +74,184 @@ export default function Hero() {
       if (!el) return;
 
       const rise = Array.from(el.querySelectorAll<HTMLElement>("[data-rise]"));
-      const frames = gsap.utils.toArray<HTMLElement>("[data-frame]", el);
-      const bar = el.querySelector<HTMLElement>("[data-bar]");
+      const tilt = el.querySelector<HTMLElement>("[data-tilt]");
+      const planes = gsap.utils.toArray<HTMLElement>("[data-plane]", el);
 
-      // The overlay type arrives after the curtain, from the edges inward.
       gsap.fromTo(
         rise,
         { opacity: 0, y: 16 },
         { opacity: 1, y: 0, duration: 1, ease: EASE, stagger: 0.08, delay: 0.25 },
       );
 
-      // The first frame is already on screen — the markup gives it opacity 1
-      // and the others 0, so it is painted before any of this runs and the
-      // loader lifts straight onto the photograph.
+      // The frames settle into place rather than arriving from depth.
       //
-      // It used to be faded in from 0 here, which put a black screen between
-      // the curtain going up and the picture arriving: the section's own
-      // background is ink, so "fade the photograph in" reads as a blink. The
-      // reveal belongs to the loader; this only has to not undo it.
-      gsap.set(frames.slice(1), { opacity: 0 });
-      void frames[0]?.querySelector("video")?.play().catch(() => {});
-
-      if (prefersReducedMotion() || frames.length < 2) return;
-
-      // Slow push in on whichever frame is showing.
-      const push = (i: number) => {
-        const media = frames[i].querySelector<HTMLElement>("[data-push]");
-        if (!media) return;
-        gsap.fromTo(media, { scale: 1 }, { scale: 1.075, duration: HOLD + FADE, ease: "none" });
-      };
-      push(0);
-
-      let i = 0;
-      const advance = () => {
-        const next = (i + 1) % frames.length;
-        const outgoingFrame = frames[i];
-
-        // The incoming frame fades up ON TOP of the outgoing one, which stays
-        // fully opaque underneath until the new frame has completely covered
-        // it.
-        //
-        // Fading both at once — one down, one up — looks like it should
-        // cross-fade, but two stacked half-transparent frames do not add up
-        // to an opaque screen: part of the section's ink background shows
-        // through the middle of every transition. Measured, the page dropped
-        // from a mean luminance of 107 to 73 and back on each change, which
-        // is the dark blink between photographs.
-        gsap.set(frames[next], { zIndex: 1 });
-        gsap.to(frames[next], {
+      // This used to animate `z` from -340 to 0, which quietly destroyed the
+      // thing it was decorating: GSAP takes over the element's whole
+      // transform, so ending at z:0 overwrote each plane's own depth and
+      // left all five on the same plane. Measured, every plane rendered at
+      // exactly its authored CSS size — the perspective was doing nothing at
+      // all, while still costing a 3D rendering context and a composited
+      // layer per photograph.
+      gsap.fromTo(
+        planes,
+        { opacity: 0, scale: 0.92 },
+        {
           opacity: 1,
-          duration: FADE,
-          ease: "power2.inOut",
-          onComplete: () => {
-            gsap.set(outgoingFrame, { opacity: 0 });
-            gsap.set(frames[next], { zIndex: 0 });
-          },
-        });
-        push(next);
-
-        // Only the frame on screen gets to decode.
-        const outgoing = frames[i].querySelector<HTMLVideoElement>("video");
-        const incoming = frames[next].querySelector<HTMLVideoElement>("video");
-        if (outgoing) gsap.delayedCall(FADE, () => outgoing.pause());
-        if (incoming) {
-          incoming.currentTime = 0;
-          void incoming.play().catch(() => {});
-        }
-
-        i = next;
-        setActive(next);
-      };
-
-      const cycle = gsap.timeline({ repeat: -1 });
-      cycle.to({}, { duration: HOLD }).call(advance);
-
-      if (bar) {
-        gsap.fromTo(bar, { scaleX: 0 }, { scaleX: 1, duration: HOLD, ease: "none", repeat: -1 });
-      }
-
-      // Don't burn frames cross-fading to a hidden tab.
-      const onVis = () => (document.hidden ? cycle.pause() : cycle.resume());
-      document.addEventListener("visibilitychange", onVis);
-
-      // Nor to a screen nobody is looking at any more. The reel ran for the
-      // whole length of the page: three films decoding, a cross-fade every
-      // five seconds and a slow scale on a full-viewport frame, all of it
-      // off-screen from the second section onward. That is the most
-      // expensive thing on the page and it was competing with every scroll
-      // the visitor actually cared about.
-      const watch = ScrollTrigger.create({
-        trigger: el,
-        start: "bottom top",
-        onEnter: () => {
-          cycle.pause();
-          el.querySelectorAll("video").forEach((v) => v.pause());
+          scale: 1,
+          duration: 1.6,
+          ease: EASE,
+          stagger: { each: 0.09, from: "random" },
+          delay: 0.1,
         },
-        onLeaveBack: () => {
-          cycle.resume();
-          // Whichever frame is actually showing, rather than a guess from
-          // the timeline's clock.
-          const live = frames.find((f) => Number(gsap.getProperty(f, "opacity")) > 0.5);
-          void live?.querySelector("video")?.play().catch(() => {});
+      );
+
+      if (prefersReducedMotion()) return;
+
+      // Each plane drifts at its own rate, scrubbed against the screen.
+      // Pure Y, so nothing rescales and nothing re-rasterizes; the depth
+      // these planes already have is static, painted once by `perspective`
+      // when they were placed.
+      // Every plane is in the DOM in `PLANES` order — the wide-screen-only
+      // one is hidden with a display rule, not dropped — so the index lines
+      // the element up with its own drift.
+      const fly = gsap.to(planes, {
+        y: (i: number) => PLANES[i]?.drift ?? -140,
+        ease: "none",
+        scrollTrigger: {
+          trigger: el,
+          start: "top top",
+          end: "bottom top",
+          scrub: 0.6,
         },
       });
 
+      // Pointer tilt, on its own wrapper so it never fights the scrub above.
+      // Coarse pointers get nothing: there is no hover on a phone, and the
+      // listener would run for a gesture that is already scrolling the page.
+      // Pointer parallax, as a translation rather than a rotation. A rotate
+      // needs a 3D context to mean anything, and that context is what this
+      // hero just stopped paying for.
+      let onMove: ((e: PointerEvent) => void) | undefined;
+      if (tilt && window.matchMedia("(pointer: fine)").matches) {
+        const setX = gsap.quickTo(tilt, "x", { duration: 1.1, ease: "power3.out" });
+        const setY = gsap.quickTo(tilt, "y", { duration: 1.1, ease: "power3.out" });
+        onMove = (e: PointerEvent) => {
+          setX((e.clientX / window.innerWidth - 0.5) * -26);
+          setY((e.clientY / window.innerHeight - 0.5) * -18);
+        };
+        window.addEventListener("pointermove", onMove, { passive: true });
+      }
+
+      // Nothing to animate once the screen is behind you.
+      const watch = ScrollTrigger.create({
+        trigger: el,
+        start: "bottom top",
+        onEnter: () => fly?.scrollTrigger?.disable(false),
+        onLeaveBack: () => fly?.scrollTrigger?.enable(false),
+      });
+
       return () => {
-        document.removeEventListener("visibilitychange", onVis);
+        if (onMove) window.removeEventListener("pointermove", onMove);
         watch.kill();
       };
     },
     { scope: root, dependencies: [ready] },
   );
 
-  const current = REEL[active];
-
   return (
-    // Overlaid on a wide screen; stacked on a phone.
-    //
-    // Full-bleed works at 1.6 and fails at 0.46. Every frame in this reel is
-    // landscape — 1.51 for the stills, 1.78 for the film — so a phone was
-    // cutting 69% to 74% off each one and showing a tight vertical slice of
-    // a composed photograph. The type fared worse: laid over a bright saree,
-    // "Thirty years of South Indian weddings" was effectively invisible, and
-    // no scrim strong enough to fix that leaves the picture worth looking at.
-    //
-    // Below `md` the photograph keeps a 4/5 box of its own — which costs it
-    // 47% instead of 69% — and the words sit underneath on ink, where they
-    // are legible against anything.
     <section
       ref={root}
-      className="relative flex min-h-[100svh] w-full flex-col overflow-clip bg-ink md:block md:h-[100svh] md:min-h-[560px]"
+      className="relative flex min-h-[100svh] w-full items-center justify-center overflow-clip bg-ink text-paper"
     >
-      <div className="relative order-2 aspect-[4/5] w-full shrink-0 md:absolute md:inset-0 md:order-none md:aspect-auto">
-      {REEL.map((frame, i) => {
-        const item = frame.kind === "image" ? bySlug(frame.slug) : null;
-        return (
-          // Hidden from the first paint, not from whenever the script gets
-          // round to it. These four frames are stacked on top of each other,
-          // and GSAP only set the opacity of the later ones to 0 once the
-          // loader had finished — so for the first few seconds every frame
-          // was at full opacity and the LAST one in the markup was what you
-          // saw, while the counter underneath already read "01 / 04".
-          <div
-            key={frame.slug}
-            data-frame
-            className="absolute inset-0"
-            style={{ opacity: i === 0 ? 1 : 0 }}
-          >
-            <div data-push className="absolute inset-0 will-change-transform">
-              {frame.kind === "video" ? (
-                <video
-                  className="media-fill"
-                  src={`/video/${frame.slug}.mp4`}
-                  poster={`/img/${frame.slug}-poster.webp`}
-                  muted
-                  loop
-                  playsInline
-                  preload={i === 0 ? "auto" : "none"}
-                  aria-label={frame.caption}
-                />
-              ) : (
-                <img
-                  className="media-fill"
-                  // The largest size this photograph actually has, not a
-                  // width assumed for all of them.
-                  src={`/img/${frame.slug}-${item!.widths[0]}.webp`}
-                  srcSet={item!.widths.map((w) => `/img/${frame.slug}-${w}.webp ${w}w`).join(", ")}
-                  sizes="100vw"
-                  // Only where a frame declares one; otherwise the photograph
-                  // stays centred, which is right for most of them.
-                  style={"focus" in frame ? { objectPosition: frame.focus } : undefined}
-                  alt={`${frame.caption}, ${frame.place}`}
-                  loading={i === 0 ? "eager" : "lazy"}
-                  fetchPriority={i === 0 ? "high" : "low"}
-                  decoding="async"
-                  draggable={false}
-                />
-              )}
-            </div>
+      <DotField />
+
+      {/* The stage.
+          Flat, by measurement. The depth here is read from how big each
+          frame is, how dark its surround is and how far it sits from the
+          others — not from a 3D context, which rendered identically and
+          cost a composited layer per photograph. */}
+      <div aria-hidden className="pointer-events-none absolute inset-0">
+        <div data-tilt className="absolute inset-0">
+          <div className="absolute inset-0">
+            {PLANES.map((p) => {
+              const item = bySlug(p.slug);
+              return (
+                <figure
+                  key={p.slug}
+                  data-plane
+                  className={`absolute ${p.hide ? "hidden xl:block" : ""}`}
+                  style={{
+                    left: `${p.x}%`,
+                    top: `${p.y}%`,
+                    width: `${p.w}vw`,
+                    minWidth: "92px",
+                    // The `translate` property, not `transform`. GSAP owns
+                    // `transform` on these elements for the drift and the
+                    // entrance; centring written there would be overwritten
+                    // by the first tween that touches y, which is exactly
+                    // how the depth on this hero was silently lost.
+                    translate: "-50% -50%",
+                  }}
+                >
+                  <span
+                    className="block overflow-hidden rounded-panel bg-ink-soft/25 shadow-[0_2rem_5rem_rgba(0,0,0,0.75)] ring-1 ring-white/[0.07]"
+                    style={{ aspectRatio: String(item.ratio) }}
+                  >
+                    <img
+                      src={`/img/${p.slug}-800.webp`}
+                      srcSet={item.widths
+                        .map((w) => `/img/${p.slug}-${w}.webp ${w}w`)
+                        .join(", ")}
+                      sizes="20vw"
+                      alt=""
+                      loading="eager"
+                      decoding="async"
+                      draggable={false}
+                      className="h-full w-full object-cover"
+                    />
+                  </span>
+                </figure>
+              );
+            })}
           </div>
-        );
-      })}
-
-        {/* Scrims. Only where type is laid over the picture, which is only
-            on a wide screen now. */}
-        <div className="pointer-events-none absolute inset-x-0 top-0 hidden h-40 bg-gradient-to-b from-ink/55 to-transparent md:block" />
-        <div className="pointer-events-none absolute inset-x-0 bottom-0 hidden h-56 bg-gradient-to-t from-ink/70 to-transparent md:block" />
-      </div>
-
-      <div className="order-1 px-[var(--gutter)] pb-4 pt-[calc(var(--nav-h)+0.75rem)] text-paper md:absolute md:inset-x-0 md:top-0 md:z-10 md:p-[var(--gutter)] md:pt-[calc(var(--nav-h)+0.75rem)]">
-        {/* The eyebrow moved into the centred stack below, where the
-            reference puts its product label. What is left up here is the
-            meta strip, which has no equivalent on that page but is the one
-            line that says what the studio actually shoots. */}
-        <div className="flex items-start justify-end gap-6">
-          <span data-rise className="u-mono hidden text-right text-paper/70 sm:block">
-            {HOME.hero.meta.join(" · ")}
-          </span>
         </div>
       </div>
 
-      {/* The hero stack: dot-matrix label, headline, one line under it, and
-          a single action — centred, which is the reference's whole hero
-          composition. This was a lead paragraph in the bottom-left corner
-          with the frame counter opposite, an editorial masthead rather than
-          a page that asks you to go somewhere. */}
-      <div className="order-3 flex flex-1 flex-col items-center justify-center gap-4 px-[var(--gutter)] py-9 text-center text-paper md:absolute md:inset-x-0 md:top-1/2 md:z-10 md:flex-none md:-translate-y-1/2 md:gap-5 md:py-0">
-        {/* A scrim just behind the words. The full-width top and bottom
-            gradients do nothing for type sitting in the middle of a lit
-            photograph. */}
-        <div
-          aria-hidden
-          className="pointer-events-none absolute left-1/2 top-1/2 hidden h-[34rem] w-[min(68rem,92vw)] -translate-x-1/2 -translate-y-1/2 bg-[radial-gradient(ellipse_at_center,rgba(4,4,4,0.78)_0%,rgba(4,4,4,0.52)_38%,rgba(4,4,4,0.2)_62%,transparent_80%)] md:block"
-        />
-
+      {/* The clearing. Above the stage, so a plane flying forward passes
+          behind the words rather than across them. */}
+      <div className="relative z-10 flex w-full flex-col items-center gap-4 px-[var(--gutter)] py-[calc(var(--nav-h)+2rem)] text-center md:gap-5">
         <span
           data-rise
-          className="u-dot relative text-[clamp(0.8rem,1.35vw,1.2rem)] leading-none text-paper"
+          className="u-dot text-[clamp(0.8rem,1.35vw,1.2rem)] leading-none text-paper"
         >
           {HOME.hero.eyebrow}
         </span>
 
         <h1
           data-rise
-          className="u-display relative max-w-[17ch] text-[clamp(1.85rem,3.4vw,3rem)] leading-[1.0]"
+          className="u-display max-w-[17ch] text-[clamp(1.85rem,3.4vw,3rem)] leading-[1.0]"
         >
           {HOME.hero.headline}
         </h1>
 
-        <p data-rise className="u-body relative max-w-[48ch] text-paper/85">
+        <p data-rise className="u-body max-w-[42ch] text-paper/80">
           {HOME.hero.lead}
         </p>
 
-        <Link
-          data-rise
-          href="/weddings"
-          className="u-pill u-pill-invert relative mt-2"
-        >
+        <Link data-rise href="/weddings" className="u-pill u-pill-invert mt-2">
           {HOME.hero.cta}
           <span aria-hidden>→</span>
         </Link>
       </div>
 
-      {/* What is left at the foot: which frame you are looking at, and
-          where it was taken. The lead that used to anchor this corner is
-          now in the centred stack. */}
-      <div className="order-4 flex flex-col justify-end gap-6 px-[var(--gutter)] pb-[calc(var(--gutter)+0.5rem)] pt-2 text-paper md:absolute md:inset-x-0 md:bottom-0 md:z-10 md:flex-row md:flex-wrap md:items-end md:justify-end md:gap-x-10 md:gap-y-6 md:p-[var(--gutter)]">
-        <div data-rise className="flex items-end justify-between gap-8 md:justify-end">
-          <span className="u-mono text-left text-paper/75 sm:text-right">
-            {current.caption}
-            <br />
-            <span className="text-paper/50">{current.place}</span>
-          </span>
-          <span className="u-mono tabular-nums text-paper/75">
-            {String(active + 1).padStart(2, "0")}
-            <span className="text-paper/40"> / {String(REEL.length).padStart(2, "0")}</span>
-          </span>
-        </div>
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 z-10 flex items-end justify-between gap-6 p-[var(--gutter)]">
+        <span data-rise className="u-mono hidden text-paper/55 sm:block">
+          {HOME.hero.meta.join(" · ")}
+        </span>
+        <span data-rise className="u-mono text-paper/55">
+          Scroll
+        </span>
       </div>
-
-      <div className="absolute inset-x-0 bottom-0 h-px bg-paper/20">
-        <div data-bar className="h-px origin-left bg-paper/80" />
-      </div>
-
-      {/* A scroll hint, not the city. The city was being said three times on
-          one screen — here, in the eyebrow, and again in the frame caption. */}
-      <span className="u-mono pointer-events-none absolute bottom-5 left-1/2 hidden -translate-x-1/2 text-paper/55 md:block">
-        Scroll
-      </span>
     </section>
   );
 }

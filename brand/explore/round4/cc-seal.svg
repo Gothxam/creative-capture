@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" role="img" aria-label="Classy Captures">
+  <circle cx="60" cy="60" r="56" fill="none" stroke="currentColor" stroke-width="3"/>
+  <circle cx="60" cy="60" r="49" fill="none" stroke="currentColor" stroke-width="1.25"/>
+  <g fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round">
+    <path d="M60,32 L84.25,46 L84.25,74 L60,88 L35.75,74 L35.75,46 Z"/>
+  </g>
+  <g fill="none" stroke="currentColor" stroke-width="2">
+    <path d="M60,32 L60,60"/>
+    <path d="M84.25,46 L60,60"/>
+    <path d="M84.25,74 L60,60"/>
+    <path d="M60,88 L60,60"/>
+    <path d="M35.75,74 L60,60"/>
+    <path d="M35.75,46 L60,60"/>
+  </g>
+  <circle cx="60" cy="60" r="5" fill="var(--accent, currentColor)"/>
+  <g fill="currentColor">
+    <path d="M8,56 L11.5,60 L8,64 L4.5,60 Z"/>
+    <path d="M112,56 L115.5,60 L112,64 L108.5,60 Z"/>
+  </g>
+</svg>

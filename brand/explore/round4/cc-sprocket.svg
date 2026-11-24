@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" role="img" aria-label="Classy Captures">
+  <defs><rect id="s-hole" x="53.5" y="10" width="13" height="13" rx="3.5"/></defs>
+  <g fill="currentColor">
+    <use href="#s-hole" transform="rotate(0 60 60)"/>
+    <use href="#s-hole" transform="rotate(30 60 60)"/>
+    <use href="#s-hole" transform="rotate(150 60 60)"/>
+    <use href="#s-hole" transform="rotate(180 60 60)"/>
+    <use href="#s-hole" transform="rotate(210 60 60)"/>
+    <use href="#s-hole" transform="rotate(240 60 60)"/>
+    <use href="#s-hole" transform="rotate(270 60 60)"/>
+    <use href="#s-hole" transform="rotate(300 60 60)"/>
+    <use href="#s-hole" transform="rotate(330 60 60)"/>
+  </g>
+  <circle cx="60" cy="60" r="9" fill="var(--accent, currentColor)"/>
+</svg>

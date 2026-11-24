@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" role="img" aria-label="Classy Captures">
+  <defs>
+    <path id="j-petal" d="M60,40 C70,40 75,31 60,6 C45,31 50,40 60,40 Z"/>
+    <path id="j-leaf" d="M60,46 C66,46 69,40 60,26 C51,40 54,46 60,46 Z"/>
+    <mask id="j-eye">
+      <rect width="120" height="120" fill="#fff"/>
+      <circle cx="60" cy="60" r="13" fill="#000"/>
+    </mask>
+  </defs>
+  <g fill="currentColor" mask="url(#j-eye)">
+    <g>
+      <use href="#j-petal" transform="rotate(0 60 60)"/>
+      <use href="#j-petal" transform="rotate(45 60 60)"/>
+      <use href="#j-petal" transform="rotate(90 60 60)"/>
+      <use href="#j-petal" transform="rotate(135 60 60)"/>
+      <use href="#j-petal" transform="rotate(180 60 60)"/>
+      <use href="#j-petal" transform="rotate(225 60 60)"/>
+      <use href="#j-petal" transform="rotate(270 60 60)"/>
+      <use href="#j-petal" transform="rotate(315 60 60)"/>
+    </g>
+    <g opacity="0.55">
+      <use href="#j-leaf" transform="rotate(22.5 60 60)"/>
+      <use href="#j-leaf" transform="rotate(67.5 60 60)"/>
+      <use href="#j-leaf" transform="rotate(112.5 60 60)"/>
+      <use href="#j-leaf" transform="rotate(157.5 60 60)"/>
+      <use href="#j-leaf" transform="rotate(202.5 60 60)"/>
+      <use href="#j-leaf" transform="rotate(247.5 60 60)"/>
+      <use href="#j-leaf" transform="rotate(292.5 60 60)"/>
+      <use href="#j-leaf" transform="rotate(337.5 60 60)"/>
+    </g>
+  </g>
+  <circle cx="60" cy="60" r="17" fill="none" stroke="currentColor" stroke-width="2.5"/>
+  <circle cx="60" cy="60" r="6" fill="var(--accent, currentColor)"/>
+</svg>
