@@ -50,7 +50,7 @@ export const HOME = {
      * This line sits in that register and says something about how they
      * work rather than how they feel about it.
      */
-    eyebrow: "A Bengaluru Wedding Studio",
+    eyebrow: "Bengaluru · Est. 1995",
     /**
      * Split from one `lead` sentence into a headline and a line under it,
      * because the hero is now a centred stack — label, headline, action —
@@ -58,8 +58,16 @@ export const HOME = {
      * sentence set at headline size ran four lines and stopped being a
      * headline.
      */
-    headline: "Thirty years of South Indian weddings.",
-    lead: "We've learned when to step closer, and when to disappear.",
+    /**
+     * The order is inverted from how this started. "Thirty years of South
+     * Indian weddings" was the headline and the disappearing line sat under
+     * it — but the fact is the ordinary half and the line about how they
+     * work is the half worth reading first. Set as a headline the long
+     * sentence also ran two lines at every width, which is what made the
+     * centred stack feel crowded.
+     */
+    headline: "We know when to disappear.",
+    lead: "Thirty years of South Indian weddings.",
     cta: "See the work",
     meta: ["Est. 1995", "Weddings", "Films", "Portraits"],
     /**

@@ -3,7 +3,6 @@
 import Link from "next/link";
 import { useRef } from "react";
 import { FILMS } from "@/lib/content";
-import DotField from "@/components/primitives/DotField";
 import Reveal from "@/components/primitives/Reveal";
 import Tilt from "@/components/primitives/Tilt";
 import { MaskWords } from "@/components/primitives/MaskText";
@@ -44,7 +43,6 @@ export default function FilmStrip({ limit = 3 }: { limit?: number }) {
 
   return (
     <section ref={root} className="relative bg-ink px-[var(--gutter)] py-[clamp(4rem,10vw,9rem)] text-paper">
-      <DotField />
       <div className="flex flex-wrap items-end justify-between gap-6 pb-[clamp(1.5rem,3vw,3rem)]">
         <div>
           <span className="u-mono text-ember">[ Films ]</span>

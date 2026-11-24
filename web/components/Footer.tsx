@@ -3,9 +3,7 @@
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { FOOTER, STUDIO } from "@/lib/content";
-import DotField from "@/components/primitives/DotField";
 import FooterTicker from "@/components/FooterTicker";
-import BleedText from "@/components/primitives/BleedText";
 import Reveal from "@/components/primitives/Reveal";
 import { MaskLines } from "@/components/primitives/MaskText";
 import { gsap, useGSAP } from "@/lib/gsap";
@@ -17,36 +15,10 @@ export default function Footer() {
 
   const root = useRef<HTMLElement>(null);
 
-  // The wordmark lies back on a plane and tilts upright as the footer
-  // arrives — the strongest 3D moment on the page, and cheap: one scrubbed
-  // transform on one element.
-  useGSAP(
-    () => {
-      const stage = root.current?.querySelector<HTMLElement>("[data-stage]");
-      if (!stage) return;
-
-      // rotateX + y only, no scale: scaling forces the browser to
-      // re-rasterize the wordmark — a very large glyph texture — on every
-      // scrubbed frame, which showed up as the last cluster of long frames
-      // on the page. A promoted layer rotating in place costs nothing.
-      gsap.fromTo(
-        stage,
-        { rotateX: 26, y: 44 },
-        {
-          rotateX: 0,
-          y: 0,
-          ease: "none",
-          scrollTrigger: {
-            trigger: root.current,
-            start: "top 85%",
-            end: "bottom bottom",
-            scrub: 0.5,
-          },
-        },
-      );
-    },
-    { scope: root },
-  );
+  // The wordmark used to lie back on a 3D plane and tilt upright as the
+  // footer arrived. It went with the 520px lettering it was built for: a
+  // scrubbed rotateX on a promoted layer is only worth paying for when the
+  // thing rotating is the size of the viewport.
 
   return (
     // Ink, not flame. A full-bleed orange field was the loudest thing on a
@@ -55,7 +27,6 @@ export default function Footer() {
     // ties the footer to the other dark sections and lets the wordmark do
     // the shouting instead.
     <footer ref={root} className="relative overflow-hidden bg-ink text-paper">
-      <DotField />
       <FooterTicker />
 
       <div className="px-[var(--gutter)] pt-[clamp(2.5rem,5vw,4.5rem)]">
@@ -125,27 +96,20 @@ export default function Footer() {
         className="mt-[clamp(1rem,2vw,2rem)] px-[var(--gutter)]"
         style={{ perspective: "1400px", perspectiveOrigin: "50% 0%" }}
       >
-        {/* Promoted to its own layer: without it, rotating a plane carrying
-            two viewport-wide glyph runs repaints them on every frame. */}
-        <div
-          data-stage
-          style={{
-            transformStyle: "preserve-3d",
-            transformOrigin: "50% 100%",
-            willChange: "transform",
-            backfaceVisibility: "hidden",
-          }}
-        >
-          {FOOTER.wordmark.map((word, i) => (
-            <BleedText
-              key={word}
-              fill={1}
-              maxPx={520}
-              className={i === FOOTER.wordmark.length - 1 ? "-mb-[0.17em]" : "-mb-[0.04em]"}
-            >
-              {word}
-            </BleedText>
-          ))}
+        {/* The studio's name, said once and quietly.
+            It used to run edge-to-edge at up to 520px on a plane that
+            tilted upright as you reached it. That was built for a heavy
+            display sans; blown up that far, the serif this site now sets
+            its headlines in has nothing to hold — the thin strokes break
+            down and the whole foot of the page reads as a mistake. It is
+            the dot-matrix face at a readable size instead, which is what
+            the bar at the top of the page already uses. */}
+        <div className="pb-[clamp(2.5rem,5vw,4rem)] pt-[clamp(2.5rem,6vw,5rem)]">
+          <span className="u-dot block text-[clamp(1.4rem,4.2vw,3.1rem)] leading-none text-paper">
+            {FOOTER.wordmark[0]}
+            <span className="mx-[0.4em] inline-block size-[0.26em] -translate-y-[0.12em] rounded-full bg-flame align-middle" />
+            {FOOTER.wordmark[1]}
+          </span>
         </div>
       </div>
 

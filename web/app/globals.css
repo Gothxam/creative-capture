@@ -63,8 +63,6 @@
 :root {
   --gutter: clamp(1rem, 4vw, 4.5rem);
   --nav-h: 4.5rem;
-  /* One cell of the dot field, matching the reference's own spacing. */
-  --dot-cell: 113px;
 }
 
 * {
@@ -91,15 +89,6 @@ html.lenis body {
 
 body {
   background-color: var(--color-paper);
-  /* The dot field, painted by the body itself rather than by a layer over
-     it. Same reasoning as the grain it replaces: a blend mode or a fixed
-     full-viewport overlay re-composites every scrolled frame, and both were
-     measured as the largest source of dropped frames on the home page. This
-     costs one paint. Sections with their own ground paint over it, and the
-     dark ones re-state it in white through `.u-dots`. */
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='113' height='113'%3E%3Ccircle cx='56.5' cy='56.5' r='1.1' fill='%23040404' fill-opacity='0.2'/%3E%3C/svg%3E");
-  background-size: var(--dot-cell) var(--dot-cell);
-  background-position: center center;
   color: var(--color-ink);
   /* Monospace is the running voice of this design, not a label style.
      Everything that is not a headline is set in it. */
@@ -113,21 +102,6 @@ body {
 ::selection {
   background: var(--color-ember);
   color: #fff;
-}
-
-/* ─── the dot field ───────────────────────────────────────────────
-   The texture the whole reference sits on. It replaces the grain the
-   old system used — and costs less, because it is a plain background
-   image on an in-flow element: no blend mode, no fixed overlay, no
-   per-frame compositing. Both of those were measured, earlier, as the
-   single largest source of dropped frames on the home page.
-
-   `currentColor` means one class works on either ground: set the text
-   colour of the layer and the dots follow. */
-.u-dots {
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='113' height='113'%3E%3Ccircle cx='56.5' cy='56.5' r='1.1' fill='%23ffffff' fill-opacity='0.17'/%3E%3C/svg%3E");
-  background-size: var(--dot-cell) var(--dot-cell);
-  background-position: center center;
 }
 
 /* ─── type primitives ─────────────────────────────────────────── */

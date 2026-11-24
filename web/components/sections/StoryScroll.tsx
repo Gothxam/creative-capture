@@ -3,7 +3,6 @@
 import { useRef } from "react";
 import { HOME } from "@/lib/content";
 import Figure from "@/components/primitives/Figure";
-import DotField from "@/components/primitives/DotField";
 import { bySlug } from "@/lib/media.generated";
 import { EASE, gsap, useGSAP } from "@/lib/gsap";
 
@@ -98,7 +97,6 @@ export default function StoryScroll() {
 
   return (
     <section ref={root} className="relative bg-ink text-paper">
-      <DotField />
       <div data-pin className="md:flex md:h-screen md:flex-col md:justify-center">
         <div className="px-[var(--gutter)] py-[clamp(3rem,8vw,0rem)] md:py-0">
           <div className="flex items-baseline justify-between pb-[clamp(1.5rem,3vw,2.5rem)]">

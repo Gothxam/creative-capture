@@ -14,8 +14,16 @@ export const markAppReady = () => {
 };
 
 /**
- * True once the intro loader has finished. Sections keyed to the first paint
- * (the hero) wait on this so their entrance isn't playing behind the curtain.
+ * True once the page is live on the client.
+ *
+ * This used to mean "once the intro loader has finished", so that entrances
+ * were not playing behind a curtain. There is no curtain any more — the
+ * counter that ran on every load is gone — so it resolves on mount instead.
+ *
+ * It still exists, and callers still wait on it, for two reasons: these are
+ * entrance animations that must not run during server render, and if a
+ * curtain ever comes back the sections are already keyed to it. Anything
+ * that dispatches the ready event still works.
  */
 export function useAppReady() {
   const [ready, setReady] = useState(false);
@@ -27,6 +35,8 @@ export function useAppReady() {
     }
     const on = () => setReady(true);
     window.addEventListener(EVENT, on, { once: true });
+    // Nothing else will announce it now, so announce it here.
+    markAppReady();
     return () => window.removeEventListener(EVENT, on);
   }, []);
 

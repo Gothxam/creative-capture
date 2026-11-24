@@ -5,7 +5,6 @@ import { useRef } from "react";
 import { HOME } from "@/lib/content";
 import { bySlug } from "@/lib/media.generated";
 import { useAppReady } from "@/lib/appReady";
-import DotField from "@/components/primitives/DotField";
 import { EASE, ScrollTrigger, gsap, prefersReducedMotion, useGSAP } from "@/lib/gsap";
 
 /**
@@ -35,7 +34,15 @@ import { EASE, ScrollTrigger, gsap, prefersReducedMotion, useGSAP } from "@/lib/
  */
 
 /**
- * Where each frame sits, how big it is, and how far it drifts.
+ * Where each frame sits, how big it is, what it is called, and how far it
+ * drifts.
+ *
+ * Square crops with the caption centred underneath, which is how the
+ * reference's product pages scatter their detail shots around a subject:
+ * small cards, 8px corners, a short label below rather than over the
+ * picture. Two sizes only — a pair of larger frames and a pair of small
+ * ones — because a field where every card is a different size stops reading
+ * as a set.
  *
  * Size is what carries depth. A bigger frame reads as nearer, and `drift` —
  * how far it travels over a screen's worth of scroll — follows it, so the
@@ -53,14 +60,14 @@ import { EASE, ScrollTrigger, gsap, prefersReducedMotion, useGSAP } from "@/lib/
  * worth keeping.
  */
 const PLANES = [
-  { slug: "mandap-garland", x: 12, y: 30, w: 21, drift: -120, hide: false },
-  { slug: "sindoor-moment", x: 22, y: 80, w: 18, drift: -300, hide: false },
-  { slug: "bride-jewels", x: 87, y: 26, w: 19, drift: -210, hide: false },
-  { slug: "garland-knot", x: 77, y: 82, w: 12, drift: -95, hide: false },
+  { slug: "mandap-garland", cap: "The Mandap", x: 13, y: 26, w: 13, drift: -170, hide: false },
+  { slug: "sindoor-moment", cap: "Sindoor", x: 22, y: 73, w: 8, drift: -95, hide: false },
+  { slug: "bride-jewels", cap: "The Garlands", x: 86, y: 23, w: 8, drift: -90, hide: false },
+  { slug: "garland-knot", cap: "First Look", x: 80, y: 70, w: 13, drift: -180, hide: false },
   // Only where there is width for it. There is deliberately nothing along
   // the top: a frame up there sits behind the nav, and a lit photograph
   // under the nav links costs more legibility than the depth is worth.
-  { slug: "temple-groom", x: 38, y: 97, w: 12, drift: -80, hide: true },
+  { slug: "temple-groom", cap: "The Vows", x: 37, y: 89, w: 7, drift: -120, hide: true },
 ] as const;
 
 export default function Hero() {
@@ -163,14 +170,16 @@ export default function Hero() {
       ref={root}
       className="relative flex min-h-[100svh] w-full items-center justify-center overflow-clip bg-ink text-paper"
     >
-      <DotField />
 
       {/* The stage.
           Flat, by measurement. The depth here is read from how big each
           frame is, how dark its surround is and how far it sits from the
           others — not from a 3D context, which rendered identically and
           cost a composited layer per photograph. */}
-      <div aria-hidden className="pointer-events-none absolute inset-0">
+      {/* Inset on a phone, so the percentages are measured inside a padded
+          box: at 375px the outermost cards sat 3px from the screen edge and
+          their captions ran off it. */}
+      <div aria-hidden className="pointer-events-none absolute inset-x-4 inset-y-0 md:inset-0">
         <div data-tilt className="absolute inset-0">
           <div className="absolute inset-0">
             {PLANES.map((p) => {
@@ -193,16 +202,13 @@ export default function Hero() {
                     translate: "-50% -50%",
                   }}
                 >
-                  <span
-                    className="block overflow-hidden rounded-panel bg-ink-soft/25 shadow-[0_2rem_5rem_rgba(0,0,0,0.75)] ring-1 ring-white/[0.07]"
-                    style={{ aspectRatio: String(item.ratio) }}
-                  >
+                  <span className="block aspect-square w-full overflow-hidden rounded-panel bg-ink-soft/25 shadow-[0_1.5rem_4rem_rgba(0,0,0,0.7)] ring-1 ring-white/[0.08]">
                     <img
                       src={`/img/${p.slug}-800.webp`}
                       srcSet={item.widths
                         .map((w) => `/img/${p.slug}-${w}.webp ${w}w`)
                         .join(", ")}
-                      sizes="20vw"
+                      sizes="14vw"
                       alt=""
                       loading="eager"
                       decoding="async"
@@ -210,6 +216,11 @@ export default function Hero() {
                       className="h-full w-full object-cover"
                     />
                   </span>
+                  {/* Centred under the card, the way the reference labels
+                      its detail shots — never laid over the picture. */}
+                  <figcaption className="u-mono mt-2.5 text-center text-paper/55">
+                    {p.cap}
+                  </figcaption>
                 </figure>
               );
             })}
@@ -219,26 +230,31 @@ export default function Hero() {
 
       {/* The clearing. Above the stage, so a plane flying forward passes
           behind the words rather than across them. */}
-      <div className="relative z-10 flex w-full flex-col items-center gap-4 px-[var(--gutter)] py-[calc(var(--nav-h)+2rem)] text-center md:gap-5">
+      {/* Gaps are deliberately uneven: the label sits close to the headline
+          it names, then the supporting line and the action each get real
+          air. Even spacing on four stacked elements is what made this read
+          as one crowded block rather than a label, a statement and a way
+          in. */}
+      <div className="relative z-10 flex w-full flex-col items-center px-[var(--gutter)] py-[calc(var(--nav-h)+2rem)] text-center">
         <span
           data-rise
-          className="u-dot text-[clamp(0.8rem,1.35vw,1.2rem)] leading-none text-paper"
+          className="u-dot text-[clamp(0.7rem,1.05vw,0.92rem)] leading-none text-paper/70"
         >
           {HOME.hero.eyebrow}
         </span>
 
         <h1
           data-rise
-          className="u-display max-w-[17ch] text-[clamp(1.85rem,3.4vw,3rem)] leading-[1.0]"
+          className="u-display mt-5 max-w-[15ch] text-[clamp(1.6rem,2.7vw,2.4rem)] leading-[1.06]"
         >
           {HOME.hero.headline}
         </h1>
 
-        <p data-rise className="u-body max-w-[42ch] text-paper/80">
+        <p data-rise className="u-body mt-7 max-w-[38ch] text-paper/70">
           {HOME.hero.lead}
         </p>
 
-        <Link data-rise href="/weddings" className="u-pill u-pill-invert mt-2">
+        <Link data-rise href="/weddings" className="u-pill u-pill-invert mt-9">
           {HOME.hero.cta}
           <span aria-hidden>→</span>
         </Link>
