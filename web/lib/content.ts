@@ -91,12 +91,10 @@ export const HOME = {
   legacy: {
     label: "[ Our Legacy ]",
     lines: [
-      "With over thirty years behind the lens,",
-      "Classy Captures stands among the finest",
-      "wedding photographers in Bengaluru",
-      "and South India.",
+      "Thirty years behind the lens,",
+      "across Bengaluru and South India.",
     ],
-    body: "Over the years we've shaped and mastered the art of candid wedding photography, redefining it for a new generation of love stories.",
+    body: "Three decades of candid work, reshaped for a new generation.",
   },
   story: {
     label: "[ How We See It ]",
@@ -118,7 +116,7 @@ export const HOME = {
       {
         index: "03",
         title: "What stays after",
-        body: "Long after the lights fade and the guests leave, your story still lives here, in frames you'll hand to people not yet born.",
+        body: "Your story outlives the day, in frames you'll hand to people not yet born.",
         media: "petals-seated",
         detail: "close-whisper",
       },
@@ -131,7 +129,7 @@ export const HOME = {
   },
   philosophy: {
     label: "[ Our Philosophy ]",
-    text: "Photography isn't about perfection, it's about presence. The best stories are the ones that happen naturally, in fleeting glances and quiet moments. That's what we capture — the feeling, not just the frame.",
+    text: "Not perfection — presence. The glance, the quiet minute. We shoot the feeling, not the frame.",
   },
   stats: [
     { value: 30, suffix: "+", label: "Years behind the lens" },
@@ -154,9 +152,9 @@ export const SERVICES = [
     subtitle: "Candid, emotional, artistic",
     // source: studio (subtitle + summary), written (detail/includes)
     summary:
-      "As one of the top wedding photographers in Bengaluru, we bring your story to life through a perfect blend of artistry and authenticity.",
+      "Your story told with artistry, and without pretence.",
     detail:
-      "From South Indian wedding photography in Bengaluru to modern destination weddings, we create imagery that feels emotional, elegant and everlasting. We believe the best moments can't be staged — they can only be felt, and we capture them exactly as they unfold.",
+      "Bengaluru weddings and destination weddings alike. The best moments cannot be staged, only felt, so we take them as they come.",
     includes: ["Candid coverage", "Traditional portraiture", "Two-photographer teams", "Hand-finished albums"],
     media: "mandap-garland",
   },
@@ -169,7 +167,7 @@ export const SERVICES = [
     summary:
       "A shoot built around the two of you — your places, your weather, your way of standing next to each other.",
     detail:
-      "Backwaters, temples, rain, rooftops and long grass. We scout locations across Karnataka and Kerala, shoot through golden hour into blue, and direct just enough to keep it feeling like you.",
+      "Backwaters, temples, rain, long grass. We scout across Karnataka and Kerala and direct just enough to keep it yours.",
     includes: ["Location scouting", "Wardrobe guidance", "Half or full day", "Cinematic story reel"],
     // A standing frame, because every place this is shown is a standing box.
     // `rain-embrace` is a 1.60 landscape and the service thumbnails are 4/5,
@@ -189,7 +187,7 @@ export const SERVICES = [
     summary:
       "Bridal portraits, family sittings and personal work, made with the same patience we bring to a wedding day.",
     detail:
-      "Studio or on location, in daylight or by lamp. Portraiture is where our oldest instincts live — one person, one look, held still long enough to mean something.",
+      "Studio or on location, daylight or lamp. One person, one look, held long enough to mean something.",
     includes: ["Bridal portraiture", "Family sittings", "Studio or location", "Retouched masters"],
     media: "petals-twirl",
   },
@@ -202,7 +200,7 @@ export const SERVICES = [
     summary:
       "Our wedding cinematography is designed to make you feel every moment, all over again.",
     detail:
-      "We create heartfelt films that tell your story through movement, music and emotion — celebrated as some of the best cinematic wedding films in Bengaluru. With a legacy rooted in the Kannada film industry, our work extends to aerial filming and large-scale production.",
+      "Films built from movement, music and emotion. Our roots are in the Kannada film industry, so aerial work and large crews are familiar ground.",
     includes: ["Teasers · 2–3 min", "Highlights · 5–8 min", "Full films · 30–45 min", "Same-day edits"],
     media: "garland-exchange",
   },
@@ -219,7 +217,7 @@ export const ABOUT = {
       "stories filled with love, emotion and authenticity.",
     ],
     body: [
-      "We're more than photographers — we're storytellers who turn weddings into timeless works of art. As one of the top wedding photographers in South India, we blend emotion and innovation to tell love stories that stand the test of time.",
+      "We are storytellers first. Emotion and craft, in service of a story that keeps.",
       `Under the leadership of ${STUDIO.director}, our second-generation Creative Director, we continue to push the boundaries of luxury wedding photography in Bengaluru. His eye for detail and love for storytelling have guided Classy Captures to become a name couples trust with their most precious memories.`,
     ],
   },
@@ -227,20 +225,20 @@ export const ABOUT = {
     label: "[ Beyond Weddings ]",
     title: "Where the work goes next",
     body: [
-      "Our craft extends beyond weddings into the Kannada film industry, where our expertise in cinematography and aerial filming has earned recognition and respect.",
+      "Our work reaches past weddings into the Kannada film industry: cinematography and aerial filming.",
       "From intimate weddings to large-scale film productions, our visual storytelling has touched countless hearts and screens.",
     ],
   },
   promise: {
     label: "[ Our Promise ]",
     title: "Moments made everlasting",
-    body: "At Classy Captures, we don't just document — we create memories that feel alive. Our focus is on emotion, connection and storytelling. Every photo, every frame, every second is made everlasting.",
+    body: "We do not just document. Emotion, connection, story — every frame made to last.",
   },
 } as const;
 
 export const FILMS = {
   hero: { eyebrow: "[ Films ]", title: ["Stories", "That Move"] },
-  lead: "Our wedding cinematography in Bengaluru is designed to make you feel every moment, all over again. We create heartfelt films that tell your story through movement, music and emotion.",
+  lead: "Films that let you feel the day again, told through movement, music and emotion.",
   packages: [
     { name: "Teaser", length: "2–3 min", body: "A glimpse of your love story, cut to land in the first week." },
     { name: "Highlights", length: "5–8 min", body: "The essence of your wedding day, start to finish." },
@@ -263,9 +261,9 @@ export const COLLECTIONS = {
     title: ["Every Love", "Story"],
     note: "[ The Day ]",
     noteTitle: "What a wedding looks like with us in it",
-    lead: "Every love story deserves to be told beautifully. As one of the top wedding photographers in Bengaluru, we bring your story to life through a perfect blend of artistry and authenticity.",
+    lead: "Every love story deserves telling well. Yours, with artistry and without pretence.",
     body: [
-      "From South Indian wedding photography in Bengaluru to modern destination weddings, we create imagery that feels emotional, elegant and everlasting.",
+      "Bengaluru weddings and destination weddings alike: emotional, elegant, everlasting.",
       "We believe the best moments can't be staged — they can only be felt. And we capture them exactly as they unfold.",
       "Because long after the lights fade and the guests leave, your story will still live here.",
     ],
@@ -277,8 +275,8 @@ export const COLLECTIONS = {
     noteTitle: "Where we go, and how we work",
     lead: "Your love story before the vows — scouted, lit and directed just enough to still feel like the two of you.",
     body: [
-      "We shoot across Karnataka and Kerala: backwaters and banyan trees, temple steps, monsoon rain, long grass at the end of the day.",
-      "A pre-wedding shoot is where couples get comfortable in front of our cameras, so that on the wedding day we're no longer strangers holding lenses.",
+      "Karnataka and Kerala: backwaters, banyan trees, temple steps, monsoon rain.",
+      "A shoot beforehand means that on the day we are not strangers with lenses.",
     ],
   },
   portraits: {

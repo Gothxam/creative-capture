@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { FOOTER, STUDIO } from "@/lib/content";
+import Mark from "@/components/primitives/Mark";
 import FooterTicker from "@/components/FooterTicker";
 import Reveal from "@/components/primitives/Reveal";
 import { MaskLines } from "@/components/primitives/MaskText";
@@ -104,11 +105,13 @@ export default function Footer() {
             down and the whole foot of the page reads as a mistake. It is
             the dot-matrix face at a readable size instead, which is what
             the bar at the top of the page already uses. */}
-        <div className="pb-[clamp(2.5rem,5vw,4rem)] pt-[clamp(2.5rem,6vw,5rem)]">
-          <span className="u-dot block text-[clamp(1.4rem,4.2vw,3.1rem)] leading-none text-paper">
-            {FOOTER.wordmark[0]}
-            <span className="mx-[0.4em] inline-block size-[0.26em] -translate-y-[0.12em] rounded-full bg-flame align-middle" />
-            {FOOTER.wordmark[1]}
+        <div
+          className="flex items-center gap-4 pb-[clamp(2.5rem,5vw,4rem)] pt-[clamp(2.5rem,6vw,5rem)]"
+          style={{ "--mark-rule": "#040404" } as React.CSSProperties}
+        >
+          <Mark className="size-10 shrink-0 text-paper sm:size-14" />
+          <span className="u-dot text-[clamp(1.2rem,3.6vw,2.6rem)] leading-none text-paper">
+            {FOOTER.wordmark.join(" ")}
           </span>
         </div>
       </div>

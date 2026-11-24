@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { NAV, STUDIO } from "@/lib/content";
+import Mark from "@/components/primitives/Mark";
 import { useSmoothScroll } from "@/components/providers/SmoothScroll";
 import { EASE, EASE_IO, ScrollTrigger, gsap, useGSAP } from "@/lib/gsap";
 
@@ -23,6 +24,7 @@ export default function Nav() {
   const tone = onMedia ? "text-paper" : "text-ink";
   const toneSoft = onMedia ? "text-paper/80" : "text-ink-soft";
   const toneLine = onMedia ? "bg-paper" : "bg-ink";
+  const markRule = onMedia || open ? "#040404" : "#f4f4f4";
   const toneEdge = onMedia ? "border-paper/45" : "border-ink/25";
 
   // Hide the bar on the way down, bring it back on the way up.
@@ -159,16 +161,19 @@ export default function Nav() {
               // `whitespace-nowrap`: the pixel face is wide, and at 375px
               // the wordmark broke across two lines inside a bar that is one
               // line tall, so it sat over the page behind it.
-              className={`u-dot whitespace-nowrap text-[0.78rem] leading-none transition-colors duration-300 sm:text-[0.95rem] ${
+              className={`flex items-center gap-2.5 transition-colors duration-300 ${
                 open ? "text-paper" : tone
               }`}
+              style={{ "--mark-rule": markRule } as React.CSSProperties}
             >
-              {/* A drawn dot rather than a full stop: at this size the
-                  pixel font renders a period as a single faint cell, so
-                  the one piece of colour in the wordmark disappeared. */}
-              Classy
-              <span className="mx-[0.42em] inline-block size-[0.3em] -translate-y-[0.08em] rounded-full bg-ember align-middle" />
-              Captures
+              {/* The mark carries its own accent dot, so the drawn one that
+                  used to stand in for a full stop is gone with it. It takes
+                  its petal colour from this link, which is what lets one
+                  file serve the bar on paper and the bar over a photograph. */}
+              <Mark className="size-6 shrink-0 sm:size-7" />
+              <span className="u-dot whitespace-nowrap text-[0.78rem] leading-none sm:text-[0.95rem]">
+                Classy Captures
+              </span>
             </Link>
 
             <nav className="hidden items-center gap-7 lg:flex" aria-label="Primary">
