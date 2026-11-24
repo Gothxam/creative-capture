@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useRef, useState } from "react";
 import { HOME } from "@/lib/content";
 import { bySlug } from "@/lib/media.generated";
@@ -229,24 +230,63 @@ export default function Hero() {
       </div>
 
       <div className="order-1 px-[var(--gutter)] pb-4 pt-[calc(var(--nav-h)+0.75rem)] text-paper md:absolute md:inset-x-0 md:top-0 md:z-10 md:p-[var(--gutter)] md:pt-[calc(var(--nav-h)+0.75rem)]">
-        <div className="flex items-start justify-between gap-6">
-          <span data-rise className="u-mono text-paper/80">
-            [ {HOME.hero.eyebrow} ]
-          </span>
+        {/* The eyebrow moved into the centred stack below, where the
+            reference puts its product label. What is left up here is the
+            meta strip, which has no equivalent on that page but is the one
+            line that says what the studio actually shoots. */}
+        <div className="flex items-start justify-end gap-6">
           <span data-rise className="u-mono hidden text-right text-paper/70 sm:block">
             {HOME.hero.meta.join(" · ")}
           </span>
         </div>
       </div>
 
-      <div className="order-3 flex flex-1 flex-col justify-end gap-6 px-[var(--gutter)] pb-[calc(var(--gutter)+0.5rem)] pt-6 text-paper md:absolute md:inset-x-0 md:bottom-0 md:z-10 md:flex-row md:flex-wrap md:items-end md:justify-between md:gap-x-10 md:gap-y-6 md:p-[var(--gutter)]">
-        <p
+      {/* The hero stack: dot-matrix label, headline, one line under it, and
+          a single action — centred, which is the reference's whole hero
+          composition. This was a lead paragraph in the bottom-left corner
+          with the frame counter opposite, an editorial masthead rather than
+          a page that asks you to go somewhere. */}
+      <div className="order-3 flex flex-1 flex-col items-center justify-center gap-4 px-[var(--gutter)] py-9 text-center text-paper md:absolute md:inset-x-0 md:top-1/2 md:z-10 md:flex-none md:-translate-y-1/2 md:gap-5 md:py-0">
+        {/* A scrim just behind the words. The full-width top and bottom
+            gradients do nothing for type sitting in the middle of a lit
+            photograph. */}
+        <div
+          aria-hidden
+          className="pointer-events-none absolute left-1/2 top-1/2 hidden h-[34rem] w-[min(68rem,92vw)] -translate-x-1/2 -translate-y-1/2 bg-[radial-gradient(ellipse_at_center,rgba(4,4,4,0.78)_0%,rgba(4,4,4,0.52)_38%,rgba(4,4,4,0.2)_62%,transparent_80%)] md:block"
+        />
+
+        <span
           data-rise
-          className="u-serif max-w-[26ch] text-[clamp(1.35rem,2.6vw,2.2rem)] leading-[1.15]"
+          className="u-dot relative text-[clamp(0.8rem,1.35vw,1.2rem)] leading-none text-paper"
         >
+          {HOME.hero.eyebrow}
+        </span>
+
+        <h1
+          data-rise
+          className="u-display relative max-w-[17ch] text-[clamp(1.85rem,3.4vw,3rem)] leading-[1.0]"
+        >
+          {HOME.hero.headline}
+        </h1>
+
+        <p data-rise className="u-body relative max-w-[48ch] text-paper/85">
           {HOME.hero.lead}
         </p>
 
+        <Link
+          data-rise
+          href="/weddings"
+          className="u-pill u-pill-invert relative mt-2"
+        >
+          {HOME.hero.cta}
+          <span aria-hidden>→</span>
+        </Link>
+      </div>
+
+      {/* What is left at the foot: which frame you are looking at, and
+          where it was taken. The lead that used to anchor this corner is
+          now in the centred stack. */}
+      <div className="order-4 flex flex-col justify-end gap-6 px-[var(--gutter)] pb-[calc(var(--gutter)+0.5rem)] pt-2 text-paper md:absolute md:inset-x-0 md:bottom-0 md:z-10 md:flex-row md:flex-wrap md:items-end md:justify-end md:gap-x-10 md:gap-y-6 md:p-[var(--gutter)]">
         <div data-rise className="flex items-end justify-between gap-8 md:justify-end">
           <span className="u-mono text-left text-paper/75 sm:text-right">
             {current.caption}

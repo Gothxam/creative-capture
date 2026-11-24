@@ -1,4 +1,5 @@
 import Hero from "@/components/sections/Hero";
+import CategoryRow from "@/components/sections/CategoryRow";
 import Legacy from "@/components/sections/Legacy";
 import StoryScroll from "@/components/sections/StoryScroll";
 import HorizontalWork from "@/components/sections/HorizontalWork";
@@ -16,6 +17,11 @@ export default function HomePage() {
       {/* Photographs, not slogans. This band used to scroll the studio's own
           taglines across the full width at up to 42px. */}
       <PhotoBand />
+
+      {/* What can be booked, within a screen of the hero — the position the
+          reference gives its category row. The services used to arrive six
+          sections down, after the whole atmospheric run. */}
+      <CategoryRow />
 
       <Legacy />
       <StoryScroll />

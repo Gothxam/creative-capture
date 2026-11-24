@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" role="img" aria-label="Classy Captures">
+  <mask id="cc-c"><rect width="120" height="120" fill="#fff"/><circle cx="60" cy="68" r="21" fill="#000"/></mask>
+  <g fill="currentColor" mask="url(#cc-c)"><path d="M60,80 A49,49 0 0 1 60,18 A49,49 0 0 1 60,80 Z"/>
+      <path d="M60,80 A49,49 0 0 1 60,18 A49,49 0 0 1 60,80 Z" transform="rotate(-34 60 82)"/>
+      <path d="M60,80 A49,49 0 0 1 60,18 A49,49 0 0 1 60,80 Z" transform="rotate(34 60 82)"/>
+      <path d="M60,80 A42,42 0 0 1 60,26 A42,42 0 0 1 60,80 Z" transform="rotate(-66 60 84)"/>
+      <path d="M60,80 A42,42 0 0 1 60,26 A42,42 0 0 1 60,80 Z" transform="rotate(66 60 84)"/></g>
+  <path d="M65.4,76.2 A11,11 0 1 1 65.4,59.8" fill="none" stroke="currentColor" stroke-width="6" stroke-linecap="round"/>
+</svg>

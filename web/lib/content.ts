@@ -51,7 +51,16 @@ export const HOME = {
      * work rather than how they feel about it.
      */
     eyebrow: "A Bengaluru Wedding Studio",
-    lead: "Thirty years of South Indian weddings. We've learned when to step closer, and when to disappear.",
+    /**
+     * Split from one `lead` sentence into a headline and a line under it,
+     * because the hero is now a centred stack — label, headline, action —
+     * rather than a paragraph pinned to the bottom-left corner. The whole
+     * sentence set at headline size ran four lines and stopped being a
+     * headline.
+     */
+    headline: "Thirty years of South Indian weddings.",
+    lead: "We've learned when to step closer, and when to disappear.",
+    cta: "See the work",
     meta: ["Est. 1995", "Weddings", "Films", "Portraits"],
     /**
      * The opening reel, full-bleed, one frame at a time.

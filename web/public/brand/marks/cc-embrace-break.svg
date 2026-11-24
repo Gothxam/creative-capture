@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" role="img" aria-label="Classy Captures">
+  <path d="M88.1,93.4 A45,45 0 1 1 88.1,26.6" fill="none" stroke="currentColor" stroke-width="13" stroke-linecap="round"/>
+  <g fill="currentColor" transform="translate(66 70) scale(0.78) translate(-60 -78)"><path d="M60,80 A49,49 0 0 1 60,18 A49,49 0 0 1 60,80 Z"/>
+      <path d="M60,80 A49,49 0 0 1 60,18 A49,49 0 0 1 60,80 Z" transform="rotate(-34 60 82)"/>
+      <path d="M60,80 A49,49 0 0 1 60,18 A49,49 0 0 1 60,80 Z" transform="rotate(34 60 82)"/>
+      <path d="M60,80 A42,42 0 0 1 60,26 A42,42 0 0 1 60,80 Z" transform="rotate(-66 60 84)"/>
+      <path d="M60,80 A42,42 0 0 1 60,26 A42,42 0 0 1 60,80 Z" transform="rotate(66 60 84)"/></g>
+</svg>
