@@ -24,7 +24,7 @@ export default function Nav() {
   const tone = onMedia ? "text-paper" : "text-ink";
   const toneSoft = onMedia ? "text-paper/80" : "text-ink-soft";
   const toneLine = onMedia ? "bg-paper" : "bg-ink";
-  const markRule = onMedia || open ? "#040404" : "#f4f4f4";
+  const markTone = onMedia || open ? "paper" : "ink";
   const toneEdge = onMedia ? "border-paper/45" : "border-ink/25";
 
   // Hide the bar on the way down, bring it back on the way up.
@@ -164,13 +164,12 @@ export default function Nav() {
               className={`flex items-center gap-2.5 transition-colors duration-300 ${
                 open ? "text-paper" : tone
               }`}
-              style={{ "--mark-rule": markRule } as React.CSSProperties}
             >
               {/* The mark carries its own accent dot, so the drawn one that
                   used to stand in for a full stop is gone with it. It takes
                   its petal colour from this link, which is what lets one
                   file serve the bar on paper and the bar over a photograph. */}
-              <Mark className="size-6 shrink-0 sm:size-7" />
+              <Mark tone={markTone} className="size-7 sm:size-8" />
               <span className="u-dot whitespace-nowrap text-[0.78rem] leading-none sm:text-[0.95rem]">
                 Classy Captures
               </span>

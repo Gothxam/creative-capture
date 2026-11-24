@@ -107,9 +107,8 @@ export default function Footer() {
             the bar at the top of the page already uses. */}
         <div
           className="flex items-center gap-4 pb-[clamp(2.5rem,5vw,4rem)] pt-[clamp(2.5rem,6vw,5rem)]"
-          style={{ "--mark-rule": "#040404" } as React.CSSProperties}
         >
-          <Mark className="size-10 shrink-0 text-paper sm:size-14" />
+          <Mark tone="paper" className="size-11 sm:size-14" />
           <span className="u-dot text-[clamp(1.2rem,3.6vw,2.6rem)] leading-none text-paper">
             {FOOTER.wordmark.join(" ")}
           </span>
