@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640" width="640" height="640">
+  <rect width="100%" height="100%" fill="#E7E4DD"/>
+  <g transform="translate(0 0)">
+  <g fill="#111010">
+    <path d="M 189.5 219.39 A 85.5 85.5 0 1 1 189.5 100.61 L 172.96 116.58 A 62.5 62.5 0 1 0 172.96 203.42 Z"/>
+    <path d="M 237.36 199.94 A 57.5 57.5 0 1 1 237.36 120.06 L 220.82 136.03 A 34.5 34.5 0 1 0 220.82 183.97 Z"/>
+  </g>
+    <text x="160" y="302" text-anchor="middle" font-family="monospace" font-size="13" fill="#8C877E">a · beside</text>
+  </g>
+  <g transform="translate(320 0)">
+  <g fill="#111010">
+    <path d="M 216.51 219.89 A 89.5 89.5 0 1 1 216.51 100.11 L 199.42 115.5 A 66.5 66.5 0 1 0 199.42 204.5 Z"/>
+    <path d="M 144.76 122.86 A 55.5 55.5 0 1 1 144.76 197.14 L 161.85 181.75 A 32.5 32.5 0 1 0 161.85 138.25 Z"/>
+  </g>
+    <text x="160" y="302" text-anchor="middle" font-family="monospace" font-size="13" fill="#8C877E">b · within</text>
+  </g>
+  <g transform="translate(0 320)">
+  <g fill="#111010">
+    <path d="M 200.46 210.46 A 85.5 85.5 0 1 1 200.46 89.54 L 184.19 105.81 A 62.5 62.5 0 1 0 184.19 194.19 Z"/>
+    <path d="M 230.66 151.34 A 57.5 57.5 0 1 1 149.34 151.34 L 165.6 167.6 A 34.5 34.5 0 1 0 214.4 167.6 Z"/>
+    <path d="M 185.37 222.47 A 85.5 85.5 0 0 1 128.18 234.68 L 131.36 211.9 A 62.5 62.5 0 0 0 173.17 202.97 Z"/>
+  </g>
+    <text x="160" y="302" text-anchor="middle" font-family="monospace" font-size="13" fill="#8C877E">c · turned</text>
+  </g>
+  <g transform="translate(320 320)">
+  <g fill="#111010">
+    <path d="M 217.71 216.03 A 91 91 0 1 1 217.71 103.97 L 200.37 117.52 A 69 69 0 1 0 200.37 202.48 Z"/>
+    <path d="M 219.34 193.86 A 55 55 0 1 1 219.34 126.14 L 202 139.68 A 33 33 0 1 0 202 180.32 Z"/>
+  </g>
+    <text x="160" y="302" text-anchor="middle" font-family="monospace" font-size="13" fill="#8C877E">d · stopped down</text>
+  </g>
+</svg>

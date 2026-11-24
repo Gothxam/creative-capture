@@ -3,6 +3,7 @@
 import { useRef } from "react";
 import { HOME } from "@/lib/content";
 import Figure from "@/components/primitives/Figure";
+import { bySlug } from "@/lib/media.generated";
 import { EASE, gsap, useGSAP } from "@/lib/gsap";
 
 const BEATS = HOME.story.beats;
@@ -106,8 +107,8 @@ export default function StoryScroll() {
           </div>
 
           {/* Desktop: beats stacked in the same grid cell, cross-fading. */}
-          <div className="hidden md:grid md:grid-cols-12 md:items-center md:gap-10">
-            <div className="relative col-span-5 min-h-[18rem]">
+          <div className="hidden md:grid md:grid-cols-12 md:items-center md:gap-8">
+            <div className="relative col-span-3 min-h-[16rem]">
               {BEATS.map((beat) => (
                 <div
                   key={beat.index}
@@ -115,7 +116,7 @@ export default function StoryScroll() {
                   className="absolute inset-0 flex flex-col justify-center"
                 >
                   <span className="u-mono text-paper/40">{beat.index}</span>
-                  <h3 className="u-display mt-4 text-[clamp(2rem,4.4vw,4rem)] leading-[0.95]">
+                  <h3 className="u-display mt-4 text-[clamp(1.5rem,2.8vw,2.4rem)] leading-[1.02]">
                     {beat.title}
                   </h3>
                   <p className="mt-6 max-w-[38ch] text-[1.05rem] leading-relaxed text-paper/65">
@@ -125,28 +126,67 @@ export default function StoryScroll() {
               ))}
             </div>
 
-            <div className="relative col-span-6 col-start-7 aspect-[4/5] max-h-[72vh] w-full">
+            {/* Two frames per beat, not one.
+                A whole pinned screen used to carry a single photograph with
+                most of the width left empty. Both frames live inside one
+                `data-beat-image` wrapper so the cross-fade still indexes one
+                element per beat and the timeline above is untouched. */}
+            <div className="relative col-span-9 col-start-4 h-[74vh]">
               {BEATS.map((beat) => (
-                <div key={beat.index} data-beat-image className="absolute inset-0">
-                  <Figure
-                    slug={beat.media}
-                    alt={beat.title}
-                    ratio="4/5"
-                    sizes="50vw"
-                    reveal={false}
-                    parallax={0}
-                    className="h-full w-full"
-                  />
+                <div key={beat.index} data-beat-image className="absolute inset-0 flex gap-4">
+                  <span className="block h-full flex-[7] overflow-hidden bg-ink-soft/20">
+                    <img
+                      className="h-full w-full object-cover"
+                      src={`/img/${beat.media}-1400.webp`}
+                      srcSet={bySlug(beat.media)
+                        .widths.map((w) => `/img/${beat.media}-${w}.webp ${w}w`)
+                        .join(", ")}
+                      sizes="44vw"
+                      alt={beat.title}
+                      loading="lazy"
+                      decoding="async"
+                      draggable={false}
+                    />
+                  </span>
+                  {/* Shorter and bottom-aligned, so the pair has a step in it
+                      rather than reading as two equal panels. */}
+                  <span className="flex h-full flex-[4] items-end">
+                    <span className="block h-[72%] w-full overflow-hidden bg-ink-soft/20">
+                      <img
+                        className="h-full w-full object-cover"
+                        src={`/img/${beat.detail}-800.webp`}
+                        srcSet={bySlug(beat.detail)
+                          .widths.map((w) => `/img/${beat.detail}-${w}.webp ${w}w`)
+                          .join(", ")}
+                        sizes="25vw"
+                        alt=""
+                        aria-hidden
+                        loading="lazy"
+                        decoding="async"
+                        draggable={false}
+                      />
+                    </span>
+                  </span>
                 </div>
               ))}
             </div>
           </div>
 
-          {/* Mobile: the same three beats, simply stacked. */}
-          <div className="space-y-16 md:hidden">
+          {/* Mobile: the same three beats, stacked.
+              The pair sits side by side rather than one above the other. Full
+              width each, they filled a screen apiece and the section became
+              six scrolls of one photograph. */}
+          <div className="space-y-12 md:hidden">
             {BEATS.map((beat) => (
               <article key={beat.index} data-beat>
-                <Figure slug={beat.media} alt={beat.title} ratio="4/5" sizes="100vw" />
+                <div className="grid grid-cols-5 gap-2">
+                  <div className="col-span-3">
+                    <Figure slug={beat.media} alt={beat.title} ratio="4/5" sizes="58vw" />
+                  </div>
+                  <div className="col-span-2 self-end">
+                    <Figure slug={beat.detail} alt="" ratio="3/4" sizes="38vw" />
+                  </div>
+                </div>
                 <span className="u-mono mt-6 block text-paper/40">{beat.index}</span>
                 <h3 className="u-display mt-3 text-[2rem] leading-[0.95]">{beat.title}</h3>
                 <p className="mt-4 text-[1rem] leading-relaxed text-paper/65">{beat.body}</p>

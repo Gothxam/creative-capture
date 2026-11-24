@@ -10,6 +10,29 @@ const SmoothScrollCtx = createContext<Ctx>({ lenis: null, stop: () => {}, start:
 
 export const useSmoothScroll = () => useContext(SmoothScrollCtx);
 
+/** The element the current URL's hash names, if it is on this page. */
+function hashTarget() {
+  const id = decodeURIComponent(window.location.hash.slice(1));
+  return id ? document.getElementById(id) : null;
+}
+
+/**
+ * Where the page should sit for an anchor to read as the top of its section.
+ *
+ * Lenis scrolls to a number, so it never sees `scroll-margin-top` — without
+ * reading it back the nav would cover the first line of whatever was linked.
+ */
+function anchorY(el: HTMLElement) {
+  const margin = parseFloat(getComputedStyle(el).scrollMarginTop) || 0;
+  return Math.max(0, el.getBoundingClientRect().top + window.scrollY - margin);
+}
+
+/** Put both the native position and Lenis's own at y, with no animation. */
+function jumpTo(lenis: Lenis | null, y: number) {
+  if (lenis) lenis.scrollTo(y, { immediate: true });
+  else window.scrollTo(0, y);
+}
+
 export default function SmoothScroll({ children }: { children: React.ReactNode }) {
   const lenisRef = useRef<Lenis | null>(null);
   const [ready, setReady] = useState(false);
@@ -53,13 +76,82 @@ export default function SmoothScroll({ children }: { children: React.ReactNode }
   }, []);
 
   // Every route change: top of page, then re-measure once the new DOM paints.
+  //
+  // Unless the URL names an anchor. `/services#portraits` used to land at the
+  // top of the services page like any other visit, because this effect runs
+  // after the browser's own hash jump and overrode it — so the "What it
+  // includes" link on each collection page went to the right page and the
+  // wrong place on it.
   useEffect(() => {
     if (!ready) return;
-    lenisRef.current?.scrollTo(0, { immediate: true });
-    window.scrollTo(0, 0);
-    const id = requestAnimationFrame(() => ScrollTrigger.refresh());
-    return () => cancelAnimationFrame(id);
+
+    const target = hashTarget();
+    if (!target) {
+      lenisRef.current?.scrollTo(0, { immediate: true });
+      window.scrollTo(0, 0);
+      const id = requestAnimationFrame(() => ScrollTrigger.refresh());
+      return () => cancelAnimationFrame(id);
+    }
+
+    // Lazy images above the target land over the next second or so and push
+    // it down, so one jump is not enough — hold the alignment until the
+    // position it reports stops moving.
+    let frame = 0;
+    let settled = 0;
+    let tries = 0;
+    let last = -1;
+    const hold = () => {
+      const y = anchorY(target);
+      if (Math.abs(y - last) < 2) settled += 1;
+      else settled = 0;
+      last = y;
+      jumpTo(lenisRef.current, y);
+      // Capped: a page that never stops moving must not hold the reader in
+      // place, and must not keep an rAF loop alive for the whole visit.
+      if (settled < 8 && ++tries < 180) frame = requestAnimationFrame(hold);
+      else ScrollTrigger.refresh();
+    };
+    frame = requestAnimationFrame(hold);
+    return () => cancelAnimationFrame(frame);
   }, [pathname, ready]);
+
+  // Anchors inside the page the reader is already on — the index at the top
+  // of /services. A bare href jumps natively, which skips past the easing and
+  // leaves Lenis to catch up from wherever the browser dropped it.
+  useEffect(() => {
+    if (!ready) return;
+
+    const onClick = (e: MouseEvent) => {
+      if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey)
+        return;
+      const link = (e.target as HTMLElement | null)?.closest?.("a");
+      if (!link || link.target === "_blank") return;
+
+      const href = link.getAttribute("href") ?? "";
+      if (!href.startsWith("#") || href === "#") return;
+
+      const target = document.getElementById(decodeURIComponent(href.slice(1)));
+      if (!target) return;
+
+      e.preventDefault();
+      history.pushState(null, "", href);
+      const y = anchorY(target);
+      if (lenisRef.current) lenisRef.current.scrollTo(y, { duration: 1.1 });
+      else window.scrollTo({ top: y, behavior: "smooth" });
+    };
+
+    const onHashChange = () => {
+      const target = hashTarget();
+      if (target) jumpTo(lenisRef.current, anchorY(target));
+    };
+
+    document.addEventListener("click", onClick);
+    window.addEventListener("hashchange", onHashChange);
+    return () => {
+      document.removeEventListener("click", onClick);
+      window.removeEventListener("hashchange", onHashChange);
+    };
+  }, [ready]);
 
   // Fonts land after first paint and change every measured height.
   useEffect(() => {

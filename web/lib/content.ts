@@ -36,10 +36,47 @@ export const NAV = [
 
 export const HOME = {
   hero: {
-    eyebrow: "Beyond Moments",
-    title: ["Classy", "Captures"],
-    lead: "The art of timeless wedding photography in Bengaluru. Every glance, every emotion, every heartbeat captured as art.",
-    meta: ["Est. 1995", "Bengaluru, India", "Weddings · Films · Portraits"],
+    /**
+     * Each of the three slots has one job: the eyebrow says who and where,
+     * the meta strip says what, and the lead is the only one carrying a
+     * voice. They used to overlap — the eyebrow repeated the ticker, the
+     * meta repeated the eyebrow.
+     *
+     * The lead was "Every glance, every emotion, every heartbeat — captured
+     * as art." Three abstract nouns and a phrase the About page and the
+     * footer were both already using, in the register the rest of the site
+     * avoids. The writing that works here is concrete: "A mother's hands
+     * fastening a garland. The last still minute before the house fills."
+     * This line sits in that register and says something about how they
+     * work rather than how they feel about it.
+     */
+    eyebrow: "A Bengaluru Wedding Studio",
+    lead: "Thirty years of South Indian weddings. We've learned when to step closer, and when to disappear.",
+    meta: ["Est. 1995", "Weddings", "Films", "Portraits"],
+    /**
+     * The opening reel, full-bleed, one frame at a time.
+     *
+     * Only frames that can actually fill a viewport belong here. A full-bleed
+     * crop of a standing photograph throws the subject away, and of the 40
+     * curated stills just three are landscape above 800px — the other wide
+     * ones are 1080px social exports that a 1440px screen turns to mush.
+     * Two of those three are here; the rest of the reel is film, which is
+     * 16:9 already and needs no crop at all.
+     *
+     * `umbrella-rain` and `meadow-hat` used to sit in this list. Both are
+     * 1080px, and both were being stretched across the whole screen.
+     */
+    reel: [
+      { kind: "image", slug: "couple-seated", caption: "The Garlands", place: "Bengaluru" },
+      { kind: "video", slug: "film-teaser", caption: "The Teaser", place: "Karnataka" },
+      // `focus` shifts the crop window on narrow screens, where a wide
+      // photograph is reduced to a vertical slice of itself. Centred, this
+      // one keeps the groom and his reaching arm and cuts the bride — and
+      // the sindoor being applied, which is the whole moment — off the left
+      // edge. It has no effect on desktop, where the frame is wide enough
+      // that nothing is cropped horizontally at all.
+      { kind: "image", slug: "sindoor-moment", caption: "Sindoor", place: "South India", focus: "30% 50%" },
+    ],
   },
   ticker: ["Timeless Moments", "Beyond Moments", "Thirty Years Behind the Lens", "Bengaluru · South India"],
   legacy: {
@@ -60,18 +97,21 @@ export const HOME = {
         title: "The quiet before",
         body: "A mother's hands fastening a garland. The last still minute before the house fills. We are already there, already looking.",
         media: "bride-jewels",
+        detail: "sehra-tying",
       },
       {
         index: "02",
         title: "The vow itself",
         body: "Fire, rice, silk and the weight of two families. Rituals older than any of us, happening once, exactly this way.",
         media: "kalash-hands",
+        detail: "garland-exchange",
       },
       {
         index: "03",
         title: "What stays after",
         body: "Long after the lights fade and the guests leave, your story still lives here, in frames you'll hand to people not yet born.",
         media: "petals-seated",
+        detail: "close-whisper",
       },
     ],
   },
@@ -122,7 +162,10 @@ export const SERVICES = [
     detail:
       "Backwaters, temples, rain, rooftops and long grass. We scout locations across Karnataka and Kerala, shoot through golden hour into blue, and direct just enough to keep it feeling like you.",
     includes: ["Location scouting", "Wardrobe guidance", "Half or full day", "Cinematic story reel"],
-    media: "rain-embrace",
+    // A standing frame, because every place this is shown is a standing box.
+    // `rain-embrace` is a 1.60 landscape and the service thumbnails are 4/5,
+    // so it was losing half of itself to the crop in both of them.
+    media: "creek-embrace",
   },
   {
     slug: "portraits",
@@ -156,6 +199,7 @@ export const ABOUT = {
   hero: { eyebrow: "[ About ]", title: ["Thirty", "Years"] },
   story: {
     label: "[ Our Story ]",
+    title: "Two generations behind one lens",
     lines: [
       "With a legacy spanning more than three decades,",
       "Classy Captures has been crafting timeless wedding",
@@ -168,7 +212,7 @@ export const ABOUT = {
   },
   beyond: {
     label: "[ Beyond Weddings ]",
-    title: "Beyond Weddings",
+    title: "Where the work goes next",
     body: [
       "Our craft extends beyond weddings into the Kannada film industry, where our expertise in cinematography and aerial filming has earned recognition and respect.",
       "From intimate weddings to large-scale film productions, our visual storytelling has touched countless hearts and screens.",
@@ -204,6 +248,8 @@ export const COLLECTIONS = {
   weddings: {
     eyebrow: "[ Weddings ]",
     title: ["Every Love", "Story"],
+    note: "[ The Day ]",
+    noteTitle: "What a wedding looks like with us in it",
     lead: "Every love story deserves to be told beautifully. As one of the top wedding photographers in Bengaluru, we bring your story to life through a perfect blend of artistry and authenticity.",
     body: [
       "From South Indian wedding photography in Bengaluru to modern destination weddings, we create imagery that feels emotional, elegant and everlasting.",
@@ -214,6 +260,8 @@ export const COLLECTIONS = {
   "pre-wedding": {
     eyebrow: "[ Pre-Wedding ]",
     title: ["Before", "I Do"],
+    note: "[ The Shoot ]",
+    noteTitle: "Where we go, and how we work",
     lead: "Your love story before the vows — scouted, lit and directed just enough to still feel like the two of you.",
     body: [
       "We shoot across Karnataka and Kerala: backwaters and banyan trees, temple steps, monsoon rain, long grass at the end of the day.",
@@ -223,6 +271,8 @@ export const COLLECTIONS = {
   portraits: {
     eyebrow: "[ Portraits ]",
     title: ["Held", "Still"],
+    note: "[ The Sitting ]",
+    noteTitle: "One person, one look, held long enough",
     lead: "Timeless imagery for individuals, couples and families, made with the same patience we bring to a wedding day.",
     body: [
       "Bridal portraiture is where our oldest instincts live — one person, one look, held still long enough to mean something.",

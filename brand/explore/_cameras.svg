@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640" width="640" height="640">
+  <rect width="100%" height="100%" fill="#E7E4DD"/>
+  <g transform="translate(0 0)" color="#111010">
+    <g fill="#111010">
+    <path fill="none" stroke="currentColor" stroke-width="15" stroke-linejoin="round" d="M 48 62 L 192 62 A 26 26 0 0 1 218 88 L 218 172 A 26 26 0 0 1 192 198 L 48 198 A 26 26 0 0 1 22 172 L 22 88 A 26 26 0 0 1 48 62 Z"/>
+    <path fill="none" stroke="currentColor" stroke-width="15" stroke-linejoin="round" stroke-linecap="round" d="M 56 62 L 56 42 L 96 42 L 96 62"/>
+    <path d="M 158.4 158.8 A 48 48 0 1 1 158.4 101.2 L 149.12 108.16 A 36.395604395604394 36.395604395604394 0 1 0 149.12 151.84 Z"/>
+    <path d="M 157.98 149.91 A 29.01098901098901 29.01098901098901 0 1 1 157.98 110.09 L 149.54 118.05 A 17.406593406593405 17.406593406593405 0 1 0 149.54 141.95 Z"/>
+    </g>
+    <text x="160" y="304" text-anchor="middle" font-family="monospace" font-size="13" fill="#8C877E">A · the body</text>
+  </g>
+  <g transform="translate(320 0)" color="#111010">
+    <g fill="#111010">
+    <path fill="none" stroke="currentColor" stroke-width="15" stroke-linejoin="round" d="M 74 34 L 166 34 A 20 20 0 0 1 186 54 L 186 200 A 20 20 0 0 1 166 220 L 74 220 A 20 20 0 0 1 54 200 L 54 54 A 20 20 0 0 1 74 34 Z"/>
+    <path fill-rule="evenodd" d="M 147 88 A 27 27 0 1 1 93 88 A 27 27 0 1 1 147 88 Z M 134 88 A 14 14 0 1 1 106 88 A 14 14 0 1 1 134 88 Z"/>
+    <path d="M 152.8 190.6 A 41 41 0 1 1 152.8 141.4 L 144.87 147.35 A 31.087912087912088 31.087912087912088 0 1 0 144.87 184.65 Z"/>
+    <path d="M 152.44 183.01 A 24.78021978021978 24.78021978021978 0 1 1 152.44 148.99 L 145.23 155.8 A 14.868131868131869 14.868131868131869 0 1 0 145.23 176.2 Z"/>
+    </g>
+    <text x="160" y="304" text-anchor="middle" font-family="monospace" font-size="13" fill="#8C877E">B · the twin lens</text>
+  </g>
+  <g transform="translate(0 320)" color="#111010">
+    <g fill="#111010">
+    <path fill-rule="evenodd" d="M 224 124 A 104 104 0 1 1 16 124 A 104 104 0 1 1 224 124 Z M 77 91 L 163 91 A 16 16 0 0 1 179 107 L 179 153 A 16 16 0 0 1 163 169 L 77 169 A 16 16 0 0 1 61 153 L 61 107 A 16 16 0 0 1 77 91 Z M 87 91 L 87 75 L 119 75 L 119 91 Z M 146 130 A 26 26 0 1 1 94 130 A 26 26 0 1 1 146 130 Z M 135 130 A 15 15 0 1 1 105 130 A 15 15 0 1 1 135 130 Z"/>
+    </g>
+    <text x="160" y="304" text-anchor="middle" font-family="monospace" font-size="13" fill="#8C877E">C · the seal</text>
+  </g>
+  <g transform="translate(320 320)" color="#111010">
+    <g fill="#111010">
+    <path fill="none" stroke="currentColor" stroke-width="15" stroke-linecap="square" d="M 78 36 L 32 36 L 32 82"/>
+    <path fill="none" stroke="currentColor" stroke-width="15" stroke-linecap="square" d="M 162 36 L 208 36 L 208 82"/>
+    <path fill="none" stroke="currentColor" stroke-width="15" stroke-linecap="square" d="M 162 212 L 208 212 L 208 166"/>
+    <path fill="none" stroke="currentColor" stroke-width="15" stroke-linecap="square" d="M 78 212 L 32 212 L 32 166"/>
+    <path d="M 167.2 159.4 A 59 59 0 1 1 167.2 88.6 L 155.79 97.16 A 44.73626373626374 44.73626373626374 0 1 0 155.79 150.84 Z"/>
+    <path d="M 166.68 148.47 A 35.659340659340664 35.659340659340664 0 1 1 166.68 99.53 L 156.31 109.32 A 21.395604395604398 21.395604395604398 0 1 0 156.31 138.68 Z"/>
+    </g>
+    <text x="160" y="304" text-anchor="middle" font-family="monospace" font-size="13" fill="#8C877E">D · the plate</text>
+  </g>
+</svg>

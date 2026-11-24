@@ -17,6 +17,7 @@ export default function GalleryPage() {
         title={["Gallery"]}
         lead="Each collection captures the soul of a moment — a glimpse into how we see love, light and life."
         meta={`${MEDIA.length} frames`}
+        media="grass-rest"
       />
       <GalleryFilter />
     </>

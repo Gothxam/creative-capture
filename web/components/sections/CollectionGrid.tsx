@@ -23,18 +23,110 @@ type Slot = {
   print?: boolean;
 };
 
+/**
+ * The slot shapes are pitched at the library rather than at an ideal one.
+ * Of 43 photographs 34 stand taller than they are wide and only three are
+ * meaningfully landscape, so the two slots that used to ask for 16/10 and
+ * 3/2 could almost never be filled honestly — whatever landed in them lost
+ * half its frame to the crop. They now ask for 5/4 and 4/3, which the square
+ * and near-square pictures reach without being cut.
+ */
 const RHYTHM: Slot[] = [
   { span: "md:col-span-7", offset: "", ratio: "4/5", tilt: -1.1 },
-  { span: "md:col-span-4 md:col-start-9", offset: "md:mt-[22%]", ratio: "3/4", tilt: 1.4, print: true },
-  { span: "md:col-span-3 md:col-start-2", offset: "md:-mt-[14%]", ratio: "1/1", tilt: -2, print: true },
-  { span: "md:col-span-6 md:col-start-6", offset: "md:mt-[6%]", ratio: "16/10", tilt: 0.8 },
-  { span: "md:col-span-4 md:col-start-2", offset: "md:mt-[10%]", ratio: "3/4", tilt: 1.6 },
-  { span: "md:col-span-5 md:col-start-7", offset: "md:-mt-[8%]", ratio: "4/5", tilt: -1.3 },
-  { span: "md:col-span-3 md:col-start-3", offset: "md:-mt-[6%]", ratio: "1/1", tilt: 2.2, print: true },
+  { span: "md:col-span-4 md:col-start-9", offset: "md:mt-[11%]", ratio: "3/4", tilt: 1.4, print: true },
+  { span: "md:col-span-3 md:col-start-2", offset: "md:-mt-[16%]", ratio: "1/1", tilt: -2, print: true },
+  { span: "md:col-span-6 md:col-start-6", offset: "md:mt-[2%]", ratio: "5/4", tilt: 0.8 },
+  { span: "md:col-span-4 md:col-start-2", offset: "md:mt-[4%]", ratio: "3/4", tilt: 1.6 },
+  { span: "md:col-span-5 md:col-start-7", offset: "md:-mt-[12%]", ratio: "4/5", tilt: -1.3 },
+  { span: "md:col-span-3 md:col-start-3", offset: "md:-mt-[10%]", ratio: "1/1", tilt: 2.2, print: true },
   // Starts at column 6, clear of the slot above it. Overlapping its
   // neighbour pushed it onto a row of its own and left a screen-sized hole.
-  { span: "md:col-span-7 md:col-start-6", offset: "md:mt-[4%]", ratio: "3/2", tilt: -0.7 },
+  { span: "md:col-span-7 md:col-start-6", offset: "md:mt-[1%]", ratio: "4/3", tilt: -0.7 },
 ];
+
+/**
+ * Deal the photographs into the rhythm by shape instead of in order.
+ *
+ * The collage gives each position a fixed crop box, which is what gives the
+ * page its rhythm — but dealing pictures into it in file order is blind, and
+ * it was putting standing portraits into the landscape slots and cutting
+ * nearly two thirds off them. Each slot now takes whichever of the remaining
+ * photographs is closest to its shape.
+ *
+ * Distance is measured on the log of the ratio so that a picture twice too
+ * wide and a picture twice too tall are equally wrong; compared plainly, the
+ * tall one always looks closer and the landscape slots fill with portraits
+ * all over again.
+ */
+/** Roughly what a slot paints at on a 1440 grid, less gutters. */
+function slotWidth(span: string) {
+  const cols = Number(span.match(/col-span-(\d+)/)?.[1] ?? 12);
+  return (cols / 12) * 1320;
+}
+
+/** The largest file that exists for a photograph. `widths` is descending. */
+function fileWidth(item: { widths: readonly number[] }) {
+  return item.widths[0] ?? 0;
+}
+
+/** Past this much crop a slot gives up its shape and takes the picture's own. */
+const CROP_CEILING = Math.log(1.55);
+
+function dealByShape<T extends { ratio: number; widths: readonly number[] }>(
+  list: readonly T[],
+  rhythm: Slot[],
+) {
+  // One slot per photograph, cycling the rhythm.
+  const slots = list.map((_, n) => rhythm[n % rhythm.length]);
+
+  const cost = (item: T, slot: Slot) => {
+    const [w, h] = slot.ratio.split("/").map(Number);
+    const shape = Math.abs(Math.log(item.ratio / (w / h)));
+    // A second term, so the big slots are not handed the small files. The
+    // library runs from 2200px down to a single 420px frame, and dealing on
+    // shape alone put that one across half the page.
+    const short = Math.max(0, Math.log(slotWidth(slot.span) / fileWidth(item)));
+    return shape + short * 1.3;
+  };
+
+  // Assign over every pairing at once, cheapest first, rather than walking the
+  // slots in order and giving each the best picture still unclaimed. Walking
+  // in order spends the good matches early and leaves the last photograph
+  // with whatever slot nobody took — which is how a 420px frame ended up
+  // across half of /portraits, simply by being last in the list.
+  const pairs: { s: number; p: number; c: number }[] = [];
+  slots.forEach((slot, s) => list.forEach((item, p) => pairs.push({ s, p, c: cost(item, slot) })));
+  pairs.sort((a, b) => a.c - b.c);
+
+  const takenSlot = new Set<number>();
+  const takenPhoto = new Set<number>();
+  const bySlot: { item: T; index: number; slot: Slot }[] = [];
+
+  for (const { s, p } of pairs) {
+    if (takenSlot.has(s) || takenPhoto.has(p)) continue;
+    takenSlot.add(s);
+    takenPhoto.add(p);
+
+    const slot = slots[s];
+    const [w, h] = slot.ratio.split("/").map(Number);
+    const item = list[p];
+
+    // Some pools have nothing of the right shape at all — /portraits holds no
+    // landscape pictures, so its widest slot would always be cutting a
+    // standing frame in half. When the closest match is still this far out,
+    // the slot keeps its position in the collage and takes the photograph's
+    // own proportions instead of forcing the crop.
+    const miss = Math.abs(Math.log(item.ratio / (w / h)));
+    const fitted =
+      miss > CROP_CEILING
+        ? { ...slot, ratio: `${Math.round(item.ratio * 1000)}/1000` }
+        : slot;
+
+    bySlot[s] = { item, index: p, slot: fitted };
+  }
+
+  return bySlot.filter(Boolean);
+}
 
 export default function CollectionGrid({
   category,
@@ -58,13 +150,12 @@ export default function CollectionGrid({
   // could see moving.
 
   return (
-    <section className="overflow-clip px-[var(--gutter)] py-[clamp(2rem,6vw,5rem)]">
+    <section className="overflow-clip px-[var(--gutter)] py-[clamp(1.5rem,3vw,3rem)]">
       <div
 
-        className="grid grid-cols-1 gap-x-5 gap-y-[clamp(2.5rem,5vw,4rem)] md:grid-cols-12"
+        className="grid grid-cols-2 gap-x-2 gap-y-2 sm:gap-x-5 sm:gap-y-[clamp(1rem,2.2vw,2rem)] md:grid-cols-12"
       >
-        {list.map((item, i) => {
-          const slot = RHYTHM[i % RHYTHM.length];
+        {dealByShape(list, RHYTHM).map(({ item, index: i, slot }, n) => {
           return (
             <figure key={item.slug} className={`${slot.span} ${slot.offset}`}>
               <div
@@ -87,12 +178,12 @@ export default function CollectionGrid({
                   parallax={0}
                 />
                 <span className="u-mono pointer-events-none absolute right-3 top-3 bg-paper/85 px-2 py-1 opacity-0 transition-opacity duration-500 group-hover:opacity-100">
-                  {String(i + 1).padStart(2, "0")}
+                  {String(n + 1).padStart(2, "0")}
                 </span>
               </div>
               <figcaption className="u-mono mt-3 flex items-baseline justify-between gap-3 text-ink-faint">
                 <span className="capitalize">{labelFor(item, i)}</span>
-                <span>{String(i + 1).padStart(2, "0")}</span>
+                <span>{String(n + 1).padStart(2, "0")}</span>
               </figcaption>
             </figure>
           );

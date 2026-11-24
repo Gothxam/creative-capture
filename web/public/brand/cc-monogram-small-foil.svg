@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 252 252" width="252" height="252" role="img" aria-label="CLASSY CAPTURES">
+  <title>CLASSY CAPTURES</title>
+  <defs>
+    <linearGradient id="ccFoil" x1="0" y1="0" x2="0.85" y2="1">
+      <stop offset="0" stop-color="#F3E3CB"/>
+      <stop offset="0.45" stop-color="#C9A579"/>
+      <stop offset="0.72" stop-color="#8A6A49"/>
+      <stop offset="1" stop-color="#E8D2B2"/>
+    </linearGradient>
+  </defs>
+  <g fill="url(#ccFoil)">
+    <path d="M 217.19 194.39 A 113.98901098901098 113.98901098901098 0 1 1 217.19 57.61 L 189.53 78.35 A 79.41758241758242 79.41758241758242 0 1 0 189.53 173.65 Z"/>
+  </g>
+</svg>

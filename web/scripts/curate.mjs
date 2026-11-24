@@ -55,10 +55,20 @@ export const PICKS = [
   ["petals-twirl", "2025/11/The-sky-adorned-the-earth-divine-L-1.jpg", "portraits"],
   ["bride-red-gold", "2025/12/01-3.jpg", "portraits"],
   ["bride-chamundeshwari", "2025/11/🌿-The-celebrations-restbut-the-grace", "portraits"],
-  ["veil-blur", "2025/12/2-4.jpg", "portraits"],
-  ["portrait-bw", "2025/12/Untitled-design-2025-12-09T193957.jpg", "portraits"],
+  // "veil-blur" was dropped here. It is not a photograph but a finished
+  // album page, with the client's name — INCHARA — set across the top of it.
+  // Running it in the portfolio puts one couple's branding on the studio's
+  // own pages, and it led /portraits at full width. Cropping the title out
+  // takes the negative space the picture is built on with it.
+  // "portrait-bw" was dropped here. Its source is only 420px wide — the
+  // smallest file in the library by a wide margin — and every editorial slot
+  // on the site paints wider than that, so wherever it landed it was being
+  // enlarged. There is no version of it worth shipping.
   ["soft-smile", "2025/11/get.jpg", "portraits"],
-  ["close-eyes", "2025/12/16.jpg", "portraits"],
+  // "close-eyes" was dropped here. It is a social template rather than a
+  // frame: the photograph is pasted over a blurred greyscale copy of itself
+  // and the join shows as a hard rectangle, which reads as a broken image
+  // once it is given an editorial slot.
 ];
 
 const SIZES = [2200, 1400, 800, 420];

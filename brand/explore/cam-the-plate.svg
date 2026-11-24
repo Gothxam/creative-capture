@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 248" width="320" height="331" color="#111010">
+  <g fill="#111010">
+    <path fill="none" stroke="currentColor" stroke-width="15" stroke-linecap="square" d="M 78 36 L 32 36 L 32 82"/>
+    <path fill="none" stroke="currentColor" stroke-width="15" stroke-linecap="square" d="M 162 36 L 208 36 L 208 82"/>
+    <path fill="none" stroke="currentColor" stroke-width="15" stroke-linecap="square" d="M 162 212 L 208 212 L 208 166"/>
+    <path fill="none" stroke="currentColor" stroke-width="15" stroke-linecap="square" d="M 78 212 L 32 212 L 32 166"/>
+    <path d="M 167.2 159.4 A 59 59 0 1 1 167.2 88.6 L 155.79 97.16 A 44.73626373626374 44.73626373626374 0 1 0 155.79 150.84 Z"/>
+    <path d="M 166.68 148.47 A 35.659340659340664 35.659340659340664 0 1 1 166.68 99.53 L 156.31 109.32 A 21.395604395604398 21.395604395604398 0 1 0 156.31 138.68 Z"/>
+  </g>
+</svg>

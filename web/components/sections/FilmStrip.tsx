@@ -48,7 +48,8 @@ export default function FilmStrip({ limit = 3 }: { limit?: number }) {
           <span className="u-mono text-ember">[ Films ]</span>
           <MaskWords
             text="Stories that move"
-            className="u-display mt-3 block text-[clamp(2rem,6.4vw,5.5rem)] leading-[0.9]"
+            // Down from 88px. The films underneath are the section.
+            className="u-display mt-3 block text-[clamp(1.5rem,3vw,2.6rem)] leading-[1]"
           />
         </div>
         <Link

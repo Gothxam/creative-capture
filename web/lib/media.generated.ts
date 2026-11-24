@@ -470,28 +470,6 @@ export const MEDIA: MediaItem[] = [
     "source": "2025/11/🌿-The-celebrations-restbut-the-grace-of-Goddess-Chamundeshwari-lingers-in-the-air-—-a-quiet-re-2.jpg"
   },
   {
-    "slug": "veil-blur",
-    "category": "portraits",
-    "ratio": 0.8,
-    "widths": [
-      1400,
-      800,
-      420
-    ],
-    "blur": "data:image/webp;base64,UklGRpAAAABXRUJQVlA4IIQAAACwBACdASoSABcAPu1iqE2ppaOiMAgBMB2JZwDMWCHgU3JrSeuWHkO2D1K+Ml7QAP7zdH+wScBGy781c1jHLkgIGNtZKsY8ZqwgbRgbVCB7xXQJdcBML54EAQSvCUneNnExZ3twoD5zrFaNIkHLfJHxLbApFWjYgxMse96oUEV6KGgAAAA=",
-    "source": "2025/12/2-4.jpg"
-  },
-  {
-    "slug": "portrait-bw",
-    "category": "portraits",
-    "ratio": 0.5185,
-    "widths": [
-      420
-    ],
-    "blur": "data:image/webp;base64,UklGRsAAAABXRUJQVlA4ILQAAACwBQCdASoSACMAPu1qrVIppaQiqrgIATAdiWkACBojmwJ44C3zOcWTqg7ORJTVhVjt5Wa/AAAA/uoEtlkiCbVQEdQbivAGH/DS3lEdWH6/qcU895N3vSpHfMQgiNTKxAWS48n5jWCEpFazNofhEVDtKWILeN86206821YFVQY3X3b770VjbvbCGH6E16HPpLi57FUKQlREENGaeMRzn4z2y30MgdO8XAMYpD1m5kO7NZAAAAA=",
-    "source": "2025/12/Untitled-design-2025-12-09T193957.282.png"
-  },
-  {
     "slug": "soft-smile",
     "category": "portraits",
     "ratio": 0.8,
@@ -501,18 +479,6 @@ export const MEDIA: MediaItem[] = [
     ],
     "blur": "data:image/webp;base64,UklGRr4AAABXRUJQVlA4ILIAAABwBQCdASoSABYAPu1ur1KppiQiqAgBMB2JYgCxHtpBL4fBa2TzgrNDcb1K1MfRfYkWByAUAP70MtZcpbe2pvCIuALy9soL6LfdAfho2HUCCP/r4+sUoEyI68z+KbcT2emnQSypDFRI0T/0tRWytbCYCn2MapakRt4k7VoQ3tUq9HKy6n8YWU+/RwMY+a8rWrOCrCSBhDvO3KoFtqeXcsXylbhYmcSTFuziU5wS3B0HAAAA",
     "source": "2025/11/get.jpg"
-  },
-  {
-    "slug": "close-eyes",
-    "category": "portraits",
-    "ratio": 0.8,
-    "widths": [
-      1400,
-      800,
-      420
-    ],
-    "blur": "data:image/webp;base64,UklGRqoAAABXRUJQVlA4IJ4AAACQBACdASoSABcAPu1irFAppSQisBgIATAdiWQAw3AQ+HI+D96AtohgzuI1lgAA/u6XZGfqiEnO64As+yhs8YIKVqZF+0fs0Iud1BXlfaS8erv+/c94qKt4PWBTifsYyuxb2ds8fYavco3+6imPfeJN4lwlazNELo8gNZbnWwwRbfh5vE2Cd8OlBDeDHQgD98gPWxE7OLjNsQZURdAAAA==",
-    "source": "2025/12/16.jpg"
   }
 ] as const;
 

@@ -13,7 +13,12 @@ export const metadata: Metadata = {
 export default function ContactPage() {
   return (
     <>
-      <PageHero eyebrow={CONTACT.eyebrow} title={CONTACT.title} lead={CONTACT.lead} />
+      <PageHero
+        eyebrow={CONTACT.eyebrow}
+        title={CONTACT.title}
+        lead={CONTACT.lead}
+        media="forehead-rest"
+      />
 
       <section className="px-[var(--gutter)] pb-[clamp(4rem,10vw,9rem)]">
         <div className="grid gap-x-10 gap-y-14 md:grid-cols-12">

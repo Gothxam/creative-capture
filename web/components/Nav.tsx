@@ -9,10 +9,21 @@ import { EASE, EASE_IO, ScrollTrigger, gsap, useGSAP } from "@/lib/gsap";
 
 export default function Nav() {
   const [open, setOpen] = useState(false);
+  const [solid, setSolid] = useState(false);
   const pathname = usePathname();
   const bar = useRef<HTMLElement>(null);
   const overlay = useRef<HTMLDivElement>(null);
   const { stop, start } = useSmoothScroll();
+
+  // The home page opens on a full-bleed frame, so until the bar takes its
+  // paper background the type has to sit in paper too — ink on a lit
+  // photograph is unreadable, which is exactly what happened when the hero
+  // stopped being a field of type.
+  const onMedia = pathname === "/" && !solid && !open;
+  const tone = onMedia ? "text-paper" : "text-ink";
+  const toneSoft = onMedia ? "text-paper/80" : "text-ink-soft";
+  const toneLine = onMedia ? "bg-paper" : "bg-ink";
+  const toneEdge = onMedia ? "border-paper/45" : "border-ink/25";
 
   // Hide the bar on the way down, bring it back on the way up.
   // Driven by ScrollTrigger rather than its own scroll listener, so every
@@ -35,7 +46,9 @@ export default function Nav() {
         end: "max",
         onUpdate: (self) => {
           const y = self.scroll();
-          el.dataset.solid = y > 60 ? "true" : "false";
+          const isSolid = y > 60;
+          el.dataset.solid = isSolid ? "true" : "false";
+          setSolid((was) => (was === isSolid ? was : isSolid));
           if (open) return;
 
           const down = self.direction === 1;
@@ -137,7 +150,7 @@ export default function Nav() {
           <Link
             href="/"
             className={`u-display text-[1.05rem] leading-none tracking-[-0.02em] transition-colors duration-300 ${
-              open ? "text-paper" : ""
+              open ? "text-paper" : tone
             }`}
           >
             Classy
@@ -152,11 +165,13 @@ export default function Nav() {
                 <Link
                   key={item.href}
                   href={item.href}
-                  className="u-mono relative py-1 text-ink-soft transition-colors hover:text-ink"
+                  className={`u-mono relative py-1 transition-colors ${toneSoft} ${
+                    onMedia ? "hover:text-paper" : "hover:text-ink"
+                  }`}
                 >
                   {item.label}
                   <span
-                    className={`absolute -bottom-0.5 left-0 h-px w-full origin-left bg-ink transition-transform duration-500 ${
+                    className={`absolute -bottom-0.5 left-0 h-px w-full origin-left transition-transform duration-500 ${toneLine} ${
                       active ? "scale-x-100" : "scale-x-0"
                     }`}
                   />
@@ -171,7 +186,7 @@ export default function Nav() {
               className={`u-mono hidden border px-4 py-2 transition-colors sm:inline-block ${
                 open
                   ? "border-paper/30 text-paper hover:border-paper hover:bg-paper hover:text-ink"
-                  : "border-ink/25 hover:border-ink hover:bg-ink hover:text-paper"
+                  : `${toneEdge} ${tone} ${onMedia ? "hover:border-paper hover:bg-paper hover:text-ink" : "hover:border-ink hover:bg-ink hover:text-paper"}`
               }`}
             >
               Enquire
@@ -190,12 +205,12 @@ export default function Nav() {
             >
               <span
                 className={`block h-px w-6 transition-all duration-500 ${
-                  open ? "translate-y-[3px] rotate-45 bg-paper" : "bg-ink"
+                  open ? "translate-y-[3px] rotate-45 bg-paper" : toneLine
                 }`}
               />
               <span
                 className={`block h-px w-6 transition-all duration-500 ${
-                  open ? "-translate-y-[3px] -rotate-45 bg-paper" : "bg-ink"
+                  open ? "-translate-y-[3px] -rotate-45 bg-paper" : toneLine
                 }`}
               />
             </button>

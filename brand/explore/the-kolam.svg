@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 320" width="320" height="320" color="#111010">
+  <g stroke="currentColor" fill="none">
+    <circle cx="199.6" cy="199.6" r="58" fill="none" stroke-width="16"/>
+    <circle cx="120.4" cy="199.6" r="58" fill="none" stroke-width="16"/>
+    <circle cx="120.4" cy="120.4" r="58" fill="none" stroke-width="16"/>
+    <circle cx="199.6" cy="120.4" r="58" fill="none" stroke-width="16"/>
+  </g>
+  <g fill="currentColor">
+    <circle cx="199.6" cy="199.6" r="7"/>
+    <circle cx="120.4" cy="199.6" r="7"/>
+    <circle cx="120.4" cy="120.4" r="7"/>
+    <circle cx="199.6" cy="120.4" r="7"/>
+    <circle cx="160" cy="160" r="7"/>
+  </g>
+</svg>

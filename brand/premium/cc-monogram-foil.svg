@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 265 265" width="265" height="265" role="img" aria-label="CLASSY CAPTURES">
+  <title>CLASSY CAPTURES</title>
+  <defs>
+    <linearGradient id="ccFoil" x1="0" y1="0" x2="0.85" y2="1">
+      <stop offset="0" stop-color="#F3E3CB"/>
+      <stop offset="0.45" stop-color="#C9A579"/>
+      <stop offset="0.72" stop-color="#8A6A49"/>
+      <stop offset="1" stop-color="#E8D2B2"/>
+    </linearGradient>
+  </defs>
+  <g fill="url(#ccFoil)">
+    <path d="M 229.6 193.18 A 114.5 114.5 0 1 1 229.6 71.82 L 211.79 82.95 A 93.5 93.5 0 1 0 211.79 182.05 Z"/>
+    <path d="M 192.29 169.86 A 70.5 70.5 0 1 1 192.29 95.14 L 174.48 106.27 A 49.5 49.5 0 1 0 174.48 158.73 Z"/>
+    <circle cx="132.5" cy="132.5" r="10.5"/>
+  </g>
+</svg>

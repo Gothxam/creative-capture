@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 315.69 232" width="315.69" height="232" role="img" aria-label="CLASSY CAPTURES">
+  <title>CLASSY CAPTURES</title>
+  <defs>
+    <linearGradient id="ccFoil" x1="0" y1="0" x2="0.85" y2="1">
+      <stop offset="0" stop-color="#F3E3CB"/>
+      <stop offset="0.45" stop-color="#C9A579"/>
+      <stop offset="0.72" stop-color="#8A6A49"/>
+      <stop offset="1" stop-color="#E8D2B2"/>
+    </linearGradient>
+  </defs>
+  <g fill="url(#ccFoil)" color="url(#ccFoil)">
+    <g transform="translate(-12.37 -64.85) scale(1.42)">
+      <path fill="none" stroke="currentColor" stroke-width="17" stroke-linejoin="round" d="M 50 72 L 48 72 L 48 57 L 104 57 L 104 72 L 190 72 A 30 30 0 0 1 220 102 L 220 168 A 30 30 0 0 1 190 198 L 50 198 A 30 30 0 0 1 20 168 L 20 102 A 30 30 0 0 1 50 72 Z"/>
+      <path d="M 158.4 163.8 A 48 48 0 1 1 158.4 106.2 L 149.12 113.16 A 36.395604395604394 36.395604395604394 0 1 0 149.12 156.84 Z M 157.98 154.91 A 29.01098901098901 29.01098901098901 0 1 1 157.98 115.09 L 149.54 123.05 A 17.406593406593405 17.406593406593405 0 1 0 149.54 146.95 Z"/>
+    </g>
+  </g>
+</svg>

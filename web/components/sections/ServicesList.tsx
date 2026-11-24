@@ -1,91 +1,66 @@
 "use client";
 
 import Link from "next/link";
-import { useRef } from "react";
 import { SERVICES } from "@/lib/content";
 import { bySlug } from "@/lib/media.generated";
 import Reveal from "@/components/primitives/Reveal";
-import { EASE, gsap, useGSAP } from "@/lib/gsap";
 
 /**
- * Service rows that summon a floating preview under the pointer.
- * The preview is a single reused element — one DOM node, one quickTo pair —
- * rather than one image per row fading in and out.
+ * Four photographs that happen to be links.
+ *
+ * This was a list: four rows of display type at up to 50px with a thumbnail
+ * in the margin and a preview card that followed the pointer. The preview
+ * was the only place the work appeared at any size, which meant the section
+ * showed nothing at all on a touch screen and read as a contents page
+ * everywhere else.
+ *
+ * Now each service is a standing frame with its name across the foot of it.
+ * Same four links, same copy, four large photographs instead of four
+ * headlines — and nothing that depends on a pointer being present.
  */
 export default function ServicesList() {
-  const root = useRef<HTMLElement>(null);
-
-  useGSAP(
-    () => {
-      const el = root.current;
-      if (!el) return;
-      const preview = el.querySelector<HTMLElement>("[data-preview]");
-      const img = preview?.querySelector("img");
-      if (!preview || !img) return;
-      if (!window.matchMedia("(hover: hover) and (pointer: fine)").matches) return;
-
-      const xTo = gsap.quickTo(preview, "x", { duration: 0.6, ease: "power3.out" });
-      const yTo = gsap.quickTo(preview, "y", { duration: 0.6, ease: "power3.out" });
-      const rTo = gsap.quickTo(preview, "rotate", { duration: 0.8, ease: "power3.out" });
-
-      let lastX = 0;
-      const rows = gsap.utils.toArray<HTMLElement>("[data-row]", el);
-
-      const onMove = (e: PointerEvent) => {
-        const r = el.getBoundingClientRect();
-        xTo(e.clientX - r.left);
-        yTo(e.clientY - r.top);
-        // Tilt with travel direction, so the card feels carried, not pinned.
-        rTo(gsap.utils.clamp(-9, 9, (e.clientX - lastX) * 0.6));
-        lastX = e.clientX;
-      };
-
-      rows.forEach((row) => {
-        const src = row.dataset.src!;
-        row.addEventListener("pointerenter", () => {
-          img.setAttribute("src", src);
-          gsap.to(preview, { opacity: 1, scale: 1, duration: 0.5, ease: EASE });
-        });
-        row.addEventListener("pointerleave", () => {
-          gsap.to(preview, { opacity: 0, scale: 0.92, duration: 0.4, ease: "power2.out" });
-        });
-      });
-
-      el.addEventListener("pointermove", onMove);
-      return () => el.removeEventListener("pointermove", onMove);
-    },
-    { scope: root },
-  );
-
   return (
-    <section ref={root} className="relative px-[var(--gutter)] py-[clamp(4rem,10vw,9rem)]">
-      <Reveal className="flex items-baseline justify-between pb-[clamp(1.5rem,3vw,3rem)]">
+    <section className="px-[var(--gutter)] py-[clamp(3rem,8vw,7rem)]">
+      <Reveal className="flex items-baseline justify-between pb-[clamp(1.25rem,2.5vw,2.25rem)]">
         <span className="u-mono text-ember">[ What We Do ]</span>
+        <span className="u-mono text-ink-faint">
+          {String(SERVICES.length).padStart(2, "0")} services
+        </span>
       </Reveal>
 
-      <ul className="relative">
-        {SERVICES.map((service) => {
+      <ul className="grid grid-cols-2 gap-x-3 gap-y-6 sm:gap-x-4 sm:gap-y-8 lg:grid-cols-4">
+        {SERVICES.map((service, i) => {
           const item = bySlug(service.media);
           return (
-            <li key={service.slug} className="u-rule">
-              <Reveal>
-                <Link
-                  href={service.href}
-                  data-row
-                  data-src={`/img/${item.slug}-800.webp`}
-                  className="group grid grid-cols-12 items-center gap-3 py-[clamp(1.1rem,2.6vw,2.2rem)] transition-colors"
-                >
-                  <span className="u-mono col-span-2 text-ink-faint sm:col-span-1">
-                    {service.index}
+            <li key={service.slug}>
+              <Reveal delay={i * 0.08}>
+                <Link href={service.href} className="group block">
+                  <span className="relative block aspect-[3/4] w-full overflow-hidden bg-paper-deep">
+                    <img
+                      src={`/img/${item.slug}-800.webp`}
+                      srcSet={item.widths
+                        .map((w) => `/img/${item.slug}-${w}.webp ${w}w`)
+                        .join(", ")}
+                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                      alt={service.title}
+                      loading="lazy"
+                      decoding="async"
+                      draggable={false}
+                      className="h-full w-full object-cover transition-transform duration-[1.2s] ease-[cubic-bezier(.16,1,.3,1)] group-hover:scale-[1.04]"
+                    />
+                    {/* A scrim only at the foot, where the name sits. */}
+                    <span className="pointer-events-none absolute inset-x-0 bottom-0 h-2/5 bg-gradient-to-t from-ink/85 to-transparent" />
+                    <span className="absolute inset-x-0 bottom-0 flex items-end justify-between gap-3 p-4 text-paper">
+                      <span className="u-display text-[clamp(1.05rem,1.5vw,1.35rem)] leading-[1.05]">
+                        {service.title}
+                      </span>
+                      <span className="u-mono shrink-0 text-paper/60">{service.index}</span>
+                    </span>
                   </span>
-                  <h3 className="u-display col-span-10 text-[clamp(1.5rem,4.6vw,4rem)] leading-[0.95] transition-transform duration-700 ease-[cubic-bezier(.16,1,.3,1)] group-hover:translate-x-3 sm:col-span-7">
-                    {service.title}
-                  </h3>
-                  <p className="col-span-10 col-start-3 text-[0.95rem] text-ink-soft sm:col-span-3 sm:col-start-9 sm:text-right">
-                    {service.subtitle}
-                  </p>
-                  <span className="hidden text-right sm:col-span-1 sm:block">
-                    <span className="inline-block transition-transform duration-500 group-hover:translate-x-1.5">
+
+                  <span className="mt-3 flex items-baseline justify-between gap-3">
+                    <span className="text-[0.9rem] text-ink-soft">{service.subtitle}</span>
+                    <span className="inline-block shrink-0 transition-transform duration-500 group-hover:translate-x-1.5">
                       →
                     </span>
                   </span>
@@ -94,18 +69,6 @@ export default function ServicesList() {
             </li>
           );
         })}
-
-        {/* Floating preview */}
-        <div
-          data-preview
-          aria-hidden
-          // GSAP owns this element's transform, so centring is done with
-          // margins rather than translate utilities that it would overwrite.
-          className="pointer-events-none absolute left-0 top-0 z-10 hidden h-[20rem] w-[15rem] overflow-hidden opacity-0 md:block"
-          style={{ marginLeft: "-7.5rem", marginTop: "-10rem" }}
-        >
-          <img alt="" className="h-full w-full object-cover" />
-        </div>
       </ul>
     </section>
   );

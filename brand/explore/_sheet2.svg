@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600" width="600" height="600">
+  <rect width="100%" height="100%" fill="#E7E4DD"/>
+  <g transform="translate(0 0)">
+  <g fill="#111010">
+    <path d="M 179.26 198.8 A 95.5 95.5 0 1 1 179.26 81.2 L 161.13 95.36 A 72.5 72.5 0 1 0 161.13 184.64 Z"/>
+    <path d="M 120.74 81.2 A 95.5 95.5 0 1 1 120.74 198.8 L 138.87 184.64 A 72.5 72.5 0 1 0 138.87 95.36 Z"/>
+    <path d="M 119.27 45.73 A 95.5 95.5 0 0 1 184.28 88.27 L 164.94 100.73 A 72.5 72.5 0 0 0 115.6 68.43 Z"/>
+  </g>
+    <text x="150" y="280" text-anchor="middle" font-family="monospace" font-size="13" fill="#8C877E">1 · interlock</text>
+  </g>
+  <g transform="translate(300 0)">
+  <g fill="#111010">
+    <path d="M 165.87 182.05 A 83.5 83.5 0 1 1 165.87 57.95 L 150.48 75.04 A 60.5 60.5 0 1 0 150.48 164.96 Z"/>
+    <path d="M 127.95 215.87 A 83.5 83.5 0 1 1 252.05 215.87 L 234.96 200.48 A 60.5 60.5 0 1 0 145.04 200.48 Z"/>
+    <path d="M 172.05 175.87 A 83.5 83.5 0 0 1 107.09 203.45 L 107.89 180.46 A 60.5 60.5 0 0 0 154.96 160.48 Z"/>
+  </g>
+    <text x="150" y="280" text-anchor="middle" font-family="monospace" font-size="13" fill="#8C877E">2 · hook</text>
+  </g>
+  <g transform="translate(0 300)">
+  <g fill="#111010">
+    <path d="M 64.78 103.5 A 73 73 0 1 1 64.78 176.5 L 83.83 165.5 A 51 51 0 1 0 83.83 114.5 Z"/>
+    <path d="M 237.23 167.5 A 55 55 0 1 1 237.23 112.5 L 218.18 123.5 A 33 33 0 1 0 218.18 156.5 Z"/>
+    <path d="M 188.52 99.18 A 73 73 0 0 1 188.52 180.82 L 170.28 168.52 A 51 51 0 0 0 170.28 111.48 Z"/>
+  </g>
+    <text x="150" y="280" text-anchor="middle" font-family="monospace" font-size="13" fill="#8C877E">3 · the tie</text>
+  </g>
+  <g transform="translate(300 300)">
+  <g fill="#111010">
+    <path fill-rule="evenodd" d="M 162 140 A 70 70 0 1 1 22 140 A 70 70 0 1 1 162 140 Z M 141 140 A 49 49 0 1 0 43 140 A 49 49 0 1 0 141 140 Z"/>
+    <path fill-rule="evenodd" d="M 278 140 A 70 70 0 1 1 138 140 A 70 70 0 1 1 278 140 Z M 257 140 A 49 49 0 1 0 159 140 A 49 49 0 1 0 257 140 Z"/>
+    <path d="M 131.1 81.93 A 70 70 0 0 1 160.46 125.39 L 139.92 129.77 A 49 49 0 0 0 119.37 99.35 Z"/>
+  </g>
+    <text x="150" y="280" text-anchor="middle" font-family="monospace" font-size="13" fill="#8C877E">4 · the band</text>
+  </g>
+</svg>
