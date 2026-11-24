@@ -186,6 +186,8 @@ export default function Hero() {
                 <figure
                   key={p.slug}
                   data-plane
+
+                  data-reveal
                   className={`absolute ${p.hide ? "hidden xl:block" : ""}`}
                   style={{
                     left: `${p.x}%`,
@@ -231,6 +233,8 @@ export default function Hero() {
       <div className="relative z-10 flex w-full flex-col items-center px-[var(--gutter)] py-[calc(var(--nav-h)+2rem)] text-center">
         <span
           data-rise
+
+          data-reveal
           className="u-mono text-[0.68rem] leading-none tracking-[0.2em] text-paper/60"
         >
           {HOME.hero.eyebrow}
@@ -238,26 +242,28 @@ export default function Hero() {
 
         <h1
           data-rise
+
+          data-reveal
           className="u-display mt-5 max-w-[15ch] text-[clamp(1.6rem,2.7vw,2.4rem)] leading-[1.06]"
         >
           {HOME.hero.headline}
         </h1>
 
-        <p data-rise className="u-body mt-7 max-w-[38ch] text-paper/70">
+        <p data-rise data-reveal className="u-body mt-7 max-w-[38ch] text-paper/70">
           {HOME.hero.lead}
         </p>
 
-        <Link data-rise href="/weddings" className="u-pill u-pill-invert mt-9">
+        <Link data-rise data-reveal href="/weddings" className="u-pill u-pill-invert mt-9">
           {HOME.hero.cta}
           <span aria-hidden>→</span>
         </Link>
       </div>
 
       <div className="pointer-events-none absolute inset-x-0 bottom-0 z-10 flex items-end justify-between gap-6 p-[var(--gutter)]">
-        <span data-rise className="u-mono hidden text-paper/55 sm:block">
+        <span data-rise data-reveal className="u-mono hidden text-paper/55 sm:block">
           {HOME.hero.meta.join(" · ")}
         </span>
-        <span data-rise className="u-mono text-paper/55">
+        <span data-rise data-reveal className="u-mono text-paper/55">
           Scroll
         </span>
       </div>

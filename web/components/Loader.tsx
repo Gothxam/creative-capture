@@ -64,8 +64,16 @@ export default function Loader() {
           duration: 1,
           ease: EASE_IO,
           stagger: { each: 0.07, from: "end" },
+          // The page is told it is live as the curtain starts moving, not
+          // when it finishes. Announcing it at the end meant the hero's
+          // entrance began a full second after the reveal was over: the
+          // photographs sat there, then snapped to nothing and faded back
+          // in, which is the pop that made this feel like two separate
+          // animations instead of one. Starting here, they arrive behind
+          // the moving panels and are already settling as the last column
+          // clears.
+          onStart: markAppReady,
           onComplete: () => {
-            markAppReady();
             start();
             setGone(true);
           },
@@ -99,10 +107,23 @@ export default function Loader() {
 
   return (
     <div ref={root} className="fixed inset-0 z-[100]" aria-hidden>
-      {/* Panels overlap by a pixel so no hairline seam shows between them. */}
+      {/* Paper, not ink.
+          The home page opens on a black hero, so black panels sliding off
+          it revealed nothing — the reveal was invisible on the one screen
+          most people see first. Light columns peeling away to show the dark
+          hero is the whole move.
+
+          The right edge of each column is ruled, so the columns still read
+          as separate on the paper pages, where the panels and the page
+          underneath are the same colour. The last one has no rule: it would
+          sit on the screen edge. */}
       <div className="absolute inset-0 flex overflow-hidden">
         {[0, 1, 2, 3].map((i) => (
-          <div key={i} data-panel className="-mr-px h-full flex-1 bg-ink" />
+          <div
+            key={i}
+            data-panel
+            className={`h-full flex-1 bg-paper ${i < 3 ? "border-r border-ink/[0.07]" : ""}`}
+          />
         ))}
       </div>
     </div>
