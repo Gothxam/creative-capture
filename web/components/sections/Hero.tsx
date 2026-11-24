@@ -231,7 +231,7 @@ export default function Hero() {
       <div className="relative z-10 flex w-full flex-col items-center px-[var(--gutter)] py-[calc(var(--nav-h)+2rem)] text-center">
         <span
           data-rise
-          className="u-dot text-[clamp(0.7rem,1.05vw,0.92rem)] leading-none text-paper/70"
+          className="u-mono text-[0.68rem] leading-none tracking-[0.2em] text-paper/60"
         >
           {HOME.hero.eyebrow}
         </span>

@@ -47,8 +47,8 @@
   /* ─ type ─ */
   --font-display: var(--font-instrument), Georgia, "Times New Roman", serif;
   --font-serif: var(--font-instrument), Georgia, "Times New Roman", serif;
+  --font-sans: var(--font-geist), ui-sans-serif, system-ui, sans-serif;
   --font-mono: var(--font-geist-mono), ui-monospace, "SF Mono", monospace;
-  --font-dot: var(--font-geist-pixel), var(--font-geist-mono), monospace;
 
   /* ─ shape ─
      The old system was razor-sharp everywhere. The reference is not:
@@ -149,13 +149,27 @@ body {
   line-height: 1.24;
 }
 
-/* The dot-matrix readout: the wordmark, the loader counter, figures
-   that want to look machine-rendered rather than typeset. */
-.u-dot {
-  font-family: var(--font-dot);
-  font-weight: 400;
-  letter-spacing: 0.04em;
+/* The studio name beside the mark.
+   Set the way the logo itself sets it: a clean sans, uppercase, wide
+   tracking, light enough not to compete with the mark it stands next to.
+   This used to be the dot-matrix face, which belongs to the site this
+   design was drawn from and not to this studio — beside the real mark it
+   read as two brands bolted together.
+
+   No optical nudge. With `line-height: 1` the box of an uppercase line is
+   already its cap height, so centring the two boxes does centre what you
+   see — measured, a half-ex lift pushed the name 3px off the mark rather
+   than onto it. */
+.u-wordmark {
+  font-family: var(--font-sans);
+  font-weight: 500;
   text-transform: uppercase;
+  letter-spacing: 0.17em;
+  line-height: 1;
+  white-space: nowrap;
+  /* The tracking is applied after every letter including the last, which
+     leaves a gap of dead space on the right that reads as bad alignment. */
+  margin-right: -0.17em;
 }
 
 /* Edge-to-edge headline. The old rule ran to 15.2vw — a 219px line on

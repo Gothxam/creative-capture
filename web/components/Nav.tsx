@@ -155,22 +155,19 @@ export default function Nav() {
             still measures exactly --nav-h, because anchor offsets and the
             page mastheads are laid out against it. */}
         <div className="flex h-[var(--nav-h)] items-center px-[var(--gutter)]">
-          <div className="flex h-11 w-full items-center justify-between gap-6 rounded-full pl-4 pr-2 transition-colors duration-500 group-data-[open=false]:group-data-[solid=true]:bg-paper/92">
+          {/* The bar grew from 44px to 52px to carry the mark. At 28px the
+              aperture blades closed up into a dark blob — the mark needs
+              real size to read as what it is, and it is the one thing on
+              the page that has to. */}
+          <div className="flex h-13 w-full items-center justify-between gap-6 rounded-full pl-3.5 pr-2 transition-colors duration-500 group-data-[open=false]:group-data-[solid=true]:bg-paper/92">
             <Link
               href="/"
-              // `whitespace-nowrap`: the pixel face is wide, and at 375px
-              // the wordmark broke across two lines inside a bar that is one
-              // line tall, so it sat over the page behind it.
-              className={`flex items-center gap-2.5 transition-colors duration-300 ${
+              className={`flex items-center gap-3 transition-colors duration-300 ${
                 open ? "text-paper" : tone
               }`}
             >
-              {/* The mark carries its own accent dot, so the drawn one that
-                  used to stand in for a full stop is gone with it. It takes
-                  its petal colour from this link, which is what lets one
-                  file serve the bar on paper and the bar over a photograph. */}
-              <Mark tone={markTone} className="size-7 sm:size-8" />
-              <span className="u-dot whitespace-nowrap text-[0.78rem] leading-none sm:text-[0.95rem]">
+              <Mark tone={markTone} className="size-9 sm:size-10" />
+              <span className="u-wordmark text-[0.68rem] sm:text-[0.78rem]">
                 Classy Captures
               </span>
             </Link>

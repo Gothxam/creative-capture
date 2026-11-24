@@ -108,8 +108,8 @@ export default function Footer() {
         <div
           className="flex items-center gap-4 pb-[clamp(2.5rem,5vw,4rem)] pt-[clamp(2.5rem,6vw,5rem)]"
         >
-          <Mark tone="paper" className="size-11 sm:size-14" />
-          <span className="u-dot text-[clamp(1.2rem,3.6vw,2.6rem)] leading-none text-paper">
+          <Mark tone="paper" className="size-14 sm:size-20" />
+          <span className="u-wordmark text-[clamp(0.95rem,2.4vw,1.6rem)] text-paper">
             {FOOTER.wordmark.join(" ")}
           </span>
         </div>

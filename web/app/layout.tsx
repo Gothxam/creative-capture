@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Geist_Mono, Geist_Pixel, Instrument_Serif } from "next/font/google";
+import { Geist, Geist_Mono, Instrument_Serif } from "next/font/google";
 import { STUDIO } from "@/lib/content";
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
@@ -33,14 +33,16 @@ const geistMono = Geist_Mono({
 });
 
 /**
- * The dot-matrix voice: wordmark, counters, the loader. Stands in for the
- * reference's proprietary dot font — same pixel-grid construction, and the
- * only free face that reads as a readout rather than as a typeface.
+ * The wordmark beside the studio mark, and nothing else.
+ *
+ * The logo sets its own name in a clean geometric sans with wide tracking.
+ * The wordmark was being set in the dot-matrix face borrowed from the
+ * reference site, which is that site's signature rather than this studio's
+ * — and next to the real mark it read as two different brands.
  */
-const geistPixel = Geist_Pixel({
+const geist = Geist({
   subsets: ["latin"],
-  weight: "400",
-  variable: "--font-geist-pixel",
+  variable: "--font-geist",
   display: "swap",
 });
 
@@ -80,7 +82,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html
       lang="en-IN"
-      className={`${instrument.variable} ${geistMono.variable} ${geistPixel.variable}`}
+      className={`${instrument.variable} ${geist.variable} ${geistMono.variable}`}
     >
       <head>
         {/* Reveal targets start hidden for the animation. With scripting off
