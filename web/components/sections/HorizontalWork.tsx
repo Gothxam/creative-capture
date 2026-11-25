@@ -287,12 +287,14 @@ export default function HorizontalWork() {
                     picture, the frames run edge to edge and the section is
                     photographs with their names on them. */}
                 <span className="pointer-events-none absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-ink/80 to-transparent" />
+                {/* A name and a number. This also carried a meta line —
+                    "Bengaluru · Wedding" under every title — which on a
+                    phone, where this section is a two-column grid rather
+                    than a strip, put three lines of type on every
+                    photograph. */}
                 <span className="pointer-events-none absolute inset-x-0 bottom-0 flex items-end justify-between gap-4 p-[clamp(0.9rem,1.4vw,1.4rem)] text-paper">
-                  <span>
-                    <span className="u-display block text-[clamp(1rem,1.5vw,1.3rem)] leading-none">
-                      {card.title}
-                    </span>
-                    <span className="u-mono mt-1.5 block text-paper/65">{card.meta}</span>
+                  <span className="u-display block text-[clamp(1rem,1.5vw,1.3rem)] leading-none">
+                    {card.title}
                   </span>
                   <span className="u-mono shrink-0 text-paper/55">
                     {String(i + 1).padStart(2, "0")}
