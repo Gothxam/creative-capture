@@ -270,6 +270,25 @@ body {
   }
 }
 
+/* ─── the hero field ──────────────────────────────────────────────
+   One frame, two compositions. The phone is not the desktop layout
+   scaled down: it has its own positions and its own much larger sizes,
+   because depth here is carried by size alone and a set of frames that
+   are all one size has none. */
+.hero-plane {
+  left: var(--x);
+  top: var(--y);
+  width: var(--w);
+}
+
+@media (max-width: 767px) {
+  .hero-plane {
+    left: var(--mx);
+    top: var(--my);
+    width: var(--mw);
+  }
+}
+
 /* ─── reveal primitives ───────────────────────────────────────── */
 
 /* Mask-rise: child slides up from behind its own clipping box. */

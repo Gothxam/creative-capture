@@ -57,15 +57,33 @@ import { EASE, ScrollTrigger, gsap, prefersReducedMotion, useGSAP } from "@/lib/
  * costs a layer per photograph and renders identically to a flat one is not
  * worth keeping.
  */
+/**
+ * `mx`/`my`/`mw` are the same three numbers for a phone, and they are not
+ * the desktop ones scaled down.
+ *
+ * They used to be: the widths were in `vw` with a 92px floor under them, and
+ * at 376px every one of 13vw, 8vw, 8vw and 13vw lands under that floor. So
+ * all four frames rendered at exactly 92px — measured, one unique width
+ * across the set. Depth here is carried by size alone, so a set with no
+ * size difference has no depth, and four identical thumbnails around a
+ * centred block of type is the stock mobile hero.
+ *
+ * The phone layout is therefore its own composition: far fewer pixels to
+ * play with, so the frames are much larger as a share of the screen, the
+ * spread between biggest and smallest is kept, and they run off the edges
+ * instead of sitting politely inside them. A photograph cropped by the
+ * screen reads as a photograph that continues; a 92px square reads as an
+ * icon.
+ */
 const PLANES = [
-  { slug: "mandap-garland", x: 13, y: 26, w: 13, drift: -170, hide: false },
-  { slug: "sindoor-moment", x: 22, y: 73, w: 8, drift: -95, hide: false },
-  { slug: "bride-jewels", x: 86, y: 23, w: 8, drift: -90, hide: false },
-  { slug: "garland-knot", x: 80, y: 70, w: 13, drift: -180, hide: false },
+  { slug: "mandap-garland", x: 13, y: 26, w: 13, mx: 4, my: 20, mw: 48, drift: -170, hide: false },
+  { slug: "sindoor-moment", x: 22, y: 73, w: 8, mx: 15, my: 82, mw: 30, drift: -95, hide: false },
+  { slug: "bride-jewels", x: 86, y: 23, w: 8, mx: 91, my: 19, mw: 40, drift: -90, hide: false },
+  { slug: "garland-knot", x: 80, y: 70, w: 13, mx: 89, my: 80, mw: 46, drift: -180, hide: false },
   // Only where there is width for it. There is deliberately nothing along
   // the top: a frame up there sits behind the nav, and a lit photograph
   // under the nav links costs more legibility than the depth is worth.
-  { slug: "temple-groom", x: 37, y: 89, w: 7, drift: -120, hide: true },
+  { slug: "temple-groom", x: 37, y: 89, w: 7, mx: 37, my: 89, mw: 7, drift: -120, hide: true },
 ] as const;
 
 export default function Hero() {
@@ -183,10 +201,10 @@ export default function Hero() {
           frame is, how dark its surround is and how far it sits from the
           others — not from a 3D context, which rendered identically and
           cost a composited layer per photograph. */}
-      {/* Inset on a phone, so the percentages are measured inside a padded
-          box: at 375px the outermost cards sat 3px from the screen edge and
-          their captions ran off it. */}
-      <div aria-hidden className="pointer-events-none absolute inset-x-4 inset-y-0 md:inset-0">
+      {/* Full bleed, not inset. The inset was there to keep captions from
+          running off the screen edge; the captions are gone, and on a phone
+          the frames are now meant to be cropped by the edge. */}
+      <div aria-hidden className="pointer-events-none absolute inset-0">
         <div data-tilt className="absolute inset-0">
           <div className="absolute inset-0">
             {PLANES.map((p) => {
@@ -197,19 +215,29 @@ export default function Hero() {
                   data-plane
 
                   data-reveal
-                  className={`absolute ${p.hide ? "hidden xl:block" : ""}`}
-                  style={{
-                    left: `${p.x}%`,
-                    top: `${p.y}%`,
-                    width: `${p.w}vw`,
-                    minWidth: "92px",
-                    // The `translate` property, not `transform`. GSAP owns
-                    // `transform` on these elements for the drift and the
-                    // entrance; centring written there would be overwritten
-                    // by the first tween that touches y, which is exactly
-                    // how the depth on this hero was silently lost.
-                    translate: "-50% -50%",
-                  }}
+                  className={`hero-plane absolute ${p.hide ? "hidden xl:block" : ""}`}
+                  style={
+                    {
+                      // Both compositions are handed over as custom
+                      // properties and a media query picks one. There is no
+                      // `minWidth` any more: it was a 92px floor meant to
+                      // stop the frames vanishing on a phone, and instead it
+                      // flattened all four to the same size, which cost the
+                      // depth it was protecting.
+                      "--x": `${p.x}%`,
+                      "--y": `${p.y}%`,
+                      "--w": `${p.w}vw`,
+                      "--mx": `${p.mx}%`,
+                      "--my": `${p.my}%`,
+                      "--mw": `${p.mw}vw`,
+                      // The `translate` property, not `transform`. GSAP owns
+                      // `transform` on these elements for the drift and the
+                      // entrance; centring written there would be overwritten
+                      // by the first tween that touches y, which is exactly
+                      // how the depth on this hero was silently lost.
+                      translate: "-50% -50%",
+                    } as React.CSSProperties
+                  }
                 >
                   <span className="block aspect-square w-full overflow-hidden rounded-panel bg-ink-soft/25 shadow-[0_1.5rem_4rem_rgba(0,0,0,0.7)] ring-1 ring-white/[0.08]">
                     <img
