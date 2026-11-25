@@ -54,16 +54,25 @@ export default function CategoryRow() {
                 {/* Label under the card, not over the photograph.
                     Title first, subtitle second: the subtitles run from
                     three words to eight, so with the subtitle on top the
-                    titles sat on three different baselines across one row. */}
-                <span className="mt-3 flex items-baseline justify-between gap-3">
-                  <span className="u-serif text-[clamp(1rem,1.5vw,1.25rem)] leading-tight transition-colors duration-500 group-hover:text-ember">
-                    {service.title}
-                  </span>
-                  <span className="u-mono shrink-0 text-ink-faint tabular-nums">
-                    {service.index}
-                  </span>
+                    titles sat on three different baselines across one row.
+
+                    The index is on its own line rather than on the title's
+                    baseline. Sharing that baseline worked while every title
+                    fitted one line; at two columns on a phone the long ones
+                    wrap, and the number was left stranded beside the first
+                    line of a two-line title. */}
+                <span className="mt-3 flex items-center gap-2.5">
+                  <span className="u-mono text-ink-faint tabular-nums">{service.index}</span>
+                  <span className="h-px flex-1 bg-ink/12" />
                 </span>
-                <span className="u-mono mt-1.5 block text-ink-faint">{service.subtitle}</span>
+
+                {/* Two lines' worth of room whether the title needs it or
+                    not, so the subtitles below start on the same line
+                    across a row instead of stepping. */}
+                <span className="u-serif mt-2 block min-h-[2.5em] text-[clamp(1rem,1.5vw,1.25rem)] leading-tight transition-colors duration-500 group-hover:text-ember">
+                  {service.title}
+                </span>
+                <span className="u-mono block text-ink-faint">{service.subtitle}</span>
               </Link>
             </Reveal>
           );

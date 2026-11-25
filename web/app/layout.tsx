@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
-import { Geist, Geist_Mono, Geist_Pixel, Source_Serif_4 } from "next/font/google";
+import { Geist } from "next/font/google";
+import localFont from "next/font/local";
 import { STUDIO } from "@/lib/content";
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
@@ -17,43 +18,41 @@ import "./globals.css";
  */
 
 /**
- * Headlines. Roman, sentence case, never uppercase.
+ * The three faces the reference actually uses, supplied as files.
  *
- * Source Serif rather than Instrument Serif, chosen by measurement against
- * the reference. Its headline face is NType82 — Nothing's own typeface,
- * served from their CDN and not licensable for anyone else — so the job was
- * to find the closest thing that is free. Set the same string at the same
- * size in both: NType82 renders it at 876px and Source Serif at 876px, a 0%
- * difference, and the two break the reference's own headline on the
- * identical word. Instrument Serif came out 15% narrower, which is why it
- * read as a different, more condensed face.
+ * NType82 for headlines, Ndot for the dot-matrix label, Lettera Mono for
+ * the small readouts. These replace the free stand-ins that were chosen by
+ * measuring against them — Source Serif matched NType82's width to 0%, but
+ * a match is still not the thing.
+ *
+ * Licensing is worth naming here: the archive these came from credits
+ * "NOTHING Tech. All Rights Reserved." and carries no licence file.
+ * NType82 and Ndot are Nothing's own brand typefaces and Lettera Mono is a
+ * Lineto retail font, so none of the three is licensed for use on this
+ * site. That is the site owner's call, not a technical one, and the
+ * stand-ins are one commit away if it needs reversing.
  */
-const serif = Source_Serif_4({
-  subsets: ["latin"],
-  weight: ["400", "500"],
-  style: ["normal", "italic"],
+const ntype82 = localFont({
+  src: "./fonts/NType82-Regular.otf",
+  // The binding name becomes the CSS family name. `serif` here collided
+  // with the generic keyword and the file was never used.
   variable: "--font-instrument",
   display: "swap",
+  weight: "400",
 });
 
-/**
- * The dot-matrix label, for the one place the reference uses its own: the
- * small line that names what you are looking at, directly above a headline.
- * It is a readout, not a wordmark — the studio name is set in the sans
- * beside the mark, which is where the earlier use of this face was wrong.
- */
-const geistPixel = Geist_Pixel({
-  subsets: ["latin"],
-  weight: "400",
+const dot = localFont({
+  src: "./fonts/Ndot57-Regular.otf",
   variable: "--font-geist-pixel",
   display: "swap",
+  weight: "400",
 });
 
-/** Everything else: body copy, labels, captions, buttons, figures. */
-const geistMono = Geist_Mono({
-  subsets: ["latin"],
+const letteraMono = localFont({
+  src: "./fonts/LetteraMonoLL-Regular.otf",
   variable: "--font-geist-mono",
   display: "swap",
+  weight: "400",
 });
 
 /**
@@ -106,7 +105,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html
       lang="en-IN"
-      className={`${serif.variable} ${geistPixel.variable} ${geist.variable} ${geistMono.variable}`}
+      className={`${ntype82.variable} ${dot.variable} ${geist.variable} ${letteraMono.variable}`}
     >
       <head>
         {/* Reveal targets start hidden for the animation. With scripting off
