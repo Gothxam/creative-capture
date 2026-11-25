@@ -244,7 +244,12 @@ export default function Hero() {
           data-rise
 
           data-reveal
-          className="u-mono text-[0.68rem] leading-none tracking-[0.2em] text-paper/60"
+          // The dot-matrix readout, not the mono label. This line sits
+          // directly above the headline and names what you are looking at,
+          // which is the one place the reference uses its own dot face —
+          // and set in plain mono it was the same voice as every caption
+          // on the page, so nothing separated it from the headline.
+          className="u-dot text-[0.9rem] leading-none text-paper/75"
         >
           {HOME.hero.eyebrow}
         </span>
@@ -253,7 +258,7 @@ export default function Hero() {
           data-rise
 
           data-reveal
-          className="u-display mt-5 max-w-[15ch] text-[clamp(1.6rem,2.7vw,2.4rem)] leading-[1.06]"
+          className="u-display mt-5 max-w-[21ch] text-[clamp(1.6rem,2.7vw,2.4rem)] leading-[1.06]"
         >
           {HOME.hero.headline}
         </h1>

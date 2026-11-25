@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Geist, Geist_Mono, Instrument_Serif } from "next/font/google";
+import { Geist, Geist_Mono, Geist_Pixel, Source_Serif_4 } from "next/font/google";
 import { STUDIO } from "@/lib/content";
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
@@ -16,12 +16,36 @@ import "./globals.css";
  * instrument-panel register we're after.
  */
 
-/** Headlines. Set roman and in sentence case, never uppercase. */
-const instrument = Instrument_Serif({
+/**
+ * Headlines. Roman, sentence case, never uppercase.
+ *
+ * Source Serif rather than Instrument Serif, chosen by measurement against
+ * the reference. Its headline face is NType82 — Nothing's own typeface,
+ * served from their CDN and not licensable for anyone else — so the job was
+ * to find the closest thing that is free. Set the same string at the same
+ * size in both: NType82 renders it at 876px and Source Serif at 876px, a 0%
+ * difference, and the two break the reference's own headline on the
+ * identical word. Instrument Serif came out 15% narrower, which is why it
+ * read as a different, more condensed face.
+ */
+const serif = Source_Serif_4({
   subsets: ["latin"],
-  weight: "400",
+  weight: ["400", "500"],
   style: ["normal", "italic"],
   variable: "--font-instrument",
+  display: "swap",
+});
+
+/**
+ * The dot-matrix label, for the one place the reference uses its own: the
+ * small line that names what you are looking at, directly above a headline.
+ * It is a readout, not a wordmark — the studio name is set in the sans
+ * beside the mark, which is where the earlier use of this face was wrong.
+ */
+const geistPixel = Geist_Pixel({
+  subsets: ["latin"],
+  weight: "400",
+  variable: "--font-geist-pixel",
   display: "swap",
 });
 
@@ -82,7 +106,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html
       lang="en-IN"
-      className={`${instrument.variable} ${geist.variable} ${geistMono.variable}`}
+      className={`${serif.variable} ${geistPixel.variable} ${geist.variable} ${geistMono.variable}`}
     >
       <head>
         {/* Reveal targets start hidden for the animation. With scripting off
