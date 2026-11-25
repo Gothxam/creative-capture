@@ -73,7 +73,6 @@ export default function FilmsPage() {
                     {pkg.name}
                   </h3>
                   <p className="u-mono mt-2 text-ember">{pkg.length}</p>
-                  <p className="mt-4 text-[0.95rem] leading-[1.5] text-ink-soft">{pkg.body}</p>
                 </div>
               </div>
             </Reveal>

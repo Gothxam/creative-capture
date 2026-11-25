@@ -58,12 +58,10 @@ export default function ServicesList() {
                     </span>
                   </span>
 
-                  <span className="mt-3 flex items-baseline justify-between gap-3">
-                    <span className="text-[0.9rem] text-ink-soft">{service.subtitle}</span>
-                    <span className="inline-block shrink-0 transition-transform duration-500 group-hover:translate-x-1.5">
-                      →
-                    </span>
-                  </span>
+                  {/* No row under the card at all. It held the service
+                      subtitle with an arrow beside it; with the subtitle
+                      gone the arrow was left hanging on a line of its own,
+                      and the whole card is already the link. */}
                 </Link>
               </Reveal>
             </li>
