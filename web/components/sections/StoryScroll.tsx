@@ -119,7 +119,7 @@ export default function StoryScroll() {
                   <h3 className="u-display mt-4 text-[clamp(1.3rem,2.2vw,1.9rem)] leading-[1.02]">
                     {beat.title}
                   </h3>
-                  <p className="mt-6 max-w-[38ch] text-[1.05rem] leading-relaxed text-paper/65">
+                  <p className="mt-6 max-w-[38ch] text-[1.05rem] leading-[1.5] text-paper/65">
                     {beat.body}
                   </p>
                 </div>
@@ -188,8 +188,8 @@ export default function StoryScroll() {
                   </div>
                 </div>
                 <span className="u-mono mt-6 block text-paper/40">{beat.index}</span>
-                <h3 className="u-display mt-3 text-[2rem] leading-[0.95]">{beat.title}</h3>
-                <p className="mt-4 text-[1rem] leading-relaxed text-paper/65">{beat.body}</p>
+                <h3 className="u-display mt-3 text-[2rem] leading-[1.08]">{beat.title}</h3>
+                <p className="mt-4 text-[1rem] leading-[1.5] text-paper/65">{beat.body}</p>
               </article>
             ))}
           </div>

@@ -94,7 +94,7 @@ body {
      Everything that is not a headline is set in it. */
   font-family: var(--font-mono);
   font-size: clamp(0.84rem, 0.95vw, 0.95rem);
-  line-height: 1.62;
+  line-height: 1.5;
   letter-spacing: -0.005em;
   overflow-x: clip;
 }
@@ -106,135 +106,147 @@ body {
 
 /* ─── type primitives ─────────────────────────────────────────── */
 
-/* Headlines. Roman, sentence case, never uppercase and never italic.
-   The old rule stretched a heavy sans to 118% width, uppercased it and
-   crushed the leading to 0.84 — a poster voice. This one is meant to be
-   read rather than announced. */
-.u-display {
-  font-family: var(--font-display);
-  font-weight: 400;
-  letter-spacing: -0.018em;
-  line-height: 1.02;
-}
+/* These live in the components layer so that utilities written beside
+   them actually win.
 
-/* The small uppercase readout: section kickers, captions, figures,
-   button labels. Tracking is tighter than the old 0.22em — at that
-   width it read as decoration rather than as an instrument label. */
-.u-mono {
-  font-family: var(--font-mono);
-  font-size: clamp(0.64rem, 0.74vw, 0.73rem);
-  font-weight: 450;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-}
+   They used to sit unlayered, and unlayered CSS beats anything inside
+   an @layer — including Tailwind's own utilities. So every `leading-*`,
+   `tracking-*` and `text-*` written next to one of these classes was
+   silently discarded. Measured: a lead marked `leading-[1.25]` rendered
+   at 1.02, four `u-serif` leadings never applied, and three `u-mono`
+   font sizes were ignored. The headings came out cramped against loose
+   monospace body copy, which is what read as stretched. */
+@layer components {
+  /* Headlines. Roman, sentence case, never uppercase and never italic.
+     The old rule stretched a heavy sans to 118% width, uppercased it and
+     crushed the leading to 0.84 — a poster voice. This one is meant to be
+     read rather than announced. */
+  .u-display {
+    font-family: var(--font-display);
+    font-weight: 400;
+    letter-spacing: -0.018em;
+    line-height: 1.1;
+  }
 
-/* Running copy, where it needs to be a step up from body default —
-   lead paragraphs under a headline, mostly. Sentence case. */
-.u-body {
-  font-family: var(--font-mono);
-  font-size: clamp(0.88rem, 1.05vw, 1.02rem);
-  font-weight: 400;
-  line-height: 1.68;
-  letter-spacing: -0.008em;
-}
+  /* The small uppercase readout: section kickers, captions, figures,
+     button labels. Tracking is tighter than the old 0.22em — at that
+     width it read as decoration rather than as an instrument label. */
+  .u-mono {
+    font-family: var(--font-mono);
+    font-size: clamp(0.64rem, 0.74vw, 0.73rem);
+    font-weight: 450;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
 
-/* The serif in its secondary role: pull-quotes and the occasional
-   emphatic line. Roman now, not italic — the italic was doing the
-   "tasteful wedding website" thing this redesign is moving away from. */
-.u-serif {
-  font-family: var(--font-serif);
-  font-weight: 400;
-  font-style: normal;
-  letter-spacing: -0.012em;
-  line-height: 1.24;
-}
+  /* Running copy, where it needs to be a step up from body default —
+     lead paragraphs under a headline, mostly. Sentence case. */
+  .u-body {
+    font-family: var(--font-mono);
+    font-size: clamp(0.88rem, 1.05vw, 1.02rem);
+    font-weight: 400;
+    line-height: 1.55;
+    letter-spacing: -0.008em;
+  }
 
-/* The studio name beside the mark.
-   Set the way the logo itself sets it: a clean sans, uppercase, wide
-   tracking, light enough not to compete with the mark it stands next to.
-   This used to be the dot-matrix face, which belongs to the site this
-   design was drawn from and not to this studio — beside the real mark it
-   read as two brands bolted together.
+  /* The serif in its secondary role: pull-quotes and the occasional
+     emphatic line. Roman now, not italic — the italic was doing the
+     "tasteful wedding website" thing this redesign is moving away from. */
+  .u-serif {
+    font-family: var(--font-serif);
+    font-weight: 400;
+    font-style: normal;
+    letter-spacing: -0.012em;
+    line-height: 1.24;
+  }
 
-   No optical nudge. With `line-height: 1` the box of an uppercase line is
-   already its cap height, so centring the two boxes does centre what you
-   see — measured, a half-ex lift pushed the name 3px off the mark rather
-   than onto it. */
-.u-wordmark {
-  font-family: var(--font-sans);
-  font-weight: 500;
-  text-transform: uppercase;
-  letter-spacing: 0.17em;
-  line-height: 1;
-  white-space: nowrap;
-  /* The tracking is applied after every letter including the last, which
-     leaves a gap of dead space on the right that reads as bad alignment. */
-  margin-right: -0.17em;
-}
+  /* The studio name beside the mark.
+     Set the way the logo itself sets it: a clean sans, uppercase, wide
+     tracking, light enough not to compete with the mark it stands next to.
+     This used to be the dot-matrix face, which belongs to the site this
+     design was drawn from and not to this studio — beside the real mark it
+     read as two brands bolted together.
 
-/* Edge-to-edge headline. The old rule ran to 15.2vw — a 219px line on
-   a laptop. The reference never goes past roughly a tenth of that
-   impulse, because the photograph is supposed to be the loud thing. */
-.u-bleed {
-  font-size: clamp(2.4rem, 7vw, 7.5rem);
-}
+     No optical nudge. With `line-height: 1` the box of an uppercase line is
+     already its cap height, so centring the two boxes does centre what you
+     see — measured, a half-ex lift pushed the name 3px off the mark rather
+     than onto it. */
+  .u-wordmark {
+    font-family: var(--font-sans);
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.17em;
+    line-height: 1;
+    white-space: nowrap;
+    /* The tracking is applied after every letter including the last, which
+       leaves a gap of dead space on the right that reads as bad alignment. */
+    margin-right: -0.17em;
+  }
 
-.u-rule {
-  border-top: 1px solid var(--color-paper-deep);
-}
-.u-rule-dark {
-  border-top: 1px solid color-mix(in oklab, #fff 14%, transparent);
-}
+  /* Edge-to-edge headline. The old rule ran to 15.2vw — a 219px line on
+     a laptop. The reference never goes past roughly a tenth of that
+     impulse, because the photograph is supposed to be the loud thing. */
+  .u-bleed {
+    font-size: clamp(2.4rem, 7vw, 7.5rem);
+  }
 
-/* ─── controls ────────────────────────────────────────────────────
-   Every control in the reference is a pill carrying a small uppercase
-   mono label, and nothing else. */
-.u-pill {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.75rem;
-  border-radius: 9999px;
-  padding: 0.6rem 1.15rem;
-  font-family: var(--font-mono);
-  font-size: clamp(0.64rem, 0.74vw, 0.73rem);
-  font-weight: 450;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  white-space: nowrap;
-  transition:
-    background-color 0.4s var(--ease-out-expo),
-    color 0.4s var(--ease-out-expo),
-    border-color 0.4s var(--ease-out-expo);
-}
+  .u-rule {
+    border-top: 1px solid var(--color-paper-deep);
+  }
+  .u-rule-dark {
+    border-top: 1px solid color-mix(in oklab, #fff 14%, transparent);
+  }
 
-/* Solid, on the light ground. */
-.u-pill-solid {
-  background: var(--color-ink);
-  color: #fff;
-}
-.u-pill-solid:hover {
-  background: var(--color-ember);
-}
+  /* ─── controls ────────────────────────────────────────────────────
+     Every control in the reference is a pill carrying a small uppercase
+     mono label, and nothing else. */
+  .u-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    border-radius: 9999px;
+    padding: 0.6rem 1.15rem;
+    font-family: var(--font-mono);
+    font-size: clamp(0.64rem, 0.74vw, 0.73rem);
+    font-weight: 450;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    white-space: nowrap;
+    transition:
+      background-color 0.4s var(--ease-out-expo),
+      color 0.4s var(--ease-out-expo),
+      border-color 0.4s var(--ease-out-expo);
+  }
 
-/* Solid, on the black ground. */
-.u-pill-invert {
-  background: #fff;
-  color: var(--color-ink);
-}
-.u-pill-invert:hover {
-  background: var(--color-flame);
-  color: #fff;
-}
+  /* Solid, on the light ground. */
+  .u-pill-solid {
+    background: var(--color-ink);
+    color: #fff;
+  }
+  .u-pill-solid:hover {
+    background: var(--color-ember);
+  }
 
-/* Outlined — the secondary action. */
-.u-pill-line {
-  border: 1px solid color-mix(in oklab, var(--color-ink) 22%, transparent);
-  color: var(--color-ink);
-}
-.u-pill-line:hover {
-  border-color: var(--color-ink);
-  background: var(--color-ink);
-  color: #fff;
+  /* Solid, on the black ground. */
+  .u-pill-invert {
+    background: #fff;
+    color: var(--color-ink);
+  }
+  .u-pill-invert:hover {
+    background: var(--color-flame);
+    color: #fff;
+  }
+
+  /* Outlined — the secondary action. */
+  .u-pill-line {
+    border: 1px solid color-mix(in oklab, var(--color-ink) 22%, transparent);
+    color: var(--color-ink);
+  }
+  .u-pill-line:hover {
+    border-color: var(--color-ink);
+    background: var(--color-ink);
+    color: #fff;
+  }
 }
 
 /* ─── reveal primitives ───────────────────────────────────────── */

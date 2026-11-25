@@ -92,7 +92,7 @@ export default function Legacy() {
             </p>
           </Reveal>
           <Reveal delay={0.15} className="mt-5">
-            <p className="text-[0.95rem] leading-relaxed text-ink-soft">{HOME.legacy.body}</p>
+            <p className="text-[0.95rem] leading-[1.5] text-ink-soft">{HOME.legacy.body}</p>
           </Reveal>
           <Reveal delay={0.25} className="mt-7">
             <Link

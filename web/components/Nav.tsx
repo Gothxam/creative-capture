@@ -258,7 +258,7 @@ export default function Nav() {
                       <span className="u-mono w-8 shrink-0 text-paper/40">
                         {String(i + 1).padStart(2, "0")}
                       </span>
-                      <span className="u-display text-[clamp(1.7rem,3.6vw,2.6rem)] leading-[0.9] transition-colors duration-300 group-hover/link:text-ember">
+                      <span className="u-display text-[clamp(1.7rem,3.6vw,2.6rem)] leading-[1.02] transition-colors duration-300 group-hover/link:text-ember">
                         {item.label}
                       </span>
                     </span>

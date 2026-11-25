@@ -59,7 +59,7 @@ export default function ContactPage() {
 
               <Reveal delay={0.22}>
                 <h2 className="u-mono mb-3 text-ink-faint">Studio</h2>
-                <address className="not-italic leading-relaxed text-ink-soft">
+                <address className="not-italic leading-[1.5] text-ink-soft">
                   {STUDIO.address}
                 </address>
                 <p className="u-mono mt-3 text-ink-faint">{STUDIO.coords}</p>

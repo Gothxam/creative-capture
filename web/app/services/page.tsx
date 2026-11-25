@@ -100,10 +100,10 @@ export default function ServicesPage() {
                 </h2>
               </Reveal>
               <Reveal delay={0.1} className="mt-5">
-                <p className="max-w-[46ch] leading-relaxed text-ink-soft">{service.summary}</p>
+                <p className="max-w-[46ch] leading-[1.5] text-ink-soft">{service.summary}</p>
               </Reveal>
               <Reveal delay={0.16} className="mt-4">
-                <p className="max-w-[46ch] leading-relaxed text-ink-soft">{service.detail}</p>
+                <p className="max-w-[46ch] leading-[1.5] text-ink-soft">{service.detail}</p>
               </Reveal>
 
               {/* The deliverables, at the size of information rather than of

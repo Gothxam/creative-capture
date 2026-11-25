@@ -57,7 +57,7 @@ export default function CollectionPage({
           <div className="md:col-span-7 md:col-start-6">
             {copy.body.map((para, i) => (
               <Reveal key={i} delay={i * 0.08} className="mb-5 last:mb-0">
-                <p className="max-w-[56ch] leading-relaxed text-ink-soft">{para}</p>
+                <p className="max-w-[56ch] leading-[1.5] text-ink-soft">{para}</p>
               </Reveal>
             ))}
 

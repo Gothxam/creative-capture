@@ -78,7 +78,7 @@ export default function AboutPage() {
           <div className="flex flex-col md:col-span-7 md:col-start-6">
             {ABOUT.story.body.map((para, i) => (
               <Reveal key={i} delay={i * 0.08} className="mb-6 last:mb-0">
-                <p className="max-w-[58ch] text-[clamp(1rem,1.3vw,1.2rem)] leading-relaxed text-ink-soft">
+                <p className="max-w-[58ch] text-[clamp(1rem,1.3vw,1.2rem)] leading-[1.5] text-ink-soft">
                   {para}
                 </p>
               </Reveal>
@@ -113,7 +113,7 @@ export default function AboutPage() {
           <div className="flex flex-col md:col-span-7 md:col-start-6">
             {ABOUT.beyond.body.map((para, i) => (
               <Reveal key={i} delay={0.1 + i * 0.08} className="mb-6 last:mb-0">
-                <p className="max-w-[58ch] leading-relaxed text-paper/65">{para}</p>
+                <p className="max-w-[58ch] leading-[1.5] text-paper/65">{para}</p>
               </Reveal>
             ))}
             <Reveal delay={0.3} className="mt-[clamp(1.5rem,3vw,2.5rem)]">
@@ -143,7 +143,7 @@ export default function AboutPage() {
 
           <div className="flex flex-col md:col-span-7 md:col-start-6">
             <Reveal>
-              <p className="max-w-[58ch] text-[clamp(1rem,1.3vw,1.2rem)] leading-relaxed text-ink-soft">
+              <p className="max-w-[58ch] text-[clamp(1rem,1.3vw,1.2rem)] leading-[1.5] text-ink-soft">
                 {ABOUT.promise.body}
               </p>
             </Reveal>
