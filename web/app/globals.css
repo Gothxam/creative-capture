@@ -90,12 +90,20 @@ html.lenis body {
 body {
   background-color: var(--color-paper);
   color: var(--color-ink);
-  /* Monospace is the running voice of this design, not a label style.
-     Everything that is not a headline is set in it. */
-  font-family: var(--font-mono);
-  font-size: clamp(0.84rem, 0.95vw, 0.95rem);
-  line-height: 1.5;
-  letter-spacing: -0.005em;
+  /* Sans for everything that is read, monospace only for things that are
+     scanned.
+
+     This was monospace — every paragraph on the site, not just the labels.
+     One face at one width for an entire page is what makes the whole thing
+     look the same everywhere, and a column of uniform advances reads as
+     congested across and stretched down. It was also a misreading of the
+     reference: its body computes to `NType82-Regular, sans-serif`, and the
+     monospace there is carrying nav items, buttons and figures, which is
+     what `.u-mono` is for here. */
+  font-family: var(--font-sans);
+  font-size: clamp(0.92rem, 1vw, 1.02rem);
+  line-height: 1.62;
+  letter-spacing: -0.002em;
   overflow-x: clip;
 }
 
@@ -139,14 +147,14 @@ body {
     text-transform: uppercase;
   }
 
-  /* Running copy, where it needs to be a step up from body default —
-     lead paragraphs under a headline, mostly. Sentence case. */
+  /* Running copy, a step up from body default — lead paragraphs under a
+     headline, mostly. Sentence case, and sans like the body it leads. */
   .u-body {
-    font-family: var(--font-mono);
-    font-size: clamp(0.88rem, 1.05vw, 1.02rem);
+    font-family: var(--font-sans);
+    font-size: clamp(1rem, 1.2vw, 1.18rem);
     font-weight: 400;
-    line-height: 1.55;
-    letter-spacing: -0.008em;
+    line-height: 1.6;
+    letter-spacing: -0.004em;
   }
 
   /* The serif in its secondary role: pull-quotes and the occasional
